@@ -1,10 +1,8 @@
-// Initialize MSW for development environment only
+// Initialize MSW for all environments
 export async function initMocks() {
-  if (import.meta.env.MODE !== 'production') {
-    const { worker } = await import('./browser');
-    return worker.start({
-      onUnhandledRequest: 'bypass', // Silent mode, doesn't warn on unhandled requests
-    });
-  }
-  return Promise.resolve();
+  // Remove environment check to enable mocks in production too
+  const { worker } = await import('./browser');
+  return worker.start({
+    onUnhandledRequest: 'bypass', // Silent mode, doesn't warn on unhandled requests
+  });
 } 

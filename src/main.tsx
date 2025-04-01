@@ -7,13 +7,11 @@ import { resetMswWorker } from './mocks/reset'
 
 // Initialize MSW before rendering the app
 async function startApp() {
-  // Start MSW in development environment
+  // Start MSW in all environments
   await initMocks();
   
   // Reset the worker to ensure all routes are registered
-  if (import.meta.env.MODE !== 'production') {
-    await resetMswWorker();
-  }
+  await resetMswWorker();
 
   ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>

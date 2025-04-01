@@ -1,30 +1,34 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAuth } from '@/context/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import FirebaseTest from '@/components/FirebaseTest';
+import { BarChart3 } from 'lucide-react';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { signIn } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  
+  // Get the redirect path from state, or default to dashboard
+  const from = location.state?.from?.pathname || '/dashboard';
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
     setIsLoading(true);
 
     try {
       await signIn(email, password);
-      navigate('/dashboard');
-    } catch (err: any) {
-      setError(err.message || 'Failed to log in');
+      // Redirect the user to the route they were trying to access
+      navigate(from, { replace: true });
+    } catch (error) {
+      // Error is already handled in the AuthContext with toast
+      console.error("Login error:", error);
     } finally {
       setIsLoading(false);
     }
@@ -32,12 +36,24 @@ const LoginPage = () => {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background p-4">
-      <div className="w-full max-w-4xl space-y-6">
+      <div className="w-full max-w-md space-y-6">
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-center"
+        >
+          <div className="flex items-center justify-center gap-2 mb-4">
+            <BarChart3 className="h-8 w-8 text-primary" />
+            <span className="text-2xl font-bold">FinDash</span>
+          </div>
+        </motion.div>
+        
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="w-full max-w-md mx-auto"
+          className="w-full"
         >
           <Card>
             <CardHeader className="space-y-1">
@@ -48,11 +64,6 @@ const LoginPage = () => {
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-4">
-                {error && (
-                  <div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive">
-                    {error}
-                  </div>
-                )}
                 <div className="space-y-2">
                   <label htmlFor="email" className="text-sm font-medium">
                     Email
@@ -98,15 +109,6 @@ const LoginPage = () => {
               </div>
             </CardFooter>
           </Card>
-        </motion.div>
-
-        {/* Firebase Test Component */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-        >
-          <FirebaseTest />
         </motion.div>
       </div>
     </div>

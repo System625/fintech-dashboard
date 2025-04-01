@@ -1,6 +1,8 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthProvider } from '@/context/AuthContext';
+import { Toaster } from 'sonner';
+import { useAuth } from '@/context/AuthContext';
 
 // Layouts
 import DashboardLayout from '@/components/layout/DashboardLayout';
@@ -15,7 +17,19 @@ import SavingsPage from '@/pages/SavingsPage';
 import InvestmentsPage from '@/pages/InvestmentsPage';
 import TransactionsPage from '@/pages/TransactionsPage';
 import ProfilePage from '@/pages/ProfilePage';
+import LandingPage from '@/pages/LandingPage';
 import MswTest from '@/components/test/MswTest';
+
+// This component redirects authenticated users away from auth pages
+const RedirectIfAuthenticated = () => {
+  const { currentUser } = useAuth();
+  
+  if (currentUser) {
+    return <Navigate to="/dashboard" replace />;
+  }
+  
+  return <Outlet />;
+};
 
 // Create a client
 const queryClient = new QueryClient();
@@ -26,13 +40,20 @@ function App() {
       <AuthProvider>
         <Router>
           <Routes>
-            {/* Public routes */}
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/signup" element={<SignUpPage />} />
-            <Route path="/reset-password" element={<ResetPasswordPage />} />
+            {/* Public landing page - accessible to all */}
+            <Route path="/" element={<LandingPage />} />
+            
+            {/* Auth pages - redirect to dashboard if authenticated */}
+            <Route element={<RedirectIfAuthenticated />}>
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/signup" element={<SignUpPage />} />
+              <Route path="/reset-password" element={<ResetPasswordPage />} />
+            </Route>
+            
+            {/* Test route */}
             <Route path="/test/msw" element={<MswTest />} />
 
-            {/* Protected routes */}
+            {/* Protected routes - require authentication */}
             <Route element={<ProtectedRoute />}>
               <Route element={<DashboardLayout />}>
                 <Route path="/dashboard" element={<DashboardPage />} />
@@ -43,11 +64,11 @@ function App() {
               </Route>
             </Route>
 
-            {/* Redirect to login if not authenticated */}
-            <Route path="/" element={<Navigate to="/dashboard" replace />} />
-            <Route path="*" element={<Navigate to="/dashboard" replace />} />
+            {/* Redirect to landing for unknown routes */}
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </Router>
+        <Toaster position="top-right" richColors />
       </AuthProvider>
     </QueryClientProvider>
   );

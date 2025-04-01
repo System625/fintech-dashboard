@@ -25,8 +25,8 @@ const Header = () => {
 
   return (
     <header className="sticky top-0 z-10 w-full border-b border-border bg-background">
-      <div className="flex h-16 items-center px-4 md:px-6">
-        <div className="ml-auto flex items-center space-x-4">
+      <div className="flex h-16 items-center justify-end px-4 md:px-6">        
+        <div className="flex items-center ml-auto space-x-4">
           <Button variant="ghost" size="icon" className="rounded-full">
             <Bell size={20} />
             <span className="sr-only">Notifications</span>

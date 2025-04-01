@@ -47,7 +47,6 @@ const CustomTooltip = ({ active, payload }: any) => {
 export function ExpenseCategoriesChart() {
   const [categoryData, setCategoryData] = useState<CategoryExpense[]>(fallbackCategoryData);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -98,22 +97,6 @@ export function ExpenseCategoriesChart() {
         <CardContent>
           <div className="h-[300px] flex items-center justify-center">
             <p className="text-muted-foreground">Loading expense category data...</p>
-          </div>
-        </CardContent>
-      </Card>
-    );
-  }
-
-  if (error) {
-    return (
-      <Card>
-        <CardHeader>
-          <CardTitle>Expense by Category</CardTitle>
-          <CardDescription>Breakdown of monthly expenses</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="h-[300px] flex items-center justify-center">
-            <p className="text-destructive">{error}</p>
           </div>
         </CardContent>
       </Card>

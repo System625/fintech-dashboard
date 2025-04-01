@@ -6,14 +6,17 @@ import {
   ListOrdered, 
   User, 
   LogOut, 
-  Menu
+  Menu,
+  BarChart3
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { 
   Sheet, 
   SheetContent, 
-  SheetTrigger 
+  SheetTrigger,
+  SheetHeader,
+  SheetTitle
 } from '@/components/ui/sheet';
 import { useAuth } from '@/context/AuthContext';
 
@@ -74,16 +77,19 @@ export const Sidebar = () => {
   const handleLogout = async () => {
     try {
       await logOut();
+      // Success toast is shown in AuthContext
     } catch (error) {
-      console.error("Failed to log out", error);
+      // Error is already handled in the AuthContext with toast
+      console.error("Logout error:", error);
     }
   };
 
   // Desktop sidebar
   const DesktopSidebar = (
     <div className="hidden lg:flex h-screen w-64 flex-col bg-sidebar border-r border-sidebar-border">
-      <div className="p-4">
-        <h1 className="text-xl font-bold text-sidebar-foreground">FinTech Dashboard</h1>
+      <div className="p-4 flex items-center space-x-2">
+        <BarChart3 className="h-6 w-6 text-primary" />
+        <h1 className="text-xl font-bold text-sidebar-foreground">FinDash</h1>
       </div>
       <div className="flex-1 px-3 py-4 space-y-2">
         {navItems.map((item) => (
@@ -113,14 +119,18 @@ export const Sidebar = () => {
   const MobileSidebar = (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="ghost" size="icon" className="lg:hidden relative top-4 left-2">
+        <Button variant="ghost" size="icon" className="lg:hidden fixed top-[14px] left-4 z-50">
           <Menu />
+          <span className="sr-only">Menu</span>
         </Button>
       </SheetTrigger>
-      <SheetContent side="left" className="bg-sidebar p-0">
-        <div className="p-4 border-b border-sidebar-border">
-          <h1 className="text-xl font-bold text-sidebar-foreground">FinTech Dashboard</h1>
-        </div>
+      <SheetContent side="left" className="bg-sidebar p-0 w-[240px]">
+        <SheetHeader className="p-4 border-b border-sidebar-border">
+          <SheetTitle className="flex items-center gap-2 text-sidebar-foreground">
+            <BarChart3 className="h-6 w-6 text-primary" />
+            FinDash
+          </SheetTitle>
+        </SheetHeader>
         <div className="px-3 py-4 space-y-2">
           {navItems.map((item) => (
             <NavItem

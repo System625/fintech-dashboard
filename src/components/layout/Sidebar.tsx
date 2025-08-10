@@ -6,9 +6,9 @@ import {
   ListOrdered, 
   User, 
   LogOut, 
-  Menu,
-  BarChart3
+  Menu
 } from 'lucide-react';
+import { BudgetpunkLogo } from '@/components/logo/BudgetpunkLogo';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { 
@@ -25,19 +25,40 @@ interface NavItemProps {
   label: string;
   href: string;
   isActive: boolean;
+  badge?: string | number;
+  badgeVariant?: 'default' | 'success' | 'warning' | 'secondary';
 }
 
-const NavItem = ({ icon, label, href, isActive }: NavItemProps) => (
+const NavItem = ({ icon, label, href, isActive, badge, badgeVariant = 'default' }: NavItemProps) => (
   <Link to={href}>
     <Button
       variant={isActive ? "default" : "ghost"}
       className={cn(
-        "w-full justify-start gap-2",
-        isActive ? "bg-sidebar-primary text-sidebar-primary-foreground" : "text-sidebar-foreground"
+        "w-full justify-between h-11 px-3 rounded-lg gap-3 transition-all duration-[var(--motion-duration-micro)] ease-[var(--motion-ease-out)]",
+        isActive 
+          ? "bg-brand text-white shadow-sm hover:shadow-md" 
+          : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground hover:translate-x-1"
       )}
     >
-      {icon}
-      <span>{label}</span>
+      <div className="flex items-center gap-3">
+        {icon}
+        <span className="font-medium">{label}</span>
+      </div>
+      {badge && (
+        <span className={cn(
+          "px-2 py-0.5 rounded-full text-xs font-semibold tabular-nums",
+          badgeVariant === 'success' && "bg-success/20 text-success",
+          badgeVariant === 'warning' && "bg-warning/20 text-warning",
+          badgeVariant === 'secondary' && "bg-secondary text-secondary-foreground",
+          badgeVariant === 'default' && (
+            isActive 
+              ? "bg-white/20 text-brand-foreground" 
+              : "bg-sidebar-accent text-sidebar-accent-foreground"
+          )
+        )}>
+          {badge}
+        </span>
+      )}
     </Button>
   </Link>
 );
@@ -50,22 +71,30 @@ export const Sidebar = () => {
     {
       icon: <LayoutDashboard size={20} />,
       label: "Dashboard",
-      href: "/dashboard"
+      href: "/dashboard",
+      badge: "$24.8K",
+      badgeVariant: "success" as const
     },
     {
       icon: <PiggyBank size={20} />,
       label: "Savings",
-      href: "/savings"
+      href: "/savings",
+      badge: "$12.5K",
+      badgeVariant: "success" as const
     },
     {
       icon: <LineChart size={20} />,
       label: "Investments",
-      href: "/investments"
+      href: "/investments",
+      badge: "+8.4%",
+      badgeVariant: "success" as const
     },
     {
       icon: <ListOrdered size={20} />,
       label: "Transactions",
-      href: "/transactions"
+      href: "/transactions",
+      badge: "12",
+      badgeVariant: "secondary" as const
     },
     {
       icon: <User size={20} />,
@@ -86,30 +115,32 @@ export const Sidebar = () => {
 
   // Desktop sidebar
   const DesktopSidebar = (
-    <div className="hidden lg:flex h-screen w-64 flex-col bg-sidebar border-r border-sidebar-border">
-      <div className="p-4 flex items-center space-x-2">
-        <BarChart3 className="h-6 w-6 text-primary" />
-        <h1 className="text-xl font-bold text-sidebar-foreground">FinDash</h1>
+    <div className="hidden lg:flex h-screen w-72 flex-col bg-sidebar border-r border-sidebar-border/50 shadow-sm">
+      <div className="p-4 flex items-center">
+        <BudgetpunkLogo size={58} />
+        <h4 className="text-xl font-bold text-sidebar-foreground">Budgetpunk</h4>                  
       </div>
-      <div className="flex-1 px-3 py-4 space-y-2">
+      <div className="flex-1 px-4 py-2 space-y-1">
         {navItems.map((item) => (
           <NavItem
             key={item.href}
             icon={item.icon}
             label={item.label}
             href={item.href}
+            badge={item.badge}
+            badgeVariant={item.badgeVariant}
             isActive={location.pathname === item.href}
           />
         ))}
       </div>
-      <div className="p-4 border-t border-sidebar-border">
+      <div className="p-4 border-t border-sidebar-border/50">
         <Button 
           variant="ghost" 
-          className="w-full justify-start gap-2 text-sidebar-foreground"
+          className="w-full justify-start gap-3 h-11 px-3 rounded-lg text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground hover:translate-x-1 transition-all duration-[var(--motion-duration-micro)] ease-[var(--motion-ease-out)]"
           onClick={handleLogout}
         >
           <LogOut size={20} />
-          <span>Logout</span>
+          <span className="font-medium">Logout</span>
         </Button>
       </div>
     </div>
@@ -119,37 +150,42 @@ export const Sidebar = () => {
   const MobileSidebar = (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="ghost" size="icon" className="lg:hidden fixed top-[14px] left-4 z-50">
+        <Button variant="ghost" size="icon" className="lg:hidden fixed top-[14px] left-4 z-50 rounded-lg">
           <Menu />
           <span className="sr-only">Menu</span>
         </Button>
       </SheetTrigger>
-      <SheetContent side="left" className="bg-sidebar p-0 w-[240px]">
-        <SheetHeader className="p-4 border-b border-sidebar-border">
-          <SheetTitle className="flex items-center gap-2 text-sidebar-foreground">
-            <BarChart3 className="h-6 w-6 text-primary" />
-            FinDash
+      <SheetContent side="left" className="bg-sidebar p-0 w-[280px]">
+        <SheetHeader className="p-6 border-b border-sidebar-border/50">
+          <SheetTitle className="flex items-center gap-3 text-sidebar-foreground">
+            <BudgetpunkLogo size={24} />
+            <div className="text-left">
+              <div className="text-sm font-bold">Budgetpunk</div>
+              <div className="text-xs text-muted-foreground">Financial Dashboard</div>
+            </div>
           </SheetTitle>
         </SheetHeader>
-        <div className="px-3 py-4 space-y-2">
+        <div className="px-4 py-2 space-y-1">
           {navItems.map((item) => (
             <NavItem
               key={item.href}
               icon={item.icon}
               label={item.label}
               href={item.href}
+              badge={item.badge}
+              badgeVariant={item.badgeVariant}
               isActive={location.pathname === item.href}
             />
           ))}
         </div>
-        <div className="p-4 border-t border-sidebar-border">
+        <div className="p-4 border-t border-sidebar-border/50">
           <Button 
             variant="ghost" 
-            className="w-full justify-start gap-2 text-sidebar-foreground"
+            className="w-full justify-start gap-3 h-11 px-3 rounded-lg text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground hover:translate-x-1 transition-all duration-[var(--motion-duration-micro)] ease-[var(--motion-ease-out)]"
             onClick={handleLogout}
           >
             <LogOut size={20} />
-            <span>Logout</span>
+            <span className="font-medium">Logout</span>
           </Button>
         </div>
       </SheetContent>

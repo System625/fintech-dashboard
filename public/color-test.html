@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OKLCH Cross-Browser Fallback Test</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            padding: 2rem;
+            
+            /* Test: Background with OKLCH fallback */
+            background: hsl(216 85% 98%);
+            background: oklch(0.98 0.01 285);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            /* Test: Text color with OKLCH fallback */
+            color: hsl(216 85% 20%);
+            color: oklch(0.3 0.15 285);
+            margin-bottom: 2rem;
+        }
+
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .test-card {
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 2px solid;
+            
+            /* Test: Border color with OKLCH fallback */
+            border-color: hsl(216 85% 85%);
+            border-color: oklch(0.85 0.05 285);
+            
+            /* Test: Background with OKLCH fallback */
+            background: hsl(216 85% 95%);
+            background: oklch(0.95 0.02 285);
+        }
+
+        .brand-primary {
+            /* Test: Brand primary color */
+            background: hsl(216 85% 57%);
+            background: oklch(0.65 0.25 285);
+            color: white;
+        }
+
+        .brand-secondary {
+            /* Test: Brand secondary color */
+            background: hsl(173 85% 57%);
+            background: oklch(0.65 0.25 200);
+            color: white;
+        }
+
+        .accent-success {
+            /* Test: Success color */
+            background: hsl(142 85% 57%);
+            background: oklch(0.65 0.25 142);
+            color: white;
+        }
+
+        .accent-warning {
+            /* Test: Warning color */
+            background: hsl(45 85% 57%);
+            background: oklch(0.75 0.15 85);
+            color: black;
+        }
+
+        .accent-error {
+            /* Test: Error color */
+            background: hsl(0 85% 57%);
+            background: oklch(0.65 0.25 15);
+            color: white;
+        }
+
+        .support-info {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .support-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .support-item {
+            padding: 0.75rem;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .supported {
+            background: #e7f5e7;
+            color: #2d5a2d;
+        }
+
+        .not-supported {
+            background: #fff2f2;
+            color: #8b2635;
+        }
+
+        .test-results {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .result-item {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
+        }
+
+        code {
+            background: #f5f5f5;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        .instructions {
+            background: #f8f9ff;
+            border: 1px solid #e1e5f3;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .gradient-test {
+            height: 100px;
+            border-radius: 8px;
+            margin: 1rem 0;
+            
+            /* Test: Gradient with OKLCH fallback */
+            background: linear-gradient(135deg, 
+                hsl(216 85% 57%), 
+                hsl(173 85% 57%)
+            );
+            background: linear-gradient(135deg, 
+                oklch(0.65 0.25 285), 
+                oklch(0.65 0.25 200)
+            );
+        }
+
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: hsl(216 15% 12%);
+                background: oklch(0.15 0.02 285);
+                color: white;
+            }
+
+            h1 {
+                color: hsl(216 85% 80%);
+                color: oklch(0.8 0.15 285);
+            }
+
+            .test-card {
+                border-color: hsl(216 25% 25%);
+                border-color: oklch(0.25 0.05 285);
+                background: hsl(216 15% 18%);
+                background: oklch(0.18 0.02 285);
+            }
+
+            .support-info, .test-results {
+                background: hsl(216 15% 18%);
+                background: oklch(0.18 0.02 285);
+                color: white;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 OKLCH Cross-Browser Fallback Test</h1>
+        
+        <div class="instructions">
+            <h2>Instructions</h2>
+            <p>This page tests OKLCH color support and HSL fallbacks across different browsers. The colors should look consistent regardless of OKLCH support.</p>
+            <ul style="margin: 1rem 0; padding-left: 2rem;">
+                <li>If your browser supports OKLCH: You'll see modern, vibrant colors with better color consistency</li>
+                <li>If your browser doesn't support OKLCH: You'll see HSL fallback colors that closely match the intended design</li>
+                <li>Check the support information below to see what your browser supports</li>
+            </ul>
+        </div>
+
+        <div class="support-info">
+            <h2>Browser Support Detection</h2>
+            <div class="support-grid" id="supportGrid">
+                <!-- Populated by JavaScript -->
+            </div>
+        </div>
+
+        <div class="test-grid">
+            <div class="test-card brand-primary">
+                <h3>Brand Primary</h3>
+                <p>OKLCH: oklch(0.65 0.25 285)</p>
+                <p>Fallback: hsl(216 85% 57%)</p>
+            </div>
+
+            <div class="test-card brand-secondary">
+                <h3>Brand Secondary</h3>
+                <p>OKLCH: oklch(0.65 0.25 200)</p>
+                <p>Fallback: hsl(173 85% 57%)</p>
+            </div>
+
+            <div class="test-card accent-success">
+                <h3>Success Color</h3>
+                <p>OKLCH: oklch(0.65 0.25 142)</p>
+                <p>Fallback: hsl(142 85% 57%)</p>
+            </div>
+
+            <div class="test-card accent-warning">
+                <h3>Warning Color</h3>
+                <p>OKLCH: oklch(0.75 0.15 85)</p>
+                <p>Fallback: hsl(45 85% 57%)</p>
+            </div>
+
+            <div class="test-card accent-error">
+                <h3>Error Color</h3>
+                <p>OKLCH: oklch(0.65 0.25 15)</p>
+                <p>Fallback: hsl(0 85% 57%)</p>
+            </div>
+
+            <div class="test-card">
+                <h3>Gradient Test</h3>
+                <div class="gradient-test"></div>
+                <p>Tests OKLCH gradients with HSL fallbacks</p>
+            </div>
+        </div>
+
+        <div class="test-results" id="testResults">
+            <h2>Test Results</h2>
+            <!-- Populated by JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        // Color support detection functions
+        function detectOKLCHSupport() {
+            try {
+                return CSS.supports('color', 'oklch(0.7 0.15 200)');
+            } catch (error) {
+                return false;
+            }
+        }
+
+        function detectP3Support() {
+            try {
+                return CSS.supports('color', 'color(display-p3 1 0 0)');
+            } catch (error) {
+                return false;
+            }
+        }
+
+        function detectHDRSupport() {
+            try {
+                return CSS.supports('color', 'color(rec2020 1 0 0)');
+            } catch (error) {
+                return false;
+            }
+        }
+
+        function runColorTest() {
+            const oklchSupported = detectOKLCHSupport();
+            const p3Supported = detectP3Support();
+            const hdrSupported = detectHDRSupport();
+            
+            // Update support grid
+            const supportGrid = document.getElementById('supportGrid');
+            supportGrid.innerHTML = `
+                <div class="support-item ${oklchSupported ? 'supported' : 'not-supported'}">
+                    OKLCH: ${oklchSupported ? '✅ Supported' : '❌ Not Supported'}
+                </div>
+                <div class="support-item ${p3Supported ? 'supported' : 'not-supported'}">
+                    P3 Wide Gamut: ${p3Supported ? '✅ Supported' : '❌ Not Supported'}
+                </div>
+                <div class="support-item ${hdrSupported ? 'supported' : 'not-supported'}">
+                    HDR (Rec2020): ${hdrSupported ? '✅ Supported' : '❌ Not Supported'}
+                </div>
+            `;
+
+            // Test actual color values
+            const testEl = document.createElement('div');
+            testEl.style.cssText = `
+                position: absolute;
+                left: -9999px;
+                color: hsl(216 85% 57%);
+                color: oklch(0.65 0.25 285);
+                background: hsl(216 85% 95%);
+                background: oklch(0.95 0.02 285);
+            `;
+            document.body.appendChild(testEl);
+
+            const styles = window.getComputedStyle(testEl);
+            const colorValue = styles.color;
+            const bgValue = styles.backgroundColor;
+
+            document.body.removeChild(testEl);
+
+            // Update test results
+            const testResults = document.getElementById('testResults');
+            testResults.innerHTML = `
+                <div class="result-item">
+                    <strong>Browser:</strong> ${navigator.userAgent.split(' ')[0]} (${navigator.userAgent.match(/\w+\/[\d.]+/)[0]})
+                </div>
+                <div class="result-item">
+                    <strong>OKLCH Support:</strong> ${oklchSupported ? '✅ Native support' : '❌ Using HSL fallbacks'}
+                </div>
+                <div class="result-item">
+                    <strong>Color Resolution:</strong> <code>${colorValue}</code>
+                </div>
+                <div class="result-item">
+                    <strong>Background Resolution:</strong> <code>${bgValue}</code>
+                </div>
+                <div class="result-item">
+                    <strong>Fallback Status:</strong> ${oklchSupported ? 'Not needed - OKLCH active' : '✅ HSL fallbacks active'}
+                </div>
+                <div class="result-item">
+                    <strong>Color Consistency:</strong> ${oklchSupported ? 'Maximum (OKLCH)' : 'Good (HSL approximation)'}
+                </div>
+            `;
+        }
+
+        // Run test when page loads
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', runColorTest);
+        } else {
+            runColorTest();
+        }
+    </script>
+</body>
+</html>

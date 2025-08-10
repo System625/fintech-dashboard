@@ -1,11 +1,11 @@
 import React from 'react';
 import { Badge } from '@/components/ui/badge';
-import { AnimatedDiv } from '@/components/ui/animated';
 import { CardBody, CardContainer, CardItem } from '@/components/ui/3d-card';
 import { BackgroundPaths } from '@/components/ui/background-paths';
 import { HoverBorderGradient } from '@/components/ui/hover-border-gradient';
-import { fadeInUp, staggerContainer } from '@/lib/motion';
+import { MotionContainer } from '@/components/ui/motion-container';
 import { useTypewriter } from '@/hooks';
+import { motion } from 'motion/react';
 import {
   Zap,
   ArrowRight,
@@ -34,65 +34,66 @@ const LandingHero: React.FC<LandingHeroProps> = ({ onGetStarted }) => {
 
       <div className="relative container mx-auto px-4 py-10 lg:pb-10 lg:pt-0">
         <div className="relative z-10 grid lg:grid-cols-2 gap-12 items-center">
-          <AnimatedDiv
-            initial="hidden"
-            animate="visible"
-            variants={staggerContainer}
-          >
-            <AnimatedDiv variants={fadeInUp} custom={0}>
-              <Badge variant="secondary" className="mb-4 mx-auto lg:mx-0 flex justify-center lg:justify-start items-center w-fit">
-                <Zap className="h-3 w-3 mr-1" />
-                New: AI-Powered Insights
-              </Badge>
-            </AnimatedDiv>
+          <div className="space-y-6">
+            <MotionContainer variant="rotate-in" delay={0.1}>
+              <motion.div whileHover={{ rotate: 2, scale: 1.02 }}>
+                <Badge variant="secondary" className="mb-4 mx-auto lg:mx-0 flex justify-center lg:justify-start items-center w-fit">
+                  <motion.div
+                    animate={{ rotate: [0, 10, -10, 0] }}
+                    transition={{ duration: 2, repeat: Infinity, delay: 1 }}
+                  >
+                    <Zap className="h-3 w-3 mr-1" />
+                  </motion.div>
+                  New: AI-Powered Insights
+                </Badge>
+              </motion.div>
+            </MotionContainer>
 
-            <AnimatedDiv variants={fadeInUp} custom={1}>
+            <MotionContainer variant="blur-up" delay={0.3} duration={1.2}>
               <h1 className="text-4xl md:text-6xl font-bold mb-6 text-brand text-center lg:text-left">
                 {heroText}
               </h1>
-            </AnimatedDiv>
+            </MotionContainer>
 
-            <AnimatedDiv variants={fadeInUp} custom={2}>
+            <MotionContainer variant="slide-right" delay={0.5}>
               <p className="text-xl text-muted-foreground mb-8 leading-relaxed text-center lg:text-left">
                 Smart budgeting meets intelligent investing. Build wealth with precision.
               </p>
-            </AnimatedDiv>
+            </MotionContainer>
 
-            <AnimatedDiv variants={fadeInUp} custom={3}>
+            <MotionContainer variant="fade-scale" delay={0.7} duration={0.8}>
               <div className="flex flex-row gap-4 justify-center lg:justify-start">
-                <HoverBorderGradient
-                  onClick={onGetStarted}
-                  className="text-lg px-4 py-2 h-auto group bg-button-gradient cursor-pointer"
-                  containerClassName="rounded-full"
-                  duration={2}
-                >
-                  <span className="flex items-center text-white">
-                    Start Free
-                    <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                  </span>
-                </HoverBorderGradient>
-                <HoverBorderGradient
-                  className="text-lg px-4 py-2 h-auto group bg-background hover:bg-muted/50 text-foreground cursor-pointer"
-                  containerClassName="rounded-full"
-                  duration={2}
-                >
-                  <span className="flex items-center">
-                    <Play className="mr-2 h-5 w-5" />
-                    See Demo
-                  </span>
-                </HoverBorderGradient>
+                <motion.div whileHover={{ scale: 1.05, rotate: 1 }} whileTap={{ scale: 0.95 }}>
+                  <HoverBorderGradient
+                    onClick={onGetStarted}
+                    className="text-lg px-4 py-2 h-auto group bg-button-gradient cursor-pointer"
+                    containerClassName="rounded-full"
+                    duration={2}
+                  >
+                    <span className="flex items-center text-white">
+                      Start Free
+                      <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                    </span>
+                  </HoverBorderGradient>
+                </motion.div>
+                <motion.div whileHover={{ scale: 1.05, rotate: -1 }} whileTap={{ scale: 0.95 }}>
+                  <HoverBorderGradient
+                    className="text-lg px-4 py-2 h-auto group bg-background hover:bg-muted/50 text-foreground cursor-pointer"
+                    containerClassName="rounded-full"
+                    duration={2}
+                  >
+                    <span className="flex items-center">
+                      <Play className="mr-2 h-5 w-5" />
+                      See Demo
+                    </span>
+                  </HoverBorderGradient>
+                </motion.div>
               </div>
-            </AnimatedDiv>
-          </AnimatedDiv>
+            </MotionContainer>
+          </div>
 
           {/* Product Preview - 3D Card */}
-          <AnimatedDiv
-            initial="hidden"
-            animate="visible"
-            variants={fadeInUp}
-            custom={4}
-            className="relative"
-          >
+          <MotionContainer variant="slide-left" delay={0.9} duration={1.0} className="relative">
             <CardContainer className="inter-var py-0">
               <CardBody className="bg-card relative group/card dark:hover:shadow-2xl dark:hover:shadow-brand/[0.1] dark:bg-card dark:border-white/[0.2] border-black/[0.1] w-full sm:w-[30rem] h-auto rounded-2xl p-8 border shadow-2xl">
                 <CardItem
@@ -151,7 +152,7 @@ const LandingHero: React.FC<LandingHeroProps> = ({ onGetStarted }) => {
                 </CardItem>
               </CardBody>
             </CardContainer>
-          </AnimatedDiv>
+          </MotionContainer>
         </div>
       </div>
     </section>

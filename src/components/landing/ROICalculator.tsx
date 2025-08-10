@@ -1,9 +1,8 @@
 import React from 'react';
 import { Badge } from '@/components/ui/badge';
-import { AnimatedDiv } from '@/components/ui/animated';
+import { MotionContainer } from '@/components/ui/motion-container';
 import { HoverBorderGradient } from '@/components/ui/hover-border-gradient';
 import DisplayCards from '@/components/ui/display-cards';
-import { staggerContainer, slideInLeft, slideInRight } from '@/lib/motion';
 import {
   TrendingUp,
   Trophy,
@@ -55,61 +54,55 @@ const ROICalculator: React.FC<ROICalculatorProps> = ({ onGetStarted }) => {
     <section id="success-showcase" className="py-20 overflow-x-hidden">
       <div className="container mx-auto px-4">
         <div className="grid lg:grid-cols-2 gap-12 items-center overflow-visible">
-          <AnimatedDiv
-            initial="hidden"
-            whileInView="visible"
-            variants={staggerContainer}
-            viewport={{ once: true }}
-          >
-            <AnimatedDiv variants={slideInLeft}>
-              <Badge variant="secondary" className="mb-4 text-center w-fit lg:text-left mx-auto lg:mx-0 flex justify-center lg:justify-start items-center">
-                <Award className="h-3 w-3 mr-1" />
-                Success Stories
-              </Badge>
-              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center lg:text-left">
-                Real results from
-                <span className="block text-brand">real people</span>
-              </h2>
-              <p className="text-lg text-muted-foreground mb-6 text-center lg:text-left">
-                Join thousands of successful investors who have transformed their financial future with our platform.
-              </p>
-              <div className="flex flex-col gap-3 text-sm text-muted-foreground mb-8 items-center lg:items-start">
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="h-4 w-4 text-green-600" />
-                  <span>Average 18.4% annual returns</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="h-4 w-4 text-green-600" />
-                  <span>Over 50,000 successful investors</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="h-4 w-4 text-green-600" />
-                  <span>$2.1B+ in managed assets</span>
-                </div>
+          <MotionContainer variant="slide-right" delay={0.1}>
+            <Badge variant="secondary" className="mb-4 text-center w-fit lg:text-left mx-auto lg:mx-0 flex justify-center lg:justify-start items-center">
+              <Award className="h-3 w-3 mr-1" />
+              Success Stories
+            </Badge>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center lg:text-left">
+              Real results from
+              <span className="block text-brand">real people</span>
+            </h2>
+            <p className="text-lg text-muted-foreground mb-6 text-center lg:text-left">
+              Join thousands of successful investors who have transformed their financial future with our platform.
+            </p>
+            <div className="flex flex-col gap-3 text-sm text-muted-foreground mb-8 items-center lg:items-start">
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-4 w-4 text-green-600" />
+                <span>Average 18.4% annual returns</span>
               </div>
-              
-              <div className="flex justify-center lg:justify-start">
-                <HoverBorderGradient
-                  onClick={onGetStarted}
-                  className="px-8 py-3 bg-brand hover:bg-brand/90 dark:bg-brand dark:hover:bg-brand/90 cursor-pointer"
-                  containerClassName="rounded-full"
-                  duration={2}
-                >
-                  <span className="flex items-center text-white font-medium">
-                    Join the Success
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </span>
-                </HoverBorderGradient>
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-4 w-4 text-green-600" />
+                <span>Over 50,000 successful investors</span>
               </div>
-            </AnimatedDiv>
-          </AnimatedDiv>
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-4 w-4 text-green-600" />
+                <span>$2.1B+ in managed assets</span>
+              </div>
+            </div>
+            
+            <div className="flex justify-center lg:justify-start">
+              <HoverBorderGradient
+                onClick={onGetStarted}
+                className="px-8 py-3 bg-brand hover:bg-brand/90 dark:bg-brand dark:hover:bg-brand/90 cursor-pointer"
+                containerClassName="rounded-full"
+                duration={2}
+              >
+                <span className="flex items-center text-white font-medium">
+                  Join the Success
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </span>
+              </HoverBorderGradient>
+            </div>
+          </MotionContainer>
 
-          <AnimatedDiv
-            variants={slideInRight}
+          <MotionContainer
+            variant="slide-left"
+            delay={0.2}
             className="w-full flex justify-center"
           >
             <DisplayCards cards={successCards} />
-          </AnimatedDiv>
+          </MotionContainer>
         </div>
       </div>
     </section>

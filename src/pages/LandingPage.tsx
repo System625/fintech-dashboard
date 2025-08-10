@@ -8,6 +8,7 @@ import {
   ROICalculator,
   TrustSection,
   TestimonialSection,
+  PricingSection,
   FooterCTA,
   LandingFooter
 } from '@/components/landing';
@@ -35,6 +36,7 @@ const LandingPage = () => {
       <ROICalculator onGetStarted={handleGetStarted} />      
       <TrustSection />
       <TestimonialSection />
+      <PricingSection onGetStarted={handleGetStarted} />
       <FooterCTA onGetStarted={handleGetStarted} />
       <LandingFooter />
       </div>

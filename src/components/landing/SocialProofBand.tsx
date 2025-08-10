@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
-import { AnimatedDiv } from '@/components/ui/animated';
-import { fadeInUp, staggerContainer } from '@/lib/motion';
+import { MotionContainer } from '@/components/ui/motion-container';
 import { useCounter, useInView } from '@/hooks';
+import { motion } from 'motion/react';
 
 const SocialProofBand: React.FC = () => {
   // Counter hooks
@@ -27,47 +27,84 @@ const SocialProofBand: React.FC = () => {
       className="border-y border-border/50 bg-muted/50 py-16"
     >
       <div className="container mx-auto px-4">
-        <AnimatedDiv
-          initial="hidden"
-          whileInView="visible"
-          variants={staggerContainer}
-          viewport={{ once: true }}
-          className="text-center mb-12"
-        >
-          <AnimatedDiv variants={fadeInUp}>
-            <p className="text-muted-foreground mb-8">
-              Trusted by thousands of users worldwide
-            </p>
-          </AnimatedDiv>
-        </AnimatedDiv>
+        <MotionContainer variant="fade-scale" delay={0.2}>
+          <p className="text-muted-foreground mb-12 text-center">
+            Trusted by thousands of users worldwide
+          </p>
+        </MotionContainer>
 
         <div className="grid md:grid-cols-3 gap-8 text-center">
-          <AnimatedDiv variants={fadeInUp} custom={0}>
-            <div className="space-y-2">
-              <p className="text-4xl font-bold text-brand">
+          <MotionContainer variant="flip-in" delay={0.4}>
+            <motion.div 
+              className="space-y-2 p-6 rounded-xl hover:bg-muted/50 transition-colors"
+              whileHover={{ scale: 1.05, y: -5 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <motion.p 
+                className="text-4xl font-bold text-brand"
+                animate={{ 
+                  scale: socialProofInView ? [1, 1.1, 1] : 1
+                }}
+                transition={{ 
+                  duration: 2, 
+                  repeat: Infinity, 
+                  repeatDelay: 3,
+                  delay: 1 
+                }}
+              >
                 {usersCount.count.toLocaleString()}+
-              </p>
-              <p className="text-muted-foreground">Active Users</p>
-            </div>
-          </AnimatedDiv>
+              </motion.p>
+              <p className="text-muted-foreground font-medium">Active Users</p>
+            </motion.div>
+          </MotionContainer>
           
-          <AnimatedDiv variants={fadeInUp} custom={1}>
-            <div className="space-y-2">
-              <p className="text-4xl font-bold text-brand">
+          <MotionContainer variant="flip-in" delay={0.6}>
+            <motion.div 
+              className="space-y-2 p-6 rounded-xl hover:bg-muted/50 transition-colors"
+              whileHover={{ scale: 1.05, y: -5 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <motion.p 
+                className="text-4xl font-bold text-brand"
+                animate={{ 
+                  scale: socialProofInView ? [1, 1.1, 1] : 1
+                }}
+                transition={{ 
+                  duration: 2, 
+                  repeat: Infinity, 
+                  repeatDelay: 3,
+                  delay: 1.5 
+                }}
+              >
                 ${(transactionsCount.count / 1000000).toFixed(1)}M+
-              </p>
-              <p className="text-muted-foreground">Transactions Processed</p>
-            </div>
-          </AnimatedDiv>
+              </motion.p>
+              <p className="text-muted-foreground font-medium">Transactions Processed</p>
+            </motion.div>
+          </MotionContainer>
           
-          <AnimatedDiv variants={fadeInUp} custom={2}>
-            <div className="space-y-2">
-              <p className="text-4xl font-bold text-brand">
+          <MotionContainer variant="flip-in" delay={0.8}>
+            <motion.div 
+              className="space-y-2 p-6 rounded-xl hover:bg-muted/50 transition-colors"
+              whileHover={{ scale: 1.05, y: -5 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <motion.p 
+                className="text-4xl font-bold text-brand"
+                animate={{ 
+                  scale: socialProofInView ? [1, 1.1, 1] : 1
+                }}
+                transition={{ 
+                  duration: 2, 
+                  repeat: Infinity, 
+                  repeatDelay: 3,
+                  delay: 2 
+                }}
+              >
                 {uptimeCount.count}%
-              </p>
-              <p className="text-muted-foreground">Uptime Guarantee</p>
-            </div>
-          </AnimatedDiv>
+              </motion.p>
+              <p className="text-muted-foreground font-medium">Uptime Guarantee</p>
+            </motion.div>
+          </MotionContainer>
         </div>
       </div>
     </section>

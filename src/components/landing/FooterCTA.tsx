@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { HoverBorderGradient } from '@/components/ui/hover-border-gradient';
-import { MotionContainer } from '@/components/ui/motion-container';
 import {
   ArrowRight,
   Mail
@@ -25,30 +24,24 @@ const FooterCTA: React.FC<FooterCTAProps> = ({ onGetStarted }) => {
   return (
     <section className="overflow-hidden pt-0 md:pt-0 border-t border-border/50">
       <div className="relative flex w-full flex-col items-center gap-6 text-center sm:gap-8 py-12 md:py-24 px-4">
-        {/* Badge */}
-        <MotionContainer variant="rotate-in" delay={0.1}>
+        <div className="flex flex-col items-center gap-6 text-center sm:gap-8">
+          {/* Badge */}
           <Badge variant="outline">
             <span className="text-muted-foreground">Get started</span>
           </Badge>
-        </MotionContainer>
 
-        {/* Title */}
-        <MotionContainer variant="slide-up" delay={0.2} duration={1.0}>
+          {/* Title */}
           <h3 className="text-2xl font-semibold sm:text-5xl">
             Ready to transform your
             <span className="block text-brand">financial future?</span>
           </h3>
-        </MotionContainer>
 
-        {/* Description */}
-        <MotionContainer variant="fade-scale" delay={0.3}>
+          {/* Description */}
           <p className="text-muted-foreground max-w-2xl">
             Join thousands of users who have already started their journey to financial freedom.
           </p>
-        </MotionContainer>
 
-        {/* Action Buttons */}
-        <MotionContainer variant="bounce-in" delay={0.5} duration={0.6}>
+          {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <HoverBorderGradient
               onClick={onGetStarted}
@@ -71,10 +64,8 @@ const FooterCTA: React.FC<FooterCTAProps> = ({ onGetStarted }) => {
               </span>
             </HoverBorderGradient>
           </div>
-        </MotionContainer>
 
-        {/* Newsletter Section */}
-        <MotionContainer variant="slide-up" delay={0.7}>
+          {/* Newsletter Section */}
           <div className="max-w-md mx-auto w-full">
             <p className="text-sm text-muted-foreground mb-4">
               Get updates and financial tips delivered to your inbox
@@ -99,12 +90,10 @@ const FooterCTA: React.FC<FooterCTAProps> = ({ onGetStarted }) => {
               </HoverBorderGradient>
             </form>
           </div>
-        </MotionContainer>
+        </div>
 
-        {/* Glow Effect */}
-        <MotionContainer variant="fade-scale" delay={0.9} duration={1.5}>
-          <div className="fade-top-lg pointer-events-none absolute inset-0 rounded-2xl shadow-glow" />
-        </MotionContainer>
+        {/* Glow Effect - Outside motion wrapper */}
+        <div className="fade-top-lg pointer-events-none absolute inset-0 rounded-2xl shadow-glow" />
       </div>
     </section>
   );

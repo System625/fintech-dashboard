@@ -1,8 +1,6 @@
 import React from 'react';
 import { Badge } from '@/components/ui/badge';
 import { BentoGrid, type BentoItem } from '@/components/ui/bento-grid';
-import { MotionContainer } from '@/components/ui/motion-container';
-import { motion } from 'motion/react';
 import {
   BarChart3,
   PiggyBank,
@@ -65,50 +63,21 @@ const FeaturesGrid: React.FC = () => {
   return (
     <section id="features" className="container mx-auto px-4 py-20">
       <div className="text-center mb-16 space-y-6">
-        <MotionContainer variant="rotate-in" delay={0.2}>
-          <motion.div whileHover={{ scale: 1.05, rotate: 1 }}>
-            <Badge variant="secondary" className="mb-4">Features</Badge>
-          </motion.div>
-        </MotionContainer>
+        <Badge variant="secondary" className="mb-4">Features</Badge>
         
-        <MotionContainer variant="blur-up" delay={0.4} duration={1.2}>
-          <h3 className="text-2xl md:text-5xl font-bold mb-4">
-            Everything you need to
-            <motion.span 
-              className="block text-brand"
-              animate={{ 
-                backgroundPosition: ['0% 50%', '100% 50%', '0% 50%']
-              }}
-              transition={{ duration: 3, repeat: Infinity }}
-              style={{
-                background: 'linear-gradient(45deg, hsl(var(--brand)), hsl(var(--brand-foreground-glow)), hsl(var(--brand)))',
-                backgroundSize: '200% 100%',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text'
-              }}
-            >
-              manage your money
-            </motion.span>
-          </h3>
-        </MotionContainer>
+        <h3 className="text-2xl md:text-5xl font-bold mb-4">
+          Everything you need to
+          <span className="block text-brand">
+            manage your money
+          </span>
+        </h3>
         
-        <MotionContainer variant="slide-up" delay={0.6}>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Powerful tools designed to help you save, invest, and grow your wealth intelligently.
-          </p>
-        </MotionContainer>
+        <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+          Powerful tools designed to help you save, invest, and grow your wealth intelligently.
+        </p>
       </div>
 
-      <MotionContainer variant="fade-scale" delay={0.8} duration={1.0}>
-        <motion.div
-          whileInView={{ scale: [0.95, 1] }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-        >
-          <BentoGrid items={featureItems} />
-        </motion.div>
-      </MotionContainer>
+      <BentoGrid items={featureItems} />
     </section>
   );
 };

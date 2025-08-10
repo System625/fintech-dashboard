@@ -4,7 +4,7 @@ import { Moon, Sun, Menu, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import { BudgetpunkLogo } from '@/components/logo/BudgetpunkLogo';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'motion/react';
 
 interface LandingNavProps {
   onGetStarted: () => void;

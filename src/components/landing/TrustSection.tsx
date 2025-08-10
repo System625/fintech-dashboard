@@ -1,6 +1,5 @@
 import React from 'react';
 import { Badge } from '@/components/ui/badge';
-import { MotionContainer } from '@/components/ui/motion-container';
 import { GlowingEffect } from '@/components/ui/glowing-effect';
 import { cn } from '@/lib/utils';
 import {
@@ -53,7 +52,7 @@ const TrustItem = ({ area, icon, title, description }: TrustItemProps) => {
 const TrustSection: React.FC = () => {
   return (
     <section className="container mx-auto px-4 py-20">
-      <MotionContainer variant="blur-up" delay={0.1} className="text-center mb-16">
+      <div className="text-center mb-16">
         <Badge variant="secondary" className="mb-4">Security & Trust</Badge>
         <h3 className="text-2xl md:text-4xl font-bold mb-4">
           Your money is
@@ -62,9 +61,9 @@ const TrustSection: React.FC = () => {
         <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
           We use industry-leading security measures to protect your financial data and privacy.
         </p>
-      </MotionContainer>
+      </div>
 
-      <MotionContainer variant="slide-up" delay={0.2}>
+      <div>
         <ul className="grid grid-cols-1 grid-rows-none gap-4 md:grid-cols-12 md:grid-rows-3 lg:gap-4 xl:max-h-[34rem] xl:grid-rows-2">
           <TrustItem
             area="md:[grid-area:1/1/2/7] xl:[grid-area:1/1/2/5]"
@@ -105,7 +104,7 @@ const TrustSection: React.FC = () => {
             }
           />
         </ul>
-      </MotionContainer>
+      </div>
     </section>
   );
 };

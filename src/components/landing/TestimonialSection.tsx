@@ -2,7 +2,6 @@ import React from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { MotionContainer } from '@/components/ui/motion-container';
 import { Marquee } from '@/components/ui/3d-testimonials';
  
 
@@ -120,7 +119,7 @@ const TestimonialSection: React.FC = () => {
   return (
     <section className="py-20 bg-muted/30">
       <div className="max-w-7xl mx-auto px-4">
-        <MotionContainer variant="blur-up" delay={0.1} className="text-center mb-16">
+        <div className="text-center mb-16">
           <Badge variant="secondary" className="mb-4">Success Stories</Badge>
           <h3 className="text-2xl md:text-4xl font-bold mb-4 flex items-center gap-2 justify-center">
             Real people,
@@ -129,9 +128,9 @@ const TestimonialSection: React.FC = () => {
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             Join thousands of users who have transformed their financial lives with our platform.
           </p>
-        </MotionContainer>
+        </div>
 
-        <MotionContainer variant="slide-up" delay={0.2} className="flex justify-center">
+        <div className="flex justify-center">
           <div className="border border-border rounded-2xl relative flex h-96 w-full max-w-[1200px] flex-row items-center justify-center overflow-hidden gap-1.5 [perspective:300px] bg-background/50 backdrop-blur-sm">
             <div
               className="flex flex-row items-center gap-4"
@@ -172,7 +171,7 @@ const TestimonialSection: React.FC = () => {
             <div className="pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-background/50"></div>
             <div className="pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-background/50"></div>
           </div>
-        </MotionContainer>
+        </div>
       </div>
     </section>
   );

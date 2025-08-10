@@ -1,6 +1,5 @@
 import React from 'react';
 import { Badge } from '@/components/ui/badge';
-import { MotionContainer } from '@/components/ui/motion-container';
 import { HoverBorderGradient } from '@/components/ui/hover-border-gradient';
 import DisplayCards from '@/components/ui/display-cards';
 import {
@@ -54,7 +53,7 @@ const ROICalculator: React.FC<ROICalculatorProps> = ({ onGetStarted }) => {
     <section id="success-showcase" className="py-20 overflow-x-hidden">
       <div className="container mx-auto px-4">
         <div className="grid lg:grid-cols-2 gap-12 items-center overflow-visible">
-          <MotionContainer variant="slide-right" delay={0.1}>
+          <div>
             <Badge variant="secondary" className="mb-4 text-center w-fit lg:text-left mx-auto lg:mx-0 flex justify-center lg:justify-start items-center">
               <Award className="h-3 w-3 mr-1" />
               Success Stories
@@ -94,15 +93,11 @@ const ROICalculator: React.FC<ROICalculatorProps> = ({ onGetStarted }) => {
                 </span>
               </HoverBorderGradient>
             </div>
-          </MotionContainer>
+          </div>
 
-          <MotionContainer
-            variant="slide-left"
-            delay={0.2}
-            className="w-full flex justify-center"
-          >
+          <div className="w-full flex justify-center">
             <DisplayCards cards={successCards} />
-          </MotionContainer>
+          </div>
         </div>
       </div>
     </section>

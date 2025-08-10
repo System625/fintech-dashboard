@@ -2,9 +2,9 @@ import React from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { AnimatedDiv } from '@/components/ui/animated';
+import { MotionContainer } from '@/components/ui/motion-container';
 import { Marquee } from '@/components/ui/3d-testimonials';
-import { fadeInUp, staggerContainer } from '@/lib/motion';
+ 
 
 // Budgetpunk testimonials data
 const testimonials = [
@@ -120,32 +120,18 @@ const TestimonialSection: React.FC = () => {
   return (
     <section className="py-20 bg-muted/30">
       <div className="max-w-7xl mx-auto px-4">
-        <AnimatedDiv
-          initial="hidden"
-          whileInView="visible"
-          variants={staggerContainer}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <AnimatedDiv variants={fadeInUp}>
-            <Badge variant="secondary" className="mb-4">Success Stories</Badge>
-            <h3 className="text-2xl md:text-4xl font-bold mb-4 flex items-center gap-2 justify-center">
-              Real people,
-              <span className="block text-brand">real results</span>
-            </h3>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Join thousands of users who have transformed their financial lives with our platform.
-            </p>
-          </AnimatedDiv>
-        </AnimatedDiv>
+        <MotionContainer variant="blur-up" delay={0.1} className="text-center mb-16">
+          <Badge variant="secondary" className="mb-4">Success Stories</Badge>
+          <h3 className="text-2xl md:text-4xl font-bold mb-4 flex items-center gap-2 justify-center">
+            Real people,
+            <span className="block text-brand">real results</span>
+          </h3>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            Join thousands of users who have transformed their financial lives with our platform.
+          </p>
+        </MotionContainer>
 
-        <AnimatedDiv
-          initial="hidden"
-          whileInView="visible"
-          variants={fadeInUp}
-          viewport={{ once: true }}
-          className="flex justify-center"
-        >
+        <MotionContainer variant="slide-up" delay={0.2} className="flex justify-center">
           <div className="border border-border rounded-2xl relative flex h-96 w-full max-w-[1200px] flex-row items-center justify-center overflow-hidden gap-1.5 [perspective:300px] bg-background/50 backdrop-blur-sm">
             <div
               className="flex flex-row items-center gap-4"
@@ -186,7 +172,7 @@ const TestimonialSection: React.FC = () => {
             <div className="pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-background/50"></div>
             <div className="pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-background/50"></div>
           </div>
-        </AnimatedDiv>
+        </MotionContainer>
       </div>
     </section>
   );

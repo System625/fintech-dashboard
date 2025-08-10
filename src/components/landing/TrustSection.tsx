@@ -1,8 +1,7 @@
 import React from 'react';
 import { Badge } from '@/components/ui/badge';
-import { AnimatedDiv } from '@/components/ui/animated';
+import { MotionContainer } from '@/components/ui/motion-container';
 import { GlowingEffect } from '@/components/ui/glowing-effect';
-import { fadeInUp, staggerContainer } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 import {
   Shield,
@@ -54,31 +53,18 @@ const TrustItem = ({ area, icon, title, description }: TrustItemProps) => {
 const TrustSection: React.FC = () => {
   return (
     <section className="container mx-auto px-4 py-20">
-      <AnimatedDiv
-        initial="hidden"
-        whileInView="visible"
-        variants={staggerContainer}
-        viewport={{ once: true }}
-        className="text-center mb-16"
-      >
-        <AnimatedDiv variants={fadeInUp}>
-          <Badge variant="secondary" className="mb-4">Security & Trust</Badge>
-          <h3 className="text-2xl md:text-4xl font-bold mb-4">
-            Your money is
-            <span className="block text-brand">safe with us</span>
-          </h3>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            We use industry-leading security measures to protect your financial data and privacy.
-          </p>
-        </AnimatedDiv>
-      </AnimatedDiv>
+      <MotionContainer variant="blur-up" delay={0.1} className="text-center mb-16">
+        <Badge variant="secondary" className="mb-4">Security & Trust</Badge>
+        <h3 className="text-2xl md:text-4xl font-bold mb-4">
+          Your money is
+          <span className="block text-brand">safe with us</span>
+        </h3>
+        <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+          We use industry-leading security measures to protect your financial data and privacy.
+        </p>
+      </MotionContainer>
 
-      <AnimatedDiv
-        initial="hidden"
-        whileInView="visible"
-        variants={fadeInUp}
-        viewport={{ once: true }}
-      >
+      <MotionContainer variant="slide-up" delay={0.2}>
         <ul className="grid grid-cols-1 grid-rows-none gap-4 md:grid-cols-12 md:grid-rows-3 lg:gap-4 xl:max-h-[34rem] xl:grid-rows-2">
           <TrustItem
             area="md:[grid-area:1/1/2/7] xl:[grid-area:1/1/2/5]"
@@ -119,7 +105,7 @@ const TrustSection: React.FC = () => {
             }
           />
         </ul>
-      </AnimatedDiv>
+      </MotionContainer>
     </section>
   );
 };

@@ -41,7 +41,7 @@ const SocialProofBand: React.FC = () => {
           </AnimatedDiv>
         </AnimatedDiv>
 
-        <div className="grid md:grid-cols-3 justify-between gap-8 text-center">
+        <div className="flex flex-col md:flex-row justify-between gap-8 text-center">
           <AnimatedDiv variants={fadeInUp} custom={0}>
             <div className="space-y-2">
               <p className="text-4xl font-bold text-brand">

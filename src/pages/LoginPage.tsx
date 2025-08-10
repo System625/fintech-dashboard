@@ -5,7 +5,8 @@ import { useAuth } from '@/context/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { BarChart3 } from 'lucide-react';
+// Removed unused BarChart3 icon
+import { BudgetpunkLogo } from '@/components/logo/BudgetpunkLogo';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -43,9 +44,9 @@ const LoginPage = () => {
           transition={{ duration: 0.5 }}
           className="text-center"
         >
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <BarChart3 className="h-8 w-8 text-primary" />
-            <span className="text-2xl font-bold">FinDash</span>
+          <div className="flex items-center justify-center mb-4">
+            <BudgetpunkLogo size={58} />
+            <span className="text-2xl font-bold">Budgetpunk</span>
           </div>
         </motion.div>
         

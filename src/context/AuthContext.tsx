@@ -78,7 +78,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       const result = await createUserWithEmailAndPassword(auth, email, password);
       toast.success('Account created successfully!', {
-        description: `Welcome to FinDash, ${result.user.email}!`,
+        description: `Welcome to Budgetpunk, ${result.user.email}!`,
         duration: 5000
       });
     } catch (error: any) {
@@ -93,7 +93,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       toast.success('Signed in successfully!', {
-        description: 'Welcome back to FinDash!',
+        description: 'Welcome back to Budgetpunk!',
         duration: 3000
       });
     } catch (error: any) {

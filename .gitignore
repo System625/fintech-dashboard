@@ -28,4 +28,17 @@ dist-ssr
 .env.*
 !.env.example
 
+# Vercel
 .vercel
+
+# Claude
+.claude
+
+# Cursor
+.cursor
+
+# Docs
+AUDIT_UNUSED.MD
+logo.md 
+performance-audit-report.md
+ui-revamp.md

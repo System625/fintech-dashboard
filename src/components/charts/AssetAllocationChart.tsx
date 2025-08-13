@@ -8,14 +8,13 @@ import {
   CardTitle 
 } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
+import { getChartColors } from '@/lib/chartTheme';
 
 // Define the AssetAllocation type
 interface AssetAllocation {
   name: string;
   value: number;
 }
-
-const COLORS = ['#8884d8', '#83a6ed', '#8dd1e1', '#82ca9d', '#a4de6c', '#d0ed57', '#ffc658'];
 
 // Custom tooltip component
 const CustomTooltip = ({ active, payload }: any) => {
@@ -100,67 +99,35 @@ export function AssetAllocationChart() {
     );
   }
 
-  if (!data || data.length === 0) {
-    return (
-      <Card>
-        <CardHeader>
-          <CardTitle>Asset Allocation</CardTitle>
-          <CardDescription>Distribution of your investments by category</CardDescription>
-        </CardHeader>
-        <CardContent className="flex justify-center items-center h-[300px]">
-          <p className="text-muted-foreground">No asset allocation data available</p>
-        </CardContent>
-      </Card>
-    );
-  }
+  // Get theme colors for pie chart
+  const COLORS = getChartColors.pie();
 
   return (
     <Card>
       <CardHeader>
         <CardTitle>Asset Allocation</CardTitle>
-        <CardDescription>Distribution of your investments by category</CardDescription>
+        <CardDescription>Distribution of your investment portfolio</CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="h-[300px] sm:h-[300px]">
-          <ResponsiveContainer width="100%" height="100%">
-            <PieChart>
-              <Pie
-                data={data}
-                cx="50%"
-                cy="50%"
-                labelLine={false}
-                innerRadius={45}
-                outerRadius={70}
-                paddingAngle={5}
-                dataKey="value"
-              >
-                {data.map((_, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                ))}
-              </Pie>
-              <Tooltip content={<CustomTooltip />} />
-              <Legend 
-                layout="horizontal" 
-                verticalAlign="bottom" 
-                align="center"
-                wrapperStyle={{ 
-                  fontSize: '12px',
-                  paddingTop: '10px'
-                }}
-                className="sm:hidden"
-              />
-              <Legend 
-                layout="vertical" 
-                verticalAlign="middle" 
-                align="right"
-                wrapperStyle={{ 
-                  fontSize: '12px'
-                }}
-                className="hidden sm:block"
-              />
-            </PieChart>
-          </ResponsiveContainer>
-        </div>
+        <ResponsiveContainer width="100%" height={300}>
+          <PieChart>
+            <Pie
+              data={data}
+              cx="50%"
+              cy="50%"
+              innerRadius={60}
+              outerRadius={100}
+              paddingAngle={5}
+              dataKey="value"
+            >
+              {data.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+              ))}
+            </Pie>
+            <Tooltip content={<CustomTooltip />} />
+            <Legend />
+          </PieChart>
+        </ResponsiveContainer>
       </CardContent>
     </Card>
   );

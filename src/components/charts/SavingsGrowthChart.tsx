@@ -7,6 +7,7 @@ import {
   CardHeader, 
   CardTitle 
 } from '@/components/ui/card';
+import { getChartGradients } from '@/lib/chartTheme';
 
 // Define the SavingsHistoryEntry type
 interface SavingsHistoryEntry {
@@ -76,6 +77,8 @@ export function SavingsGrowthChart() {
     amount: entry.amount
   }));
 
+  const lineGradient = getChartGradients.income();
+
   if (isLoading) {
     return (
       <Card>
@@ -110,6 +113,12 @@ export function SavingsGrowthChart() {
                 bottom: 30,
               }}
             >
+              <defs>
+                <linearGradient id="savingsLineGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor={lineGradient.baseColor} stopOpacity={0.8} />
+                  <stop offset="100%" stopColor={lineGradient.baseColor} stopOpacity={0.1} />
+                </linearGradient>
+              </defs>
               <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
               <XAxis 
                 dataKey="date" 
@@ -124,10 +133,21 @@ export function SavingsGrowthChart() {
               <Line
                 type="monotone"
                 dataKey="amount"
-                stroke="hsl(var(--primary))"
-                strokeWidth={2}
-                dot={{ r: 4, fill: "hsl(var(--primary))" }}
-                activeDot={{ r: 6, fill: "hsl(var(--primary))" }}
+                stroke={lineGradient.baseColor}
+                strokeWidth={3}
+                dot={{ 
+                  r: 4, 
+                  fill: lineGradient.baseColor,
+                  stroke: lineGradient.baseColor,
+                  strokeWidth: 2
+                }}
+                activeDot={{ 
+                  r: 6, 
+                  fill: lineGradient.baseColor,
+                  stroke: lineGradient.baseColor,
+                  strokeWidth: 2
+                }}
+                fill="url(#savingsLineGradient)"
               />
             </LineChart>
           </ResponsiveContainer>

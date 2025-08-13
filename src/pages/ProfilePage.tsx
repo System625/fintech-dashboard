@@ -2,11 +2,11 @@ import { useState } from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useAuth } from "@/context/AuthContext";
+import { useAuthStore } from "@/stores/useAuthStore";
 import { Bell, Lock, User, Settings, CreditCard, Eye, EyeOff } from "lucide-react";
 
 const ProfilePage = () => {
-  const { currentUser, resetPassword } = useAuth();
+  const { currentUser, resetPassword } = useAuthStore();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");

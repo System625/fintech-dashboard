@@ -123,7 +123,13 @@ export function NewSavingsGoalForm({ onSuccess }: NewSavingsGoalFormProps) {
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={(newOpen) => {
+      setOpen(newOpen);
+      if (!newOpen) {
+        // Reset form when dialog closes
+        form.reset();
+      }
+    }}>
       <DialogTrigger asChild>
         <Button>New Savings Goal</Button>
       </DialogTrigger>

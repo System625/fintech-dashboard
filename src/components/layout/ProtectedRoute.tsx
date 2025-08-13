@@ -1,11 +1,13 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
-import { useAuth } from '@/context/AuthContext';
+import { useAuthStore } from '@/stores/useAuthStore';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
+import { useLoadingStore } from '@/stores/useLoadingStore';
 
 const ProtectedRoute = () => {
-  const { currentUser, isLoading } = useAuth();
+  const { currentUser, isLoading } = useAuthStore();
   const location = useLocation();
+  const { show, hide } = useLoadingStore();
   
   useEffect(() => {
     if (!isLoading && !currentUser) {
@@ -16,16 +18,14 @@ const ProtectedRoute = () => {
     }
   }, [currentUser, isLoading]);
 
-  // Show loading state while checking authentication
+  useEffect(() => {
+    if (isLoading) show('Checking authentication');
+    else hide();
+  }, [isLoading, show, hide]);
+
+  // Show loading overlay while checking authentication
   if (isLoading) {
-    return (
-      <div className="flex h-screen items-center justify-center">
-        <div className="flex flex-col items-center space-y-4">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
-          <p className="text-sm text-muted-foreground">Checking authentication...</p>
-        </div>
-      </div>
-    );
+    return null;
   }
 
   // Redirect to login if not authenticated

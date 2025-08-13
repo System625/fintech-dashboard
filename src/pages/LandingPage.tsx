@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '@/context/AuthContext';
+import { useAuthStore } from '@/stores/useAuthStore';
 import {
   LandingNav,
   LandingHero,
@@ -15,13 +15,13 @@ import {
 
 const LandingPage = () => {
   const navigate = useNavigate();
-  const { currentUser } = useAuth();
+  const { currentUser } = useAuthStore();
 
   const handleGetStarted = () => {
     if (currentUser) {
       navigate('/dashboard');
     } else {
-      navigate('/register');
+      navigate('/signup');
     }
   };
 

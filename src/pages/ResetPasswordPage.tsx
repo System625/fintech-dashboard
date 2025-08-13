@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { useAuth } from '@/context/AuthContext';
+import { useAuthStore } from '@/stores/useAuthStore';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -11,7 +11,7 @@ import { BudgetpunkLogo } from '@/components/logo/BudgetpunkLogo';
 const ResetPasswordPage = () => {
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { resetPassword } = useAuth();
+  const { resetPassword } = useAuthStore();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

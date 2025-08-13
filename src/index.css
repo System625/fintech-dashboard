@@ -3,7 +3,7 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* Typography System - Geist (headings) + Inter (body) */
+/* Typography System - Cyberpunk Enhanced */
 * {
   font-feature-settings: "cv02", "cv03", "cv04", "cv11";
 }
@@ -17,17 +17,38 @@ html {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Heading Typography - Geist */
+/* Heading Typography - Cyberpunk Enhanced */
 h1, h2, h3, .heading {
   font-family: 'Geist', system-ui, -apple-system, sans-serif;
   font-weight: 600;
-  line-height: 1.2;
+  line-height: 1.1;
   letter-spacing: -0.025em;
 }
 
-h1 { font-size: 3rem; font-weight: 700; }
-h2 { font-size: 2.5rem; font-weight: 600; }
-h3 { font-size: 2rem; font-weight: 600; }
+h1 { 
+  font-size: 3rem; 
+  font-weight: 700; 
+  letter-spacing: -0.05em;
+}
+h2 { 
+  font-size: 2.5rem; 
+  font-weight: 600; 
+  letter-spacing: -0.035em;
+}
+h3 { 
+  font-size: 2rem; 
+  font-weight: 600; 
+  letter-spacing: -0.025em;
+}
+
+/* Cyberpunk Title Styling */
+.cyberpunk-title {
+  font-family: 'Geist', system-ui, -apple-system, sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  text-transform: uppercase;
+  font-size: 0.95em;
+}
 
 /* Body Typography - Inter */
 body {
@@ -36,17 +57,30 @@ body {
   line-height: 1.5;
 }
 
-/* Numeric UI - Tabular Numbers */
-.tabular-nums, [data-numeric="true"] {
+/* Data Display Typography - Monospace for Financial Data */
+.text-data, .tabular-nums, [data-numeric="true"] {
+  font-family: 'JetBrains Mono', 'SF Mono', Monaco, Inconsolata, 'Roboto Mono', Consolas, 'Courier New', monospace;
   font-variant-numeric: tabular-nums slashed-zero;
   font-feature-settings: "tnum", "zero";
+  font-weight: 500;
+  letter-spacing: -0.01em;
 }
 
-/* Small UI Text */
+/* Cyberpunk UI Text */
 .text-ui {
   font-size: 0.75rem;
-  letter-spacing: 0.025em;
-  font-weight: 500;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+/* Cyberpunk Label Styling */
+.cyber-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.8;
 }
 
 :root {
@@ -111,14 +145,14 @@ body {
   /* Chart tokens */
   --chart-1: hsl(220, 89%, 51%); /* HSL fallback - Brand blue */
   --chart-1: oklch(0.70 0.19 255);  /* Brand blue */
-  --chart-2: hsl(142, 76%, 36%); /* HSL fallback - Success green */
-  --chart-2: oklch(0.74 0.09 180);  /* Success green */
-  --chart-3: hsl(43, 96%, 56%); /* HSL fallback - Warning amber */
-  --chart-3: oklch(0.86 0.11 70);   /* Warning amber */
-  --chart-4: hsl(0, 84%, 30%); /* HSL fallback - Destructive red */
-  --chart-4: oklch(0.6 0.2 27);     /* Destructive red */
-  --chart-5: hsl(270, 50%, 65%); /* HSL fallback - Secondary purple */
-  --chart-5: oklch(0.65 0.10 270);  /* Secondary purple */
+  --chart-2: hsl(200, 85%, 55%); /* HSL fallback - Blue variant */
+  --chart-2: oklch(0.65 0.16 220);  /* Blue variant */
+  --chart-3: hsl(210, 85%, 50%); /* HSL fallback - Darker blue */
+  --chart-3: oklch(0.60 0.18 240);   /* Darker blue */
+  --chart-4: hsl(190, 85%, 65%); /* HSL fallback - Cyan blue */
+  --chart-4: oklch(0.70 0.13 200);    /* Cyan blue */
+  --chart-5: hsl(240, 85%, 55%); /* HSL fallback - Purple blue */
+  --chart-5: oklch(0.65 0.21 270);  /* Purple blue */
   
   /* Shadows/elevation */
   --shadow-1: 0 1px 1px hsla(0, 0%, 17%, 0.05); /* HSL fallback */
@@ -212,16 +246,16 @@ body {
   --ring: oklch(0.65 0.25 285);
   
   /* Chart tokens (adjusted for dark) */
-  --chart-1: hsl(285, 85%, 58%); /* HSL fallback - Brand purple */
-  --chart-1: oklch(0.65 0.25 285);  /* Brand purple */
-  --chart-2: hsl(142, 76%, 46%); /* HSL fallback - Success green */
-  --chart-2: oklch(0.76 0.09 180);  /* Success green */
-  --chart-3: hsl(43, 96%, 66%); /* HSL fallback - Warning amber */
-  --chart-3: oklch(0.88 0.11 70);   /* Warning amber */
-  --chart-4: hsl(0, 84%, 40%); /* HSL fallback - Destructive red */
-  --chart-4: oklch(0.65 0.2 27);    /* Destructive red */
-  --chart-5: hsl(190, 84%, 70%); /* HSL fallback - Secondary cyan */
-  --chart-5: oklch(0.70 0.14 190);  /* Secondary cyan */
+  --chart-1: hsl(220, 85%, 65%); /* HSL fallback - Brand blue */
+  --chart-1: oklch(0.75 0.18 250);  /* Brand blue */
+  --chart-2: hsl(200, 85%, 60%); /* HSL fallback - Blue variant */
+  --chart-2: oklch(0.70 0.15 220);  /* Blue variant */
+  --chart-3: hsl(210, 85%, 55%); /* HSL fallback - Darker blue */
+  --chart-3: oklch(0.65 0.17 240);   /* Darker blue */
+  --chart-4: hsl(190, 85%, 70%); /* HSL fallback - Cyan blue */
+  --chart-4: oklch(0.75 0.12 200);    /* Cyan blue */
+  --chart-5: hsl(240, 85%, 60%); /* HSL fallback - Purple blue */
+  --chart-5: oklch(0.70 0.20 270);  /* Purple blue */
   
   /* Shadows/elevation */
   --shadow-1: 0 1px 1px hsla(0, 0%, 100%, 0.06); /* HSL fallback */
@@ -347,6 +381,233 @@ body {
   /* Container max-width utility */
   .max-w-container {
     max-width: 80rem;
+  }
+  
+  /* Sliding grid animation used by global loading overlay */
+  @keyframes slideGrid {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-50px); }
+  }
+
+  /* ===== CYBERPUNK VISUAL EFFECTS ===== */
+  
+  /* Glitch Text Effect */
+  .glitch-text {
+    position: relative;
+    display: inline-block;
+  }
+
+  .glitch-text::before,
+  .glitch-text::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .glitch-text::before {
+    animation: glitch-1 0.5s infinite;
+    color: #00f0ff;
+    z-index: -1;
+  }
+
+  .glitch-text::after {
+    animation: glitch-2 0.5s infinite;
+    color: #ff007f;
+    z-index: -2;
+  }
+
+  .glitch-text:hover::before,
+  .glitch-text:hover::after {
+    animation-duration: 0.1s;
+  }
+
+  @keyframes glitch-1 {
+    0%, 14%, 15%, 49%, 50%, 99%, 100% {
+      transform: translate(0, 0);
+    }
+    15% {
+      transform: translate(-2px, 1px);
+    }
+    50% {
+      transform: translate(2px, -1px);
+    }
+  }
+
+  @keyframes glitch-2 {
+    0%, 20%, 21%, 62%, 63%, 99%, 100% {
+      transform: translate(0, 0);
+    }
+    21% {
+      transform: translate(2px, 1px);
+    }
+    63% {
+      transform: translate(-2px, -1px);
+    }
+  }
+
+  /* Scan Lines Effect */
+  .scan-lines {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .scan-lines::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      to bottom,
+      transparent 50%,
+      rgba(0, 240, 255, 0.03) 50%
+    );
+    background-size: 100% 4px;
+    animation: scan-move 0.3s linear infinite;
+    pointer-events: none;
+  }
+
+  @keyframes scan-move {
+    0% { transform: translateY(-2px); }
+    100% { transform: translateY(2px); }
+  }
+
+  /* Neon Glow Effects */
+  .cyber-glow-blue {
+    box-shadow: 
+      0 0 5px rgba(0, 240, 255, 0.2),
+      0 0 15px rgba(0, 240, 255, 0.1),
+      0 0 30px rgba(0, 240, 255, 0.05);
+    transition: box-shadow 0.3s ease;
+  }
+
+  .cyber-glow-blue:hover {
+    box-shadow: 
+      0 0 8px rgba(0, 240, 255, 0.4),
+      0 0 20px rgba(0, 240, 255, 0.2),
+      0 0 40px rgba(0, 240, 255, 0.1);
+  }
+
+  .cyber-glow-green {
+    box-shadow: 
+      0 0 5px rgba(0, 255, 65, 0.2),
+      0 0 15px rgba(0, 255, 65, 0.1),
+      0 0 30px rgba(0, 255, 65, 0.05);
+  }
+
+  .cyber-glow-pink {
+    box-shadow: 
+      0 0 5px rgba(255, 0, 127, 0.2),
+      0 0 15px rgba(255, 0, 127, 0.1),
+      0 0 30px rgba(255, 0, 127, 0.05);
+  }
+
+  /* Animated Borders */
+  .cyber-border {
+    position: relative;
+    background: linear-gradient(var(--background), var(--background)) padding-box,
+                linear-gradient(45deg, rgba(0, 240, 255, 0.3), rgba(255, 0, 127, 0.3)) border-box;
+    border: 1px solid transparent;
+  }
+
+  .cyber-border-animated {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cyber-border-animated::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, 
+      transparent, 
+      rgba(0, 240, 255, 0.5), 
+      transparent,
+      rgba(255, 0, 127, 0.5),
+      transparent
+    );
+    background-size: 300% 300%;
+    animation: border-flow 3s linear infinite;
+    z-index: -1;
+  }
+
+  .cyber-border-animated::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--background);
+    z-index: -1;
+  }
+
+  @keyframes border-flow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  /* Data Stream Animation */
+  .data-stream {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .data-stream::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(0, 240, 255, 0.1),
+      transparent
+    );
+    animation: data-flow 2s ease-in-out infinite;
+  }
+
+  @keyframes data-flow {
+    0% { left: -100%; }
+    100% { left: 100%; }
+  }
+
+  /* Cyberpunk Loading States */
+  .cyber-pulse {
+    animation: cyber-pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes cyber-pulse {
+    0%, 100% { 
+      opacity: 0.6;
+      transform: scale(1);
+    }
+    50% { 
+      opacity: 1;
+      transform: scale(1.02);
+    }
+  }
+
+  /* Terminal-style Animation */
+  .terminal-cursor::after {
+    content: '|';
+    animation: cursor-blink 1s infinite;
+    color: #00ff41;
+  }
+
+  @keyframes cursor-blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
   }
 }
 

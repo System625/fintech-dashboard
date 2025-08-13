@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Moon, Sun, Menu, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '@/context/AuthContext';
+import { useAuthStore } from '@/stores/useAuthStore';
 import { BudgetpunkLogo } from '@/components/logo/BudgetpunkLogo';
 import { AnimatePresence, motion } from 'motion/react';
 
@@ -12,7 +12,7 @@ interface LandingNavProps {
 
 const LandingNav: React.FC<LandingNavProps> = ({ onGetStarted }) => {
   const navigate = useNavigate();
-  const { currentUser } = useAuth();
+  const { currentUser } = useAuthStore();
   
   // Initialize with system preference synchronously to avoid flash
   const [darkMode, setDarkMode] = useState(() => {

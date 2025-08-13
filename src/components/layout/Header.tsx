@@ -1,56 +1,41 @@
 import { Bell, Moon, Sun, Search, Plus, ArrowUpRight, CreditCard } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { useAuth } from '@/context/AuthContext';
-import { useState, useEffect } from 'react';
+import { useAuthStore } from '@/stores/useAuthStore';
+import { useThemeStore } from '@/stores/useThemeStore';
+import { GlitchText } from '@/components/ui/GlitchText';
 
 const Header = () => {
-  const { currentUser } = useAuth();
-  const [darkMode, setDarkMode] = useState(false);
-
-  useEffect(() => {
-    // Check for system preference or localStorage
-    const isDark = localStorage.getItem('theme') === 'dark' || 
-      (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
-    
-    setDarkMode(isDark);
-    document.documentElement.classList.toggle('dark', isDark);
-  }, []);
-
-  const toggleTheme = () => {
-    const newMode = !darkMode;
-    setDarkMode(newMode);
-    document.documentElement.classList.toggle('dark', newMode);
-    localStorage.setItem('theme', newMode ? 'dark' : 'light');
-  };
+  const { currentUser } = useAuthStore();
+  const { theme, toggleTheme } = useThemeStore();
 
   return (
     <header className="sticky top-0 z-10 w-full border-b border-border/50 bg-background/80 backdrop-blur-md">
       <div className="flex h-16 items-center justify-between px-4 md:px-6">        
         {/* Left side - Search */}
         <div className="flex items-center flex-1 max-w-md">
-          <div className="relative w-full">
+          <div className="relative w-full data-stream">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
               placeholder="Search transactions, accounts... (⌘K)"
-              className="pl-10 pr-4 bg-background/50 border-border/50 focus-visible:bg-background"
+              className="pl-10 pr-4 bg-background/50 border-border/50 focus-visible:bg-background cyber-border"
             />
           </div>
         </div>
 
         {/* Center - Quick Actions */}
         <div className="hidden md:flex items-center space-x-2">
-          <Button size="sm" className="gap-2">
+          <Button size="sm" className="gap-2 cyber-glow-blue">
             <Plus className="h-4 w-4" />
-            Add Transaction
+            <GlitchText intensity="low" trigger="hover">Add Transaction</GlitchText>
           </Button>
-          <Button variant="outline" size="sm" className="gap-2">
+          <Button variant="outline" size="sm" className="gap-2 cyber-border">
             <ArrowUpRight className="h-4 w-4" />
-            Transfer
+            <GlitchText intensity="low" trigger="hover">Transfer</GlitchText>
           </Button>
-          <Button variant="outline" size="sm" className="gap-2">
+          <Button variant="outline" size="sm" className="gap-2 cyber-border">
             <CreditCard className="h-4 w-4" />
-            Pay Bill
+            <GlitchText intensity="low" trigger="hover">Pay Bill</GlitchText>
           </Button>
         </div>
 
@@ -62,7 +47,7 @@ const Header = () => {
             <span className="sr-only">Notifications</span>
           </Button>
           <Button variant="ghost" size="icon" onClick={toggleTheme}>
-            {darkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+            {theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
             <span className="sr-only">Toggle theme</span>
           </Button>
           <div className="flex items-center space-x-3 pl-2 border-l border-border/50">

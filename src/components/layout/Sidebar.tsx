@@ -18,7 +18,8 @@ import {
   SheetHeader,
   SheetTitle
 } from '@/components/ui/sheet';
-import { useAuth } from '@/context/AuthContext';
+import { useAuthStore } from '@/stores/useAuthStore';
+import { GlitchText } from '@/components/ui/GlitchText';
 
 interface NavItemProps {
   icon: React.ReactNode;
@@ -42,7 +43,9 @@ const NavItem = ({ icon, label, href, isActive, badge, badgeVariant = 'default' 
     >
       <div className="flex items-center gap-3">
         {icon}
-        <span className="font-medium">{label}</span>
+        <span className="font-medium">
+          <GlitchText intensity="low" trigger="hover">{label}</GlitchText>
+        </span>
       </div>
       {badge && (
         <span className={cn(
@@ -65,7 +68,7 @@ const NavItem = ({ icon, label, href, isActive, badge, badgeVariant = 'default' 
 
 export const Sidebar = () => {
   const location = useLocation();
-  const { logOut } = useAuth();
+  const { logOut } = useAuthStore();
   
   const navItems = [
     {
@@ -140,7 +143,9 @@ export const Sidebar = () => {
           onClick={handleLogout}
         >
           <LogOut size={20} />
-          <span className="font-medium">Logout</span>
+          <span className="font-medium">
+            <GlitchText intensity="low" trigger="hover">Logout</GlitchText>
+          </span>
         </Button>
       </div>
     </div>
@@ -185,7 +190,9 @@ export const Sidebar = () => {
             onClick={handleLogout}
           >
             <LogOut size={20} />
-            <span className="font-medium">Logout</span>
+            <span className="font-medium">
+              <GlitchText intensity="low" trigger="hover">Logout</GlitchText>
+            </span>
           </Button>
         </div>
       </SheetContent>

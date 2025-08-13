@@ -173,4 +173,5 @@ export function ExpenseCategoriesChart() {
       </CardContent>
     </Card>
   );
+
 } 

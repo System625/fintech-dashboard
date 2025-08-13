@@ -136,7 +136,7 @@ export function ExpenseCategoriesChart() {
                   dataKey="amount" 
                   radius={[0, 4, 4, 0]}
                 >
-                  {chartData.map((entry, index) => (
+                  {chartData.map((index) => (
                     <Cell 
                       key={`cell-${index}`} 
                       fill={`url(#barGradient${index % barGradients.length})`}
@@ -173,4 +173,5 @@ export function ExpenseCategoriesChart() {
       </CardContent>
     </Card>
   );
+
 } 

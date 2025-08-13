@@ -1,35 +1,41 @@
-import { useState, useEffect } from 'react';
 import { Calendar, CalendarClock, AlertTriangle, CheckCircle2 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { formatDistanceToNow, format } from 'date-fns';
 import { Skeleton } from '@/components/ui/skeleton';
-
-interface Bill {
-  id: string;
-  name: string;
-  amount: number;
-  dueDate: string;
-  isRecurring: boolean;
-  status: 'upcoming' | 'overdue' | 'paid';
-}
+import { useUpcomingBills } from '@/hooks/useApi';
 
 export function UpcomingBills() {
-  const [bills, setBills] = useState<Bill[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const { data: bills = [], isLoading, error } = useUpcomingBills();
 
-  useEffect(() => {
-    async function fetchBills() {
-      try {
-        const response = await fetch('/api/bills/upcoming');
-        if (!response.ok) {
-          throw new Error('Failed to fetch upcoming bills');
-        }
-        const data = await response.json();
-        setBills(data);
-      } catch (error) {
-        console.error('Error fetching upcoming bills:', error);
-        // Fallback data
-        setBills([
+  if (isLoading) {
+    return (
+      <div className="space-y-4">
+        {Array.from({ length: 4 }).map((_, i) => (
+          <div key={i} className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <Skeleton className="h-8 w-8 rounded-full" />
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-[140px]" />
+                <Skeleton className="h-3 w-[80px]" />
+              </div>
+            </div>
+            <Skeleton className="h-4 w-[60px]" />
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="text-center py-8">
+        <p className="text-muted-foreground">Unable to load upcoming bills</p>
+      </div>
+    );
+  }
+
+  // Use actual data or fallback for demo
+  const displayBills = bills.length > 0 ? bills : [
           {
             id: '1',
             name: 'Electricity Bill',
@@ -69,15 +75,8 @@ export function UpcomingBills() {
             dueDate: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(), // 2 days ago
             isRecurring: false,
             status: 'paid'
-          }
-        ]);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
-    fetchBills();
-  }, []);
+        }
+  ];
 
   const getBillStatusIcon = (status: string) => {
     switch (status) {
@@ -101,37 +100,21 @@ export function UpcomingBills() {
     }
   };
 
-  if (isLoading) {
-    return (
-      <div className="space-y-4">
-        <Skeleton className="h-16 w-full rounded-md" />
-        <Skeleton className="h-16 w-full rounded-md" />
-        <Skeleton className="h-16 w-full rounded-md" />
-        <Skeleton className="h-16 w-full rounded-md" />
-      </div>
-    );
-  }
-
   return (
     <div className="space-y-4">
-      {bills.length === 0 ? (
-        <div className="py-4 text-center text-muted-foreground">
-          No upcoming bills found.
-        </div>
-      ) : (
-        bills
-          .filter(bill => bill.status !== 'paid')
-          .sort((a, b) => new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime())
-          .map((bill) => {
-            const dueDate = new Date(bill.dueDate);
-            const formattedDate = format(dueDate, 'MMM d, yyyy');
-            const timeRemaining = formatDistanceToNow(dueDate, { addSuffix: true });
-            
-            return (
-              <div key={bill.id} className="flex items-center justify-between border-b pb-4 last:border-0 last:pb-0">
+      {displayBills
+        .filter(bill => (bill.status || 'upcoming') !== 'paid')
+        .sort((a, b) => new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime())
+        .map((bill) => {
+          const dueDate = new Date(bill.dueDate);
+          const formattedDate = format(dueDate, 'MMM d, yyyy');
+          const timeRemaining = formatDistanceToNow(dueDate, { addSuffix: true });
+          
+          return (
+            <div key={bill.id} className="flex items-center justify-between border-b pb-4 last:border-0 last:pb-0">
                 <div className="flex items-center gap-3">
                   <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/10">
-                    {bill.isRecurring ? <CalendarClock className="h-5 w-5" /> : <Calendar className="h-5 w-5" />}
+                    {(bill.isRecurring || false) ? <CalendarClock className="h-5 w-5" /> : <Calendar className="h-5 w-5" />}
                   </div>
                   <div>
                     <p className="text-sm font-medium">{bill.name}</p>
@@ -140,15 +123,14 @@ export function UpcomingBills() {
                 </div>
                 <div className="flex items-center gap-2">
                   <p className="text-sm font-medium">${bill.amount.toFixed(2)}</p>
-                  <Badge variant="outline" className={`text-xs ${getBillStatusColor(bill.status)}`}>
-                    <span className="mr-1">{getBillStatusIcon(bill.status)}</span>
-                    {bill.status.charAt(0).toUpperCase() + bill.status.slice(1)}
+                  <Badge variant="outline" className={`text-xs ${getBillStatusColor(bill.status || 'upcoming')}`}>
+                    <span className="mr-1">{getBillStatusIcon(bill.status || 'upcoming')}</span>
+                    {(bill.status || 'upcoming').charAt(0).toUpperCase() + (bill.status || 'upcoming').slice(1)}
                   </Badge>
                 </div>
               </div>
             );
-          })
-      )}
+        })}
     </div>
   );
 } 

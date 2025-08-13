@@ -7,26 +7,26 @@ import {
   CardHeader, 
   CardTitle 
 } from '@/components/ui/card';
+import { getChartGradients } from '@/lib/chartTheme';
 
 // Define the CategoryExpense type
 interface CategoryExpense {
   name: string;
   amount: number;
   percentage: number;
-  color: string;
 }
 
 // Fallback data for when API fails
 const fallbackCategoryData: CategoryExpense[] = [
-  { name: 'Housing', amount: 1200, percentage: 40, color: 'bg-chart-1' },
-  { name: 'Food', amount: 450, percentage: 15, color: 'bg-chart-2' },
-  { name: 'Utilities', amount: 300, percentage: 10, color: 'bg-chart-3' },
-  { name: 'Shopping', amount: 270, percentage: 9, color: 'bg-chart-4' },
-  { name: 'Transportation', amount: 180, percentage: 6, color: 'bg-chart-5' },
-  { name: 'Health', amount: 150, percentage: 5, color: 'bg-teal-500' },
-  { name: 'Entertainment', amount: 120, percentage: 4, color: 'bg-blue-500' },
-  { name: 'Dining', amount: 180, percentage: 6, color: 'bg-pink-500' },
-  { name: 'Other', amount: 150, percentage: 5, color: 'bg-gray-500' }
+  { name: 'Housing', amount: 1200, percentage: 40 },
+  { name: 'Food', amount: 450, percentage: 15 },
+  { name: 'Utilities', amount: 300, percentage: 10 },
+  { name: 'Shopping', amount: 270, percentage: 9 },
+  { name: 'Transportation', amount: 180, percentage: 6 },
+  { name: 'Health', amount: 150, percentage: 5 },
+  { name: 'Entertainment', amount: 120, percentage: 4 },
+  { name: 'Dining', amount: 180, percentage: 6 },
+  { name: 'Other', amount: 150, percentage: 5 }
 ];
 
 // Custom tooltip component
@@ -79,13 +79,10 @@ export function ExpenseCategoriesChart() {
       name: item.name,
       amount: item.amount,
       percentage: item.percentage,
-      fill: item.color.replace('bg-', 'var(--')
-        .replace('-', ')')
-        .replace(/\d+$/, '')
-        .concat(')'),
     }));
 
   const totalExpenses = categoryData.reduce((sum, item) => sum + item.amount, 0);
+  const barGradients = getChartGradients.bar();
 
   if (isLoading) {
     return (
@@ -120,6 +117,14 @@ export function ExpenseCategoriesChart() {
                 layout="vertical"
                 margin={{ top: 0, right: 0, left: 60, bottom: 0 }}
               >
+                <defs>
+                  {barGradients.map((gradient, index) => (
+                    <linearGradient key={index} id={`barGradient${index}`} x1="0" y1="0" x2="1" y2="0">
+                      <stop offset="0%" stopColor={gradient.baseColor} stopOpacity={0.7} />
+                      <stop offset="100%" stopColor={gradient.baseColor} stopOpacity={0.9} />
+                    </linearGradient>
+                  ))}
+                </defs>
                 <XAxis type="number" hide />
                 <YAxis 
                   type="category" 
@@ -132,7 +137,12 @@ export function ExpenseCategoriesChart() {
                   radius={[0, 4, 4, 0]}
                 >
                   {chartData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.fill} />
+                    <Cell 
+                      key={`cell-${index}`} 
+                      fill={`url(#barGradient${index % barGradients.length})`}
+                      stroke={barGradients[index % barGradients.length].baseColor}
+                      strokeWidth={1}
+                    />
                   ))}
                 </Bar>
                 <Tooltip content={<CustomTooltip />} />
@@ -147,7 +157,9 @@ export function ExpenseCategoriesChart() {
               <div className="flex items-center gap-2">
                 <div 
                   className="w-3 h-3 rounded-full" 
-                  style={{ backgroundColor: category.fill }}
+                  style={{ 
+                    background: `linear-gradient(135deg, ${barGradients[index % barGradients.length].baseColor} 0%, ${barGradients[index % barGradients.length].baseColor}80 100%)`
+                  }}
                 />
                 <span className="text-sm">{category.name}</span>
               </div>

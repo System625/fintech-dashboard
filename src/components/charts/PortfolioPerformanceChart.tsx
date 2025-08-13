@@ -10,6 +10,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Info } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
+import { getChartGradients } from '@/lib/chartTheme';
 
 // Define the PerformanceEntry type
 interface PerformanceEntry {
@@ -255,6 +256,12 @@ export function PortfolioPerformanceChart() {
                 bottom: 30,
               }}
             >
+              <defs>
+                <linearGradient id="portfolioGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor={getChartGradients.neutral().baseColor} stopOpacity={0.8} />
+                  <stop offset="100%" stopColor={getChartGradients.neutral().baseColor} stopOpacity={0.1} />
+                </linearGradient>
+              </defs>
               <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
               <XAxis 
                 dataKey="date" 
@@ -270,9 +277,9 @@ export function PortfolioPerformanceChart() {
               <Area
                 type="monotone"
                 dataKey="value"
-                stroke="hsl(var(--primary))"
-                fill="hsl(var(--primary)/0.2)"
-                strokeWidth={2}
+                stroke={getChartGradients.neutral().baseColor}
+                fill="url(#portfolioGradient)"
+                strokeWidth={3}
               />
             </AreaChart>
           </ResponsiveContainer>

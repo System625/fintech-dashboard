@@ -7,6 +7,7 @@ import {
   CardHeader, 
   CardTitle 
 } from '@/components/ui/card';
+import { getChartGradients } from '@/lib/chartTheme';
 
 // Define the MonthlyExpense type
 interface MonthlyExpense {
@@ -86,6 +87,7 @@ export function MonthlyExpenseChart() {
   };
 
   const trend = calculateTrend();
+  const barGradient = getChartGradients.neutral();
 
   if (isLoading) {
     return (
@@ -142,6 +144,12 @@ export function MonthlyExpenseChart() {
                 bottom: 20,
               }}
             >
+              <defs>
+                <linearGradient id="monthlyBarGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor={barGradient.baseColor} stopOpacity={0.8} />
+                  <stop offset="100%" stopColor={barGradient.baseColor} stopOpacity={0.3} />
+                </linearGradient>
+              </defs>
               <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
               <XAxis 
                 dataKey="month" 
@@ -156,9 +164,11 @@ export function MonthlyExpenseChart() {
               <Tooltip content={<CustomTooltip />} />
               <Bar 
                 dataKey="amount" 
-                fill="hsl(var(--primary))" 
+                fill="url(#monthlyBarGradient)" 
                 radius={[4, 4, 0, 0]} 
                 barSize={30}
+                stroke={barGradient.baseColor}
+                strokeWidth={1}
               />
             </BarChart>
           </ResponsiveContainer>

@@ -3,6 +3,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from 'recharts';
 import { ArrowDown, ArrowUp, Info } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
+import { getChartGradients } from '@/lib/chartTheme';
 
 interface CategoryData {
   name: string;
@@ -85,8 +86,8 @@ export function FinancialInsights() {
     fetchData();
   }, []);
 
-  // COLORS for the pie chart
-  const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8'];
+  // Get gradient effects for pie chart
+  const pieGradients = getChartGradients.pie();
 
   // Custom label renderer function
   const renderCustomizedLabel = (props: LabelProps) => {
@@ -134,6 +135,14 @@ export function FinancialInsights() {
       <div className="h-[300px]">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
+            <defs>
+              {pieGradients.map((gradient, index) => (
+                <linearGradient key={index} id={`pieGradient${index}`} x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor={gradient.baseColor} stopOpacity={0.8} />
+                  <stop offset="100%" stopColor={gradient.baseColor} stopOpacity={0.3} />
+                </linearGradient>
+              ))}
+            </defs>
             <Pie
               data={categoryData}
               cx="50%"
@@ -146,7 +155,12 @@ export function FinancialInsights() {
               labelLine={false}
             >
               {categoryData.map((_, index) => (
-                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                <Cell 
+                  key={`cell-${index}`} 
+                  fill={`url(#pieGradient${index % pieGradients.length})`}
+                  stroke={pieGradients[index % pieGradients.length].baseColor}
+                  strokeWidth={1}
+                />
               ))}
             </Pie>
             <Tooltip formatter={(value) => `$${value}`} />

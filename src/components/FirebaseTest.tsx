@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { useAuth } from '@/context/AuthContext';
+import { useAuthStore } from '@/stores/useAuthStore';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 
 export const FirebaseTest = () => {
   const [testResult, setTestResult] = useState<string>('');
   const [testStatus, setTestStatus] = useState<'idle' | 'success' | 'error'>('idle');
-  const { currentUser } = useAuth();
+  const { currentUser } = useAuthStore();
 
   const testFirebaseConnection = async () => {
     try {

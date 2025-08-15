@@ -1,5 +1,7 @@
+import { ReactNode } from 'react';
+
 interface PageTitleProps {
-  title: string;
+  title: string | ReactNode;
   subtitle?: string;
 }
 

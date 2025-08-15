@@ -3,9 +3,14 @@ import { Badge } from '@/components/ui/badge';
 import { formatDistanceToNow, format } from 'date-fns';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useUpcomingBills } from '@/hooks/useApi';
+import { useContentLoading } from '@/hooks/useContentLoading';
 
 export function UpcomingBills() {
-  const { data: bills = [], isLoading, error } = useUpcomingBills();
+  const upcomingBillsQuery = useUpcomingBills();
+  const { data: bills = [], isLoading, error } = upcomingBillsQuery;
+  
+  // Use content-area loading for this component
+  useContentLoading(upcomingBillsQuery, { message: 'Loading upcoming bills' });
 
   if (isLoading) {
     return (

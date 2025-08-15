@@ -4,6 +4,7 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from 'recha
 import { ArrowDown, ArrowUp, Info } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { getChartGradients } from '@/lib/chartTheme';
+import { useManualContentLoading } from '@/hooks/useContentLoading';
 
 interface CategoryData {
   name: string;
@@ -32,10 +33,14 @@ type LabelProps = {
 export function FinancialInsights() {
   const [categoryData, setCategoryData] = useState<CategoryData[]>([]);
   const [insights, setInsights] = useState<Insight[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
+  const { show, hide, visible: isLoading } = useManualContentLoading();
 
   useEffect(() => {
     const fetchData = async () => {
+      show('Loading analytics');
+      setHasError(false);
+      
       try {
         // In a real app, these would be separate API calls
         const categoryResponse = await fetch('/api/analytics/spending-categories');
@@ -52,6 +57,8 @@ export function FinancialInsights() {
         setInsights(insightsData);
       } catch (error) {
         console.error('Error fetching analytics data:', error);
+        setHasError(true);
+        
         // Fallback data
         setCategoryData([
           { name: 'Food & Dining', value: 650, change: 5.2 },
@@ -79,12 +86,12 @@ export function FinancialInsights() {
           }
         ]);
       } finally {
-        setIsLoading(false);
+        hide();
       }
     };
     
     fetchData();
-  }, []);
+  }, [show, hide]);
 
   // Get gradient effects for pie chart
   const pieGradients = getChartGradients.pie();
@@ -117,7 +124,8 @@ export function FinancialInsights() {
     }
   };
 
-  if (isLoading) {
+  // Show skeleton only on initial load, content loading overlay handles subsequent states
+  if (isLoading && categoryData.length === 0) {
     return (
       <div className="space-y-4">
         <Skeleton className="h-[200px] w-full rounded-md" />
@@ -126,6 +134,20 @@ export function FinancialInsights() {
           <Skeleton className="h-20 w-full rounded-md" />
           <Skeleton className="h-20 w-full rounded-md" />
         </div>
+      </div>
+    );
+  }
+
+  if (hasError && categoryData.length === 0) {
+    return (
+      <div className="text-center py-8">
+        <p className="text-muted-foreground">Unable to load financial insights</p>
+        <button 
+          onClick={() => window.location.reload()} 
+          className="mt-2 text-sm text-brand hover:underline"
+        >
+          Try again
+        </button>
       </div>
     );
   }

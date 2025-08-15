@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAuthStore } from "@/stores/useAuthStore";
+import { GlitchText } from "@/components/ui/GlitchText";
 import { Bell, Lock, User, Settings, CreditCard, Eye, EyeOff } from "lucide-react";
 
 const ProfilePage = () => {
@@ -34,7 +35,9 @@ const ProfilePage = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold">Profile & Settings</h1>
+        <h1 className="text-3xl font-bold">
+          <GlitchText intensity="low" trigger="hover">Profile & Settings</GlitchText>
+        </h1>
         <p className="text-muted-foreground">
           Manage your account and preferences
         </p>
@@ -88,7 +91,9 @@ const ProfilePage = () => {
             </div>
           </CardContent>
           <CardFooter>
-            <Button>Save Changes</Button>
+            <Button className="cyber-glow-blue">
+              <GlitchText intensity="low" trigger="hover">Save Changes</GlitchText>
+            </Button>
           </CardFooter>
         </Card>
 
@@ -131,13 +136,17 @@ const ProfilePage = () => {
               <Input id="confirm-password" type={showPassword ? "text" : "password"} placeholder="••••••••" />
             </div>
             <div className="pt-2">
-              <Button variant="link" className="p-0 h-auto" onClick={handlePasswordReset} disabled={isSubmitting}>
-                {isSubmitting ? "Sending..." : "Forgot your password?"}
+              <Button variant="link" className="p-0 h-auto cyber-glow-pink" onClick={handlePasswordReset} disabled={isSubmitting}>
+                <GlitchText intensity="low" trigger="hover">
+                  {isSubmitting ? "Sending..." : "Forgot your password?"}
+                </GlitchText>
               </Button>
             </div>
           </CardContent>
           <CardFooter>
-            <Button>Update Password</Button>
+            <Button className="cyber-glow-green">
+              <GlitchText intensity="low" trigger="hover">Update Password</GlitchText>
+            </Button>
           </CardFooter>
         </Card>
 
@@ -179,7 +188,9 @@ const ProfilePage = () => {
             </div>
           </CardContent>
           <CardFooter>
-            <Button>Save Preferences</Button>
+            <Button className="cyber-glow-blue">
+              <GlitchText intensity="low" trigger="hover">Save Preferences</GlitchText>
+            </Button>
           </CardFooter>
         </Card>
 
@@ -206,7 +217,9 @@ const ProfilePage = () => {
                 <span className="text-xs bg-primary text-primary-foreground px-2 py-1 rounded">Default</span>
               </div>
             </div>
-            <Button variant="outline" className="w-full">Add New Payment Method</Button>
+            <Button variant="outline" className="w-full cyber-glow-green cyber-border">
+              <GlitchText intensity="low" trigger="hover">Add New Payment Method</GlitchText>
+            </Button>
           </CardContent>
         </Card>
       </div>
@@ -257,7 +270,9 @@ const ProfilePage = () => {
           </div>
         </CardContent>
         <CardFooter>
-          <Button>Save Preferences</Button>
+          <Button className="cyber-glow-blue">
+            <GlitchText intensity="low" trigger="hover">Save Preferences</GlitchText>
+          </Button>
         </CardFooter>
       </Card>
     </div>

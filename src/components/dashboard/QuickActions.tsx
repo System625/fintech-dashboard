@@ -1,4 +1,5 @@
 import { CreditCard, Landmark, ArrowLeftRight } from 'lucide-react';
+import { GlitchText } from '@/components/ui/GlitchText';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -128,9 +129,11 @@ export function QuickActions({ onActionComplete }: QuickActionProps) {
     <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
       <Dialog open={activeAction === 'deposit'} onOpenChange={createHandleOpenChange('deposit')}>
         <DialogTrigger asChild>
-          <Button variant="outline" className="h-24 flex flex-col gap-2 items-center justify-center">
+          <Button variant="outline" className="h-24 flex flex-col gap-2 items-center justify-center cyber-glow-blue cyber-border">
             <Landmark className="h-5 w-5" />
-            <span className="text-xs md:text-sm">Deposit</span>
+            <GlitchText intensity="low" trigger="hover">
+              <span className="text-xs md:text-sm">Deposit</span>
+            </GlitchText>
           </Button>
         </DialogTrigger>
         <DialogContent>
@@ -178,9 +181,11 @@ export function QuickActions({ onActionComplete }: QuickActionProps) {
               <Button 
                 type="submit" 
                 disabled={isSubmitting}
-                className="w-full"
+                className="w-full cyber-glow-blue"
               >
-                {isSubmitting ? 'Processing...' : 'Deposit Funds'}
+                <GlitchText intensity="low" trigger="hover">
+                  {isSubmitting ? 'Processing...' : 'Deposit Funds'}
+                </GlitchText>
               </Button>
             </DialogFooter>
           </form>
@@ -189,9 +194,11 @@ export function QuickActions({ onActionComplete }: QuickActionProps) {
 
       <Dialog open={activeAction === 'withdraw'} onOpenChange={createHandleOpenChange('withdraw')}>
         <DialogTrigger asChild>
-          <Button variant="outline" className="h-24 flex flex-col gap-2 items-center justify-center">
+          <Button variant="outline" className="h-24 flex flex-col gap-2 items-center justify-center cyber-glow-green cyber-border">
             <CreditCard className="h-5 w-5" />
-            <span className="text-xs md:text-sm">Withdraw</span>
+            <GlitchText intensity="low" trigger="hover">
+              <span className="text-xs md:text-sm">Withdraw</span>
+            </GlitchText>
           </Button>
         </DialogTrigger>
         <DialogContent>
@@ -239,9 +246,11 @@ export function QuickActions({ onActionComplete }: QuickActionProps) {
               <Button 
                 type="submit" 
                 disabled={isSubmitting}
-                className="w-full"
+                className="w-full cyber-glow-green"
               >
-                {isSubmitting ? 'Processing...' : 'Withdraw Funds'}
+                <GlitchText intensity="low" trigger="hover">
+                  {isSubmitting ? 'Processing...' : 'Withdraw Funds'}
+                </GlitchText>
               </Button>
             </DialogFooter>
           </form>
@@ -250,9 +259,11 @@ export function QuickActions({ onActionComplete }: QuickActionProps) {
 
       <Dialog open={activeAction === 'transfer'} onOpenChange={createHandleOpenChange('transfer')}>
         <DialogTrigger asChild>
-          <Button variant="outline" className="h-24 flex flex-col gap-2 items-center justify-center">
+          <Button variant="outline" className="h-24 flex flex-col gap-2 items-center justify-center cyber-glow-pink cyber-border">
             <ArrowLeftRight className="h-5 w-5" />
-            <span className="text-xs md:text-sm">Transfer</span>
+            <GlitchText intensity="low" trigger="hover">
+              <span className="text-xs md:text-sm">Transfer</span>
+            </GlitchText>
           </Button>
         </DialogTrigger>
         <DialogContent>
@@ -316,9 +327,11 @@ export function QuickActions({ onActionComplete }: QuickActionProps) {
               <Button 
                 type="submit" 
                 disabled={isSubmitting}
-                className="w-full"
+                className="w-full cyber-glow-pink"
               >
-                {isSubmitting ? 'Processing...' : 'Transfer Funds'}
+                <GlitchText intensity="low" trigger="hover">
+                  {isSubmitting ? 'Processing...' : 'Transfer Funds'}
+                </GlitchText>
               </Button>
             </DialogFooter>
           </form>

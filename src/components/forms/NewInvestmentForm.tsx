@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
+import { GlitchText } from '@/components/ui/GlitchText';
 import { Input } from '@/components/ui/input';
 import {
   Form,
@@ -126,7 +127,9 @@ export function NewInvestmentForm({ onSuccess }: NewInvestmentFormProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>New Investment</Button>
+        <Button className="cyber-glow-green cyber-border text-foreground">
+          <GlitchText intensity="low" trigger="hover">New Investment</GlitchText>
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
@@ -228,8 +231,10 @@ export function NewInvestmentForm({ onSuccess }: NewInvestmentFormProps) {
               <Button type="button" variant="outline" onClick={() => setOpen(false)}>
                 Cancel
               </Button>
-              <Button type="submit" disabled={isSubmitting}>
-                {isSubmitting ? "Processing..." : "Buy Investment"}
+              <Button type="submit" disabled={isSubmitting} className="cyber-glow-blue">
+                <GlitchText intensity="low" trigger="hover">
+                  {isSubmitting ? "Processing..." : "Buy Investment"}
+                </GlitchText>
               </Button>
             </DialogFooter>
           </form>

@@ -4,6 +4,7 @@ import { AssetAllocationChart, PortfolioPerformanceChart } from '@/components/ch
 import { Toaster } from "sonner";
 import { PageTitle } from '@/components/PageTitle';
 import { DataCard } from '@/components/DataCard';
+import { GlitchText } from '@/components/ui/GlitchText';
 import { DollarSign, TrendingUp, BarChart3 } from 'lucide-react';
 
 interface Investment {
@@ -99,7 +100,7 @@ export default function InvestmentsPage() {
 
   return (
     <div className="space-y-6">
-      <PageTitle title="Investments" />
+      <PageTitle title={<GlitchText intensity="low" trigger="hover">Investments</GlitchText>} />
       <Toaster position="top-right" />
       
       <div className="grid gap-6 md:grid-cols-3">

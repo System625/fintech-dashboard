@@ -9,7 +9,10 @@ import { useAuthStore } from '@/stores/useAuthStore'
 // Test utilities for Zustand store reset
 export const resetStores = () => {
   useThemeStore.setState({ theme: 'light' })
-  useLoadingStore.setState({ visible: false, message: 'Loading', counter: 0 })
+  useLoadingStore.setState({ 
+    global: { visible: false, message: 'Loading', counter: 0 },
+    content: { visible: false, message: 'Loading content', counter: 0 }
+  })
   useAuthStore.setState({ currentUser: null, isLoading: false })
 }
 

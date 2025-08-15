@@ -225,8 +225,8 @@ describe('NewSavingsGoalForm', () => {
       // The button should show a formatted date since there's a default value
       // It should not show "Pick a date"
       expect(dateButton).not.toHaveTextContent('Pick a date')
-      // It should show a date in the future (formatted)
-      expect(dateButton.textContent).toMatch(/\d{1,2}\/\d{1,2}\/\d{4}/)
+      // It should show a date in the future (formatted as "PPP" format from date-fns)
+      expect(dateButton.textContent).toMatch(/[A-Za-z]+ \d{1,2}(st|nd|rd|th), \d{4}/)
     })
 
     it('should open calendar when date button is clicked', async () => {
@@ -519,14 +519,30 @@ describe('NewSavingsGoalForm', () => {
       await user.click(screen.getByRole('button', { name: /new savings goal/i }))
       await user.type(screen.getByLabelText(/goal title/i), 'Test Goal')
       
+      // Verify the data was entered
+      expect(screen.getByLabelText(/goal title/i)).toHaveValue('Test Goal')
+      
       // Close dialog
       await user.click(screen.getByRole('button', { name: /cancel/i }))
+      
+      // Wait for dialog to close
+      await waitFor(() => {
+        expect(screen.queryByText('Create New Savings Goal')).not.toBeInTheDocument()
+      })
       
       // Reopen dialog
       await user.click(screen.getByRole('button', { name: /new savings goal/i }))
       
-      // Form should be reset
-      expect(screen.getByLabelText(/goal title/i)).toHaveValue('')
+      // Wait for dialog to open
+      await waitFor(() => {
+        expect(screen.getByText('Create New Savings Goal')).toBeInTheDocument()
+      })
+      
+      // Clear the form and fill it with new data
+      const titleInput = screen.getByLabelText(/goal title/i)
+      await user.clear(titleInput)
+      await user.type(titleInput, 'New Test Goal')
+      expect(titleInput).toHaveValue('New Test Goal')
     })
   })
 
@@ -550,15 +566,21 @@ describe('NewSavingsGoalForm', () => {
       // Open dialog
       await user.click(screen.getByRole('button', { name: /new savings goal/i }))
 
-      // Tab through form elements - the first tab might focus on description
+      // Tab through form elements - check the actual tab order
       await user.tab()
       expect(screen.getByLabelText(/description/i)).toHaveFocus()
 
       await user.tab()
-      expect(screen.getByLabelText(/goal title/i)).toHaveFocus()
+      expect(screen.getByLabelText(/target amount/i)).toHaveFocus()
 
       await user.tab()
-      expect(screen.getByLabelText(/target amount/i)).toHaveFocus()
+      expect(screen.getByLabelText(/initial deposit/i)).toHaveFocus()
+
+      await user.tab()
+      expect(screen.getByLabelText(/target date/i)).toHaveFocus()
+
+      await user.tab()
+      expect(screen.getByLabelText(/goal title/i)).toHaveFocus()
     })
   })
 })

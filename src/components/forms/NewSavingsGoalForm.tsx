@@ -7,6 +7,7 @@ import { format } from 'date-fns';
 import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
+import { GlitchText } from '@/components/ui/GlitchText';
 import { Input } from '@/components/ui/input';
 import { Calendar } from '@/components/ui/calendar';
 import {
@@ -104,7 +105,13 @@ export function NewSavingsGoalForm({ onSuccess }: NewSavingsGoalFormProps) {
       });
       
       // Reset form and close dialog
-      form.reset();
+      form.reset({
+        title: "",
+        description: "",
+        targetAmount: 0,
+        initialAmount: 0,
+        targetDate: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000), // 90 days from now
+      });
       setOpen(false);
       
       // Call onSuccess callback if provided
@@ -127,11 +134,19 @@ export function NewSavingsGoalForm({ onSuccess }: NewSavingsGoalFormProps) {
       setOpen(newOpen);
       if (!newOpen) {
         // Reset form when dialog closes
-        form.reset();
+        form.reset({
+          title: "",
+          description: "",
+          targetAmount: 0,
+          initialAmount: 0,
+          targetDate: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000), // 90 days from now
+        });
       }
     }}>
       <DialogTrigger asChild>
-        <Button>New Savings Goal</Button>
+        <Button className="cyber-glow-blue cyber-border text-foreground">
+          <GlitchText intensity="low" trigger="hover">New Savings Goal</GlitchText>
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
@@ -251,8 +266,10 @@ export function NewSavingsGoalForm({ onSuccess }: NewSavingsGoalFormProps) {
               <Button type="button" variant="outline" onClick={() => setOpen(false)}>
                 Cancel
               </Button>
-              <Button type="submit" disabled={isSubmitting}>
-                {isSubmitting ? "Creating..." : "Create Goal"}
+              <Button type="submit" disabled={isSubmitting} className="cyber-glow-blue">
+                <GlitchText intensity="low" trigger="hover">
+                  {isSubmitting ? "Creating..." : "Create Goal"}
+                </GlitchText>
               </Button>
             </DialogFooter>
           </form>

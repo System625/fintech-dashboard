@@ -6,6 +6,7 @@ import { SavingsGrowthChart } from "@/components/charts";
 import { NewSavingsGoalForm } from "@/components/forms/NewSavingsGoalForm";
 import { PlusCircle, Percent, TrendingUp, Calendar } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { GlitchText } from "@/components/ui/GlitchText";
 import { Toaster } from "sonner";
 
 interface SavingsGoal {
@@ -159,14 +160,16 @@ const SavingsPage = () => {
       
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-3xl font-bold">Savings Goals</h1>
+          <h1 className="text-3xl font-bold">
+            <GlitchText intensity="low" trigger="hover">Savings Goals</GlitchText>
+          </h1>
           <p className="text-muted-foreground">Track and manage your savings targets</p>
         </div>
         <Dialog open={openNewGoalDialog} onOpenChange={setOpenNewGoalDialog}>
           <DialogTrigger asChild>
-            <Button className="mt-4 sm:mt-0">
+            <Button className="mt-4 sm:mt-0 cyber-glow-blue cyber-border text-foreground">
               <PlusCircle className="mr-2 h-4 w-4" />
-              New Savings Goal
+              <GlitchText intensity="low" trigger="hover">New Savings Goal</GlitchText>
             </Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-[425px]">
@@ -243,9 +246,9 @@ const SavingsPage = () => {
           <CardContent className="py-10 text-center">
             <p className="text-muted-foreground mb-2">No savings goals found</p>
             <p className="text-sm text-muted-foreground mb-6">Create your first savings goal to start tracking your progress</p>
-            <Button onClick={() => setOpenNewGoalDialog(true)}>
+            <Button onClick={() => setOpenNewGoalDialog(true)} className="cyber-glow-green cyber-border">
               <PlusCircle className="mr-2 h-4 w-4" />
-              Create a Savings Goal
+              <GlitchText intensity="low" trigger="hover">Create a Savings Goal</GlitchText>
             </Button>
           </CardContent>
         </Card>

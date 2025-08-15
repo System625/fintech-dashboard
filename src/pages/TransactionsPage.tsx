@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { ExpenseCategoriesChart, MonthlyExpenseChart } from '@/components/charts';
 import { TransactionFilterForm } from '@/components/forms/TransactionFilterForm';
+import { GlitchText } from '@/components/ui/GlitchText';
 import { Toaster } from "sonner";
 import { Download } from 'lucide-react';
 
@@ -103,10 +104,11 @@ const TransactionsPage = () => {
         case 'month':
           startDate = new Date(now.getFullYear(), now.getMonth(), 1);
           break;
-        case 'quarter':
+        case 'quarter': {
           const quarterMonth = Math.floor(now.getMonth() / 3) * 3;
           startDate = new Date(now.getFullYear(), quarterMonth, 1);
           break;
+        }
         case 'year':
           startDate = new Date(now.getFullYear(), 0, 1);
           break;
@@ -181,18 +183,20 @@ const TransactionsPage = () => {
       
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold">Transactions</h1>
+          <h1 className="text-3xl font-bold">
+            <GlitchText intensity="low" trigger="hover">Transactions</GlitchText>
+          </h1>
           <p className="text-muted-foreground">
             View and manage your financial transactions
           </p>
         </div>
         <Button 
-          className="mt-4 sm:mt-0" 
+          className="mt-4 sm:mt-0 cyber-glow-blue cyber-border hover:shadow-lg text-foreground" 
           variant="outline" 
           onClick={exportTransactions}
         >
           <Download className="mr-2 h-4 w-4" />
-          Export
+          <GlitchText intensity="low" trigger="hover">Export</GlitchText>
         </Button>
       </div>
 
@@ -223,8 +227,9 @@ const TransactionsPage = () => {
               <Button 
                 variant="link" 
                 onClick={() => setFilters({ search: '', type: 'all', category: 'all', dateRange: 'all' })}
+                className="cyber-glow-pink"
               >
-                Clear filters
+                <GlitchText intensity="low" trigger="hover">Clear filters</GlitchText>
               </Button>
             </div>
           ) : (
@@ -267,7 +272,9 @@ const TransactionsPage = () => {
           
           {filteredTransactions.length > 0 && (
             <div className="mt-4 flex justify-center">
-              <Button variant="outline" size="sm">Load More</Button>
+              <Button variant="outline" size="sm" className="cyber-glow-green cyber-border">
+                <GlitchText intensity="low" trigger="hover">Load More</GlitchText>
+              </Button>
             </div>
           )}
         </CardContent>

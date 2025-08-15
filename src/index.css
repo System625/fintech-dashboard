@@ -87,8 +87,8 @@ body {
   --radius: 0.625rem;
   
   /* Surfaces */
-  --background: hsl(0, 0%, 98%); /* HSL fallback - Soft white for reduced eye strain */
-  --background: oklch(0.98 0 0);
+  --background: hsl(210, 40%, 97%); /* HSL fallback - slate-50 equivalent */
+  --background: oklch(0.97 0.005 240);
   --foreground: hsl(0, 0%, 17%); /* HSL fallback */
   --foreground: oklch(0.17 0 0);
   --card: hsl(0, 0%, 99%); /* HSL fallback */

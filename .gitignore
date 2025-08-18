@@ -42,3 +42,23 @@ AUDIT_UNUSED.MD
 logo.md 
 performance-audit-report.md
 ui-revamp.md
+CODE
+
+# Coverage reports
+coverage/
+*.html
+
+# Build outputs
+build/
+out/
+
+# Test coverage
+.nyc_output/
+coverage-final.json
+
+# Lighthouse reports
+lighthouse-report.json
+
+# Temporary files
+*.tmp
+*.temp

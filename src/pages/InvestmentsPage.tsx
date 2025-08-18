@@ -6,6 +6,7 @@ import { PageTitle } from '@/components/PageTitle';
 import { DataCard } from '@/components/DataCard';
 import { GlitchText } from '@/components/ui/GlitchText';
 import { DollarSign, TrendingUp, BarChart3 } from 'lucide-react';
+import ContentAreaLoader from '@/components/ui/ContentAreaLoader';
 
 interface Investment {
   id: string;
@@ -99,9 +100,12 @@ export default function InvestmentsPage() {
   const metrics = calculatePortfolioMetrics();
 
   return (
-    <div className="space-y-6">
-      <PageTitle title={<GlitchText intensity="low" trigger="hover">Investments</GlitchText>} />
-      <Toaster position="top-right" />
+    <>
+      <ContentAreaLoader visible={isLoading} message="Loading investments" />
+      {!isLoading && (
+        <div className="space-y-6">
+        <PageTitle title={<GlitchText intensity="low" trigger="hover">Investments</GlitchText>} />
+        <Toaster position="top-right" />
       
       <div className="grid gap-6 md:grid-cols-3">
         <DataCard 
@@ -138,11 +142,7 @@ export default function InvestmentsPage() {
           <NewInvestmentForm onSuccess={handleInvestmentAdded} />
         </div>
 
-        {isLoading ? (
-          <div className="p-6">
-            <p className="text-center text-muted-foreground">Loading investments...</p>
-          </div>
-        ) : investments.length === 0 ? (
+        {investments.length === 0 ? (
           <div className="p-6">
             <p className="text-center text-muted-foreground">No investments found. Add your first investment!</p>
           </div>
@@ -197,5 +197,7 @@ export default function InvestmentsPage() {
         )}
       </div>
     </div>
-  );
+    )}
+  </>
+);
 } 

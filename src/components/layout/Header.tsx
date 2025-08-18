@@ -80,17 +80,21 @@ const Header = () => {
       { type: 'transaction', id: 'tx-1', title: 'Grocery Store', amount: '$125.75', date: '2024-03-25' },
       { type: 'transaction', id: 'tx-2', title: 'Coffee Shop', amount: '$8.50', date: '2024-03-24' },
       { type: 'transaction', id: 'tx-3', title: 'Amazon Purchase', amount: '$45.99', date: '2024-03-23' },
+      { type: 'transaction', id: 'tx-4', title: 'Gas Station', amount: '$35.00', date: '2024-03-22' },
+      { type: 'transaction', id: 'tx-5', title: 'Restaurant', amount: '$67.50', date: '2024-03-21' },
     ];
 
     const mockAccounts = [
       { type: 'account', id: 'acc-1', title: 'Checking Account', balance: '$2,450.00' },
       { type: 'account', id: 'acc-2', title: 'Savings Account', balance: '$12,500.00' },
       { type: 'account', id: 'acc-3', title: 'Investment Account', balance: '$8,750.00' },
+      { type: 'account', id: 'acc-4', title: 'Credit Card', balance: '-$1,200.00' },
     ];
 
     const mockGoals = [
       { type: 'goal', id: 'goal-1', title: 'Emergency Fund', progress: '50%', target: '$10,000' },
       { type: 'goal', id: 'goal-2', title: 'Vacation Fund', progress: '75%', target: '$4,000' },
+      { type: 'goal', id: 'goal-3', title: 'New Car Fund', progress: '25%', target: '$25,000' },
     ];
 
     // Search transactions
@@ -186,7 +190,6 @@ const Header = () => {
   useEffect(() => {
     if (searchTerm.trim()) {
       const results = performSearch(searchTerm);
-      console.log('Search results for:', searchTerm, results); // Debug log
       setSearchResults(results);
     } else {
       setSearchResults([]);
@@ -197,7 +200,10 @@ const Header = () => {
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (searchContainerRef.current && !searchContainerRef.current.contains(event.target as Node)) {
+        // Add a small delay to allow clicking on search results
+        setTimeout(() => {
         setIsSearchOpen(false);
+        }, 100);
       }
     };
 
@@ -210,20 +216,18 @@ const Header = () => {
       <div className="flex h-16 items-center justify-between px-4 md:px-6">        
         {/* Left side - Search */}
         <div className="flex items-center flex-1 max-w-md">
-          <div ref={searchContainerRef} className="relative w-full data-stream">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <div ref={searchContainerRef} className="relative w-full">
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground z-10" />
             <Input
               ref={searchInputRef}
               placeholder="Search transactions, accounts... (⌘K)"
-              className="pl-10 pr-4 bg-background/50 border-border/50 focus-visible:bg-background cyber-border"
+              className="pl-10 pr-4 bg-background/50 border-border/50 focus-visible:bg-background"
               value={searchTerm}
               onChange={(e) => {
-                console.log('Search term changed:', e.target.value);
                 setSearchTerm(e.target.value);
                 setIsSearchOpen(true);
               }}
               onFocus={() => {
-                console.log('Search focused, setting isSearchOpen to true');
                 setIsSearchOpen(true);
               }}
               onKeyDown={(e) => {
@@ -240,10 +244,6 @@ const Header = () => {
             {/* Search Results Dropdown */}
             {isSearchOpen && (
               <div className="absolute top-full left-0 right-0 mt-1 bg-background dark:bg-card border border-border rounded-md shadow-lg z-[9999] max-h-96 overflow-y-auto">
-                {/* Debug info */}
-                <div className="p-2 text-xs text-muted-foreground border-b">
-                  Debug: term="{searchTerm}", results={searchResults.length}, isOpen={String(isSearchOpen)}
-                </div>
                 {searchResults.length > 0 ? (
                   <>
                     <div className="p-3 border-b text-xs text-muted-foreground font-medium">
@@ -252,12 +252,12 @@ const Header = () => {
                     {searchResults.map((result) => (
                       <div
                         key={`${result.type}-${result.id}`}
-                        className="p-3 hover:bg-accent cursor-pointer border-b last:border-b-0"
+                        className="p-3 hover:bg-accent/50 cursor-pointer border-b last:border-b-0 transition-colors"
                         onClick={() => handleSearchResultClick(result)}
                       >
                         <div className="flex items-center justify-between">
-                          <div>
-                            <div className="font-medium text-sm">{result.title}</div>
+                          <div className="flex-1">
+                            <div className="font-medium text-sm text-foreground">{result.title}</div>
                             <div className="text-xs text-muted-foreground capitalize">
                               {result.type}
                               {result.amount && ` • ${result.amount}`}
@@ -266,7 +266,7 @@ const Header = () => {
                             </div>
                           </div>
                           {result.date && (
-                            <div className="text-xs text-muted-foreground">
+                            <div className="text-xs text-muted-foreground ml-2">
                               {result.date}
                             </div>
                           )}
@@ -289,13 +289,13 @@ const Header = () => {
                       Quick Actions
                     </div>
                     <div className="space-y-1">
-                      <div className="p-2 hover:bg-accent rounded cursor-pointer text-sm" onClick={() => navigate('/transactions')}>
+                      <div className="p-2 hover:bg-accent/50 rounded cursor-pointer text-sm transition-colors" onClick={() => navigate('/transactions')}>
                         View All Transactions
                       </div>
-                      <div className="p-2 hover:bg-accent rounded cursor-pointer text-sm" onClick={() => navigate('/savings')}>
+                      <div className="p-2 hover:bg-accent/50 rounded cursor-pointer text-sm transition-colors" onClick={() => navigate('/savings')}>
                         Manage Savings Goals
                       </div>
-                      <div className="p-2 hover:bg-accent rounded cursor-pointer text-sm" onClick={() => navigate('/investments')}>
+                      <div className="p-2 hover:bg-accent/50 rounded cursor-pointer text-sm transition-colors" onClick={() => navigate('/investments')}>
                         Check Investments
                       </div>
                     </div>

@@ -66,7 +66,7 @@ src/
 │   ├── ui/                 # Shadcn UI components
 │   │   ├── button.tsx
 │   │   ├── card.tsx
-│   │   ├── ContentLoader.tsx
+│   │   ├── ContentAreaLoader.tsx
 │   │   ├── LoadingOverlay.tsx
 │   │   └── ...
 │   └── logo/               # Brand components

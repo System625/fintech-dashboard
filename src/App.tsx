@@ -186,7 +186,7 @@ function App() {
                     <Route path="/reset-password" element={<ResetPasswordPage />} />
                   </Route>
                   
-                  {/* Test route */}
+                  {/* Test routes */}
                   <Route path="/test/msw" element={<MswTest />} />
 
                   {/* Protected routes - require authentication */}

@@ -6,6 +6,7 @@ import { TransactionFilterForm } from '@/components/forms/TransactionFilterForm'
 import { GlitchText } from '@/components/ui/GlitchText';
 import { Toaster } from "sonner";
 import { Download } from 'lucide-react';
+import ContentAreaLoader from '@/components/ui/ContentAreaLoader';
 
 interface Transaction {
   id: string;
@@ -178,50 +179,49 @@ const TransactionsPage = () => {
   };
 
   return (
-    <div className="space-y-6">
-      <Toaster position="top-right" />
-      
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-3xl font-bold">
-            <GlitchText intensity="low" trigger="hover">Transactions</GlitchText>
-          </h1>
-          <p className="text-muted-foreground">
-            View and manage your financial transactions
-          </p>
-        </div>
-        <Button 
-          className="mt-4 sm:mt-0 cyber-glow-blue cyber-border hover:shadow-lg text-foreground" 
-          variant="outline" 
-          onClick={exportTransactions}
-        >
-          <Download className="mr-2 h-4 w-4" />
-          <GlitchText intensity="low" trigger="hover">Export</GlitchText>
-        </Button>
-      </div>
-
-      <div className="grid gap-4 md:grid-cols-2">
-        <ExpenseCategoriesChart />
-        <MonthlyExpenseChart />
-      </div>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Recent Transactions</CardTitle>
-          <CardDescription>
-            View and search your recent financial activities
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="mb-4">
-            <TransactionFilterForm onFilter={handleFilterChange} />
+    <>
+      <ContentAreaLoader visible={isLoading} message="Loading transactions" />
+      {!isLoading && (
+        <div className="space-y-6">
+        <Toaster position="top-right" />
+        
+        <div className="flex justify-between items-center">
+          <div>
+            <h1 className="text-3xl font-bold">
+              <GlitchText intensity="low" trigger="hover">Transactions</GlitchText>
+            </h1>
+            <p className="text-muted-foreground">
+              View and manage your financial transactions
+            </p>
           </div>
-          
-          {isLoading ? (
-            <div className="h-40 flex items-center justify-center">
-              <p className="text-muted-foreground">Loading transactions...</p>
+          <Button 
+            className="mt-4 sm:mt-0 cyber-glow-blue cyber-border hover:shadow-lg text-foreground" 
+            variant="outline" 
+            onClick={exportTransactions}
+          >
+            <Download className="mr-2 h-4 w-4" />
+            <GlitchText intensity="low" trigger="hover">Export</GlitchText>
+          </Button>
+        </div>
+
+        <div className="grid gap-4 md:grid-cols-2">
+          <ExpenseCategoriesChart />
+          <MonthlyExpenseChart />
+        </div>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Recent Transactions</CardTitle>
+            <CardDescription>
+              View and search your recent financial activities
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="mb-4">
+              <TransactionFilterForm onFilter={handleFilterChange} />
             </div>
-          ) : filteredTransactions.length === 0 ? (
+            
+            {filteredTransactions.length === 0 ? (
             <div className="text-center py-8">
               <p className="text-muted-foreground">No transactions found matching the current filters.</p>
               <Button 
@@ -278,8 +278,10 @@ const TransactionsPage = () => {
             </div>
           )}
         </CardContent>
-      </Card>
-    </div>
+        </Card>
+      </div>
+      )}
+    </>
   );
 };
 

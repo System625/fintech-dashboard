@@ -8,6 +8,7 @@ import { PlusCircle, Percent, TrendingUp, Calendar } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { GlitchText } from "@/components/ui/GlitchText";
 import { Toaster } from "sonner";
+import ContentAreaLoader from '@/components/ui/ContentAreaLoader';
 
 interface SavingsGoal {
   id: string;
@@ -155,28 +156,31 @@ const SavingsPage = () => {
   }
 
   return (
-    <div className="space-y-6">
-      <Toaster position="top-right" />
-      
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h1 className="text-3xl font-bold">
-            <GlitchText intensity="low" trigger="hover">Savings Goals</GlitchText>
-          </h1>
-          <p className="text-muted-foreground">Track and manage your savings targets</p>
-        </div>
-        <Dialog open={openNewGoalDialog} onOpenChange={setOpenNewGoalDialog}>
-          <DialogTrigger asChild>
-            <Button className="mt-4 sm:mt-0 cyber-glow-blue cyber-border text-foreground">
-              <PlusCircle className="mr-2 h-4 w-4" />
-              <GlitchText intensity="low" trigger="hover">New Savings Goal</GlitchText>
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px]">
-            <DialogHeader>
-              <DialogTitle>Create Savings Goal</DialogTitle>
-              <DialogDescription>
-                Set up a new savings goal with target amount and date
+    <>
+      <ContentAreaLoader visible={isLoading} message="Loading savings goals" />
+      {!isLoading && (
+        <div className="space-y-6">
+        <Toaster position="top-right" />
+        
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h1 className="text-3xl font-bold">
+              <GlitchText intensity="low" trigger="hover">Savings Goals</GlitchText>
+            </h1>
+            <p className="text-muted-foreground">Track and manage your savings targets</p>
+          </div>
+          <Dialog open={openNewGoalDialog} onOpenChange={setOpenNewGoalDialog}>
+            <DialogTrigger asChild>
+              <Button className="mt-4 sm:mt-0 cyber-glow-blue cyber-border text-foreground">
+                <PlusCircle className="mr-2 h-4 w-4" />
+                <GlitchText intensity="low" trigger="hover">New Savings Goal</GlitchText>
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>Create Savings Goal</DialogTitle>
+                <DialogDescription>
+                  Set up a new savings goal with target amount and date
               </DialogDescription>
             </DialogHeader>
             <NewSavingsGoalForm onSuccess={handleSavingsGoalCreated} />
@@ -227,21 +231,7 @@ const SavingsPage = () => {
         </Card>
       </div>
       
-      {isLoading ? (
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {[1, 2, 3].map((i) => (
-            <Card key={i} className="animate-pulse">
-              <CardHeader className="bg-muted/30 h-24"></CardHeader>
-              <CardContent className="pt-6">
-                <div className="space-y-3">
-                  <div className="h-4 bg-muted/30 rounded"></div>
-                  <div className="h-4 bg-muted/30 rounded w-3/4"></div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      ) : savingsGoals.length === 0 ? (
+      {savingsGoals.length === 0 ? (
         <Card>
           <CardContent className="py-10 text-center">
             <p className="text-muted-foreground mb-2">No savings goals found</p>
@@ -309,8 +299,10 @@ const SavingsPage = () => {
         <CardContent>
           <SavingsGrowthChart />
         </CardContent>
-      </Card>
-    </div>
+        </Card>
+      </div>
+      )}
+    </>
   );
 };
 

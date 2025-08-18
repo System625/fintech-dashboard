@@ -42,7 +42,8 @@ AUDIT_UNUSED.MD
 logo.md 
 performance-audit-report.md
 ui-revamp.md
-CODE
+firebase-architecture.md
+SECURITY.md
 
 # Coverage reports
 coverage/
@@ -62,3 +63,10 @@ lighthouse-report.json
 # Temporary files
 *.tmp
 *.temp
+
+# Test files (exclude from build)
+**/__tests__/
+*.test.ts
+*.test.tsx
+*.spec.ts
+*.spec.tsx

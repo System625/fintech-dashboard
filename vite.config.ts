@@ -2,58 +2,94 @@ import path from "path"
 import tailwindcss from "@tailwindcss/vite"
 import react from "@vitejs/plugin-react"
 import { defineConfig } from "vite"
+import { splitVendorChunkPlugin } from 'vite'
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
+  plugins: [
+    react(), 
+    tailwindcss(), 
+    splitVendorChunkPlugin()
+  ],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
   },
   build: {
+    sourcemap: false, // Disable sourcemaps for production
+    reportCompressedSize: false, // Faster builds
     rollupOptions: {
       output: {
-        manualChunks: {
+        manualChunks: (id) => {
           // React ecosystem
-          'react-vendor': ['react', 'react-dom'],
-          'react-router': ['react-router-dom'],
+          if (id.includes('react') && !id.includes('react-router')) {
+            return 'react-vendor';
+          }
           
-          // UI Library
-          'radix-ui': [
-            '@radix-ui/react-avatar',
-            '@radix-ui/react-dialog', 
-            '@radix-ui/react-label',
-            '@radix-ui/react-popover',
-            '@radix-ui/react-progress',
-            '@radix-ui/react-select',
-            '@radix-ui/react-slot',
-            '@radix-ui/react-tabs'
-          ],
+          // React Router
+          if (id.includes('react-router')) {
+            return 'react-router';
+          }
           
-          // Charts & Data Visualization  
-          'chart-vendor': ['echarts', 'recharts'],
+          // Radix UI components
+          if (id.includes('@radix-ui')) {
+            return 'radix-ui';
+          }
+          
+          // Charts - Recharts only
+          if (id.includes('recharts')) {
+            return 'recharts';
+          }
           
           // Animation
-          'framer-motion': ['framer-motion'],
+          if (id.includes('framer-motion')) {
+            return 'framer-motion';
+          }
           
           // Forms & Validation
-          'form-vendor': ['react-hook-form', '@hookform/resolvers', 'zod'],
+          if (id.includes('react-hook-form') || id.includes('@hookform') || id.includes('zod')) {
+            return 'form-vendor';
+          }
           
           // Data Fetching & State
-          'query-vendor': ['@tanstack/react-query'],
+          if (id.includes('@tanstack/react-query')) {
+            return 'query-vendor';
+          }
+          
+          // Firebase
+          if (id.includes('firebase')) {
+            return 'firebase';
+          }
           
           // Utilities
-          'utils-vendor': [
-            'clsx', 
-            'class-variance-authority', 
-            'tailwind-merge',
-            'date-fns',
-            'lucide-react',
-            'sonner'
-          ]
+          if (id.includes('clsx') || id.includes('class-variance-authority') || 
+              id.includes('tailwind-merge') || id.includes('date-fns') || 
+              id.includes('lucide-react') || id.includes('sonner')) {
+            return 'utils-vendor';
+          }
+          
+          // MSW (development only)
+          if (id.includes('msw')) {
+            return 'msw';
+          }
+          
+          // Vendor chunks for other node_modules
+          if (id.includes('node_modules')) {
+            // Split large vendor libraries
+            if (id.includes('lodash')) {
+              return 'lodash';
+            }
+            if (id.includes('moment') || id.includes('dayjs')) {
+              return 'date-utils';
+            }
+            return 'vendor';
+          }
         }
       }
-    }
+    },
+    chunkSizeWarningLimit: 1000, // Increase warning limit to 1MB
+    target: 'esnext',
+    minify: 'esbuild', // Use esbuild instead of terser for better performance
   }
 })

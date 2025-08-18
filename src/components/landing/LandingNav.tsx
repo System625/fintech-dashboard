@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Moon, Sun, Menu, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@/stores/useAuthStore';
+import { useThemeStore } from '@/stores/useThemeStore';
 import { BudgetpunkLogo } from '@/components/logo/BudgetpunkLogo';
 import { AnimatePresence, motion } from 'motion/react';
 
@@ -13,31 +14,9 @@ interface LandingNavProps {
 const LandingNav: React.FC<LandingNavProps> = ({ onGetStarted }) => {
   const navigate = useNavigate();
   const { currentUser } = useAuthStore();
-  
-  // Initialize with system preference synchronously to avoid flash
-  const [darkMode, setDarkMode] = useState(() => {
-    if (typeof window === 'undefined') return false;
-    
-    // Quick synchronous check - avoid flash
-    const stored = localStorage.getItem('theme');
-    if (stored) return stored === 'dark';
-    
-    return window.matchMedia('(prefers-color-scheme: dark)').matches;
-  });
+  const { theme, toggleTheme } = useThemeStore();
   
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  useEffect(() => {
-    // Apply theme class immediately after mount (non-blocking)
-    document.documentElement.classList.toggle('dark', darkMode);
-  }, [darkMode]);
-
-  const toggleTheme = () => {
-    const newMode = !darkMode;
-    setDarkMode(newMode);
-    document.documentElement.classList.toggle('dark', newMode);
-    localStorage.setItem('theme', newMode ? 'dark' : 'light');
-  };
 
   return (
     <header className="fixed md:sticky top-0 left-0 right-0 z-50 w-full border-b border-border/50 bg-background/80 backdrop-blur-md">
@@ -53,7 +32,7 @@ const LandingNav: React.FC<LandingNavProps> = ({ onGetStarted }) => {
           <a href="#calculator" className="text-sm font-medium hover:text-brand transition-colors">Calculator</a>
           <a href="#pricing" className="text-sm font-medium hover:text-brand transition-colors">Pricing</a>
           <Button variant="ghost" size="icon" onClick={toggleTheme}>
-            {darkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+            {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </Button>
           {currentUser ? (
             <Button onClick={() => navigate('/dashboard')}>
@@ -98,7 +77,7 @@ const LandingNav: React.FC<LandingNavProps> = ({ onGetStarted }) => {
               <a href="#pricing" className="block text-sm font-medium hover:text-brand transition-colors">Pricing</a>
               <div className="flex items-center justify-between pt-4 border-t border-border/50">
                 <Button variant="ghost" size="icon" onClick={toggleTheme}>
-                  {darkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+                  {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
                 </Button>
                 {currentUser ? (
                   <Button onClick={() => navigate('/dashboard')} className="flex-1 ml-4 min-w-0">

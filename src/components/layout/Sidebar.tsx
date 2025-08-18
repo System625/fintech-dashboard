@@ -1,4 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
+import { useState } from 'react';
 import { 
   LayoutDashboard, 
   PiggyBank, 
@@ -11,6 +12,7 @@ import {
 import { BudgetpunkLogo } from '@/components/logo/BudgetpunkLogo';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { 
   Sheet, 
   SheetContent, 
@@ -69,6 +71,7 @@ const NavItem = ({ icon, label, href, isActive, badge, badgeVariant = 'default' 
 export const Sidebar = () => {
   const location = useLocation();
   const { logOut } = useAuthStore();
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   
   const navItems = [
     {
@@ -116,6 +119,13 @@ export const Sidebar = () => {
     }
   };
 
+  const requestLogout = () => setIsConfirmOpen(true);
+  const confirmLogout = async () => {
+    setIsConfirmOpen(false);
+    await handleLogout();
+  };
+  const cancelLogout = () => setIsConfirmOpen(false);
+
   // Desktop sidebar
   const DesktopSidebar = (
     <div className="hidden lg:flex h-screen w-72 flex-col bg-sidebar border-r border-sidebar-border/50 shadow-sm">
@@ -140,7 +150,7 @@ export const Sidebar = () => {
         <Button 
           variant="ghost" 
           className="w-full justify-start gap-3 h-11 px-3 rounded-lg text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground hover:translate-x-1 transition-all duration-[var(--motion-duration-micro)] ease-[var(--motion-ease-out)]"
-          onClick={handleLogout}
+          onClick={requestLogout}
         >
           <LogOut size={20} />
           <span className="font-medium">
@@ -187,7 +197,7 @@ export const Sidebar = () => {
           <Button 
             variant="ghost" 
             className="w-full justify-start gap-3 h-11 px-3 rounded-lg text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground hover:translate-x-1 transition-all duration-[var(--motion-duration-micro)] ease-[var(--motion-ease-out)]"
-            onClick={handleLogout}
+            onClick={requestLogout}
           >
             <LogOut size={20} />
             <span className="font-medium">
@@ -203,6 +213,20 @@ export const Sidebar = () => {
     <>
       {DesktopSidebar}
       {MobileSidebar}
+      <Dialog open={isConfirmOpen} onOpenChange={setIsConfirmOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Log out?</DialogTitle>
+            <DialogDescription>
+              You will be signed out of your account and returned to the landing page.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={cancelLogout}>Cancel</Button>
+            <Button variant="destructive" onClick={confirmLogout}>Log out</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </>
   );
 };

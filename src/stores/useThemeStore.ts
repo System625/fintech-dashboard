@@ -10,27 +10,42 @@ interface ThemeStore {
 
 let mediaQueryCleanup: (() => void) | null = null;
 
+// Initialize theme synchronously to prevent flash
+const getInitialTheme = (): Theme => {
+  if (typeof window === 'undefined') return 'light';
+  
+  const savedTheme = localStorage.getItem('theme') as Theme;
+  if (savedTheme) return savedTheme;
+  
+  const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  return systemPrefersDark ? 'dark' : 'light';
+};
+
+// Apply theme to document immediately
+const applyThemeToDocument = (theme: Theme) => {
+  if (typeof window !== 'undefined') {
+    document.documentElement.classList.toggle('dark', theme === 'dark');
+  }
+};
+
+// Initialize theme immediately
+const initialTheme = getInitialTheme();
+applyThemeToDocument(initialTheme);
+
 export const useThemeStore = create<ThemeStore>((set, get) => ({
-  theme: 'light',
+  theme: initialTheme,
   
   toggleTheme: () => {
     const currentTheme = get().theme;
     const newTheme = currentTheme === 'light' ? 'dark' : 'light';
     
     set({ theme: newTheme });
-    document.documentElement.classList.toggle('dark', newTheme === 'dark');
+    applyThemeToDocument(newTheme);
     localStorage.setItem('theme', newTheme);
   },
   
   initializeTheme: () => {
-    const savedTheme = localStorage.getItem('theme') as Theme;
-    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    
-    const initialTheme = savedTheme || (systemPrefersDark ? 'dark' : 'light');
-    
-    set({ theme: initialTheme });
-    document.documentElement.classList.toggle('dark', initialTheme === 'dark');
-    
+    // Theme is already initialized synchronously, just set up listeners
     // Clean up any existing listener
     if (mediaQueryCleanup) {
       mediaQueryCleanup();
@@ -42,7 +57,7 @@ export const useThemeStore = create<ThemeStore>((set, get) => ({
       if (!localStorage.getItem('theme')) {
         const newTheme = e.matches ? 'dark' : 'light';
         set({ theme: newTheme });
-        document.documentElement.classList.toggle('dark', newTheme === 'dark');
+        applyThemeToDocument(newTheme);
       }
     };
     

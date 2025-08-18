@@ -15,8 +15,10 @@ export const motionEasing = {
 } as const
 
 // Reduced motion detection
-export const prefersReducedMotion = () => 
-  window.matchMedia('(prefers-reduced-motion: reduce)').matches
+export const prefersReducedMotion = () => {
+  if (typeof window === 'undefined') return false
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches
+}
 
 // Standard animation variants
 export const fadeIn: Variants = {

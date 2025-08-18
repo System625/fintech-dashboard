@@ -22,8 +22,13 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: (id) => {
-          // React ecosystem
-          if (id.includes('react') && !id.includes('react-router')) {
+          // React ecosystem - ensure React and ReactDOM are bundled together
+          if (id.includes('react') && !id.includes('react-router') && !id.includes('react-dom')) {
+            return 'react-vendor';
+          }
+          
+          // React DOM - bundle with React
+          if (id.includes('react-dom')) {
             return 'react-vendor';
           }
           
@@ -43,8 +48,8 @@ export default defineConfig({
           }
           
           // Animation
-          if (id.includes('framer-motion')) {
-            return 'framer-motion';
+          if (id.includes('motion')) {
+            return 'motion';
           }
           
           // Forms & Validation

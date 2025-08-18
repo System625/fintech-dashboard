@@ -1,29 +1,29 @@
 import { lazy, Suspense } from 'react'
 import { cn } from '@/lib/utils'
 
-// Lazy load Framer Motion components to optimize bundle size
+// Lazy load Motion components to optimize bundle size
 const MotionDiv = lazy(() => 
-  import('framer-motion').then((mod) => ({ default: mod.motion.div }))
+  import('motion/react').then((mod) => ({ default: mod.motion.div }))
 )
 
 const MotionSection = lazy(() => 
-  import('framer-motion').then((mod) => ({ default: mod.motion.section }))
+  import('motion/react').then((mod) => ({ default: mod.motion.section }))
 )
 
 const MotionArticle = lazy(() => 
-  import('framer-motion').then((mod) => ({ default: mod.motion.article }))
+  import('motion/react').then((mod) => ({ default: mod.motion.article }))
 )
 
 const MotionSpan = lazy(() => 
-  import('framer-motion').then((mod) => ({ default: mod.motion.span }))
+  import('motion/react').then((mod) => ({ default: mod.motion.span }))
 )
 
 const MotionButton = lazy(() => 
-  import('framer-motion').then((mod) => ({ default: mod.motion.button }))
+  import('motion/react').then((mod) => ({ default: mod.motion.button }))
 )
 
 const AnimatePresence = lazy(() => 
-  import('framer-motion').then((mod) => ({ default: mod.AnimatePresence }))
+  import('motion/react').then((mod) => ({ default: mod.AnimatePresence }))
 )
 
 // Fallback component that provides the same API without animation
@@ -109,4 +109,4 @@ export function AnimatedPresence({ children, ...props }: { children: React.React
 }
 
 // Hook to dynamically import motion when needed (optional utility)
-export const importMotion = () => import('framer-motion')
+export const importMotion = () => import('motion/react')

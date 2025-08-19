@@ -22,6 +22,10 @@ const MotionButton = lazy(() =>
   import('motion/react').then((mod) => ({ default: mod.motion.button }))
 )
 
+const MotionMain = lazy(() => 
+  import('motion/react').then((mod) => ({ default: mod.motion.main }))
+)
+
 const AnimatePresence = lazy(() => 
   import('motion/react').then((mod) => ({ default: mod.AnimatePresence }))
 )
@@ -94,6 +98,16 @@ export function AnimatedButton({ children, className, ...motionProps }: Animated
       <MotionButton className={className} {...motionProps}>
         {children}
       </MotionButton>
+    </Suspense>
+  )
+}
+
+export function AnimatedMain({ children, className, ...motionProps }: AnimatedProps) {
+  return (
+    <Suspense fallback={<main className={className}>{children}</main>}>
+      <MotionMain className={className} {...motionProps}>
+        {children}
+      </MotionMain>
     </Suspense>
   )
 }

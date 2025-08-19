@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import Header from './Header';
-import { motion } from 'motion/react';
+import { AnimatedMain } from '@/components/ui/animated';
 import ContentAreaLoader from '@/components/ui/ContentAreaLoader';
 import { useLoadingStore } from '@/stores/useLoadingStore';
 
@@ -13,7 +13,7 @@ const DashboardLayout = () => {
       <Sidebar />
       <div className="flex flex-1 flex-col overflow-hidden">
         <Header />
-        <motion.main 
+        <AnimatedMain 
           id="dashboard-main-content"
           className="flex-1 overflow-auto p-4 md:p-6 relative"
           initial={{ opacity: 0 }}
@@ -24,7 +24,7 @@ const DashboardLayout = () => {
           <Outlet />
           {/* Content-area loading that only covers the main content, not sidebar/header */}
           <ContentAreaLoader visible={contentLoading.visible} message={contentLoading.message} />
-        </motion.main>
+        </AnimatedMain>
       </div>
     </div>
   );

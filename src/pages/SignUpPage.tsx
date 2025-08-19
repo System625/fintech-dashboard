@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { motion } from 'motion/react';
+import { AnimatedDiv } from '@/components/ui/animated';
 import { useAuthStore } from '@/stores/useAuthStore';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -50,7 +50,7 @@ const SignUpPage = () => {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background p-4">
       <div className="w-full max-w-md space-y-6">
-        <motion.div 
+        <AnimatedDiv 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -60,9 +60,9 @@ const SignUpPage = () => {
             <BudgetpunkLogo size={58} />
             <span className="text-2xl font-bold">Budgetpunk</span>
           </div>
-        </motion.div>
+        </AnimatedDiv>
         
-        <motion.div
+        <AnimatedDiv
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -130,7 +130,7 @@ const SignUpPage = () => {
               </div>
             </CardFooter>
           </Card>
-        </motion.div>
+        </AnimatedDiv>
       </div>
     </div>
   );

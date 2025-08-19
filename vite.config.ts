@@ -23,12 +23,7 @@ export default defineConfig({
       output: {
         manualChunks: (id) => {
           // React ecosystem - ensure React and ReactDOM are bundled together
-          if (id.includes('react') && !id.includes('react-router') && !id.includes('react-dom')) {
-            return 'react-vendor';
-          }
-          
-          // React DOM - bundle with React
-          if (id.includes('react-dom')) {
+          if (id.includes('react') && !id.includes('react-router')) {
             return 'react-vendor';
           }
           
@@ -45,11 +40,6 @@ export default defineConfig({
           // Charts - Recharts only
           if (id.includes('recharts')) {
             return 'recharts';
-          }
-          
-          // Animation
-          if (id.includes('motion')) {
-            return 'motion';
           }
           
           // Forms & Validation

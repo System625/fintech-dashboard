@@ -38,7 +38,7 @@ const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
         <div className="grid grid-cols-2 gap-2">
           <div className="text-sm text-muted-foreground">Date</div>
           <div className="text-right font-medium">
-            {new Date(label).toLocaleDateString()}
+            {label ? new Date(label as string).toLocaleDateString() : ''}
           </div>
           <div className="text-sm text-muted-foreground">Value</div>
           <div className="text-right font-medium">

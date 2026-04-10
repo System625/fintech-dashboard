@@ -69,9 +69,10 @@ const DEFAULT_VALUES: FormValues = {
 interface AddTransactionFormProps {
   onSuccess?: () => void;
   trigger?: React.ReactNode;
+  disabled?: boolean;
 }
 
-export function AddTransactionForm({ onSuccess, trigger }: AddTransactionFormProps) {
+export function AddTransactionForm({ onSuccess, trigger, disabled }: AddTransactionFormProps) {
   const [open, setOpen] = useState(false);
   const addTransaction = useAddTransaction();
   const { data: accounts = [] } = useAccounts();
@@ -112,7 +113,7 @@ export function AddTransactionForm({ onSuccess, trigger }: AddTransactionFormPro
     <Dialog open={open} onOpenChange={(o) => { if (!o) handleClose(); else setOpen(true); }}>
       <DialogTrigger asChild>
         {trigger ?? (
-          <Button className="cyber-glow-blue cyber-border text-foreground">
+          <Button className="cyber-glow-blue cyber-border text-foreground" disabled={disabled}>
             <PlusCircle className="mr-2 h-4 w-4" />
             <GlitchText intensity="low" trigger="hover">Add Transaction</GlitchText>
           </Button>

@@ -218,7 +218,7 @@ export function logBundleInfo() {
     let totalSize = 0;
     
     console.group('📦 Bundle Analysis');
-    scripts.forEach((script: HTMLScriptElement) => {
+    (scripts as HTMLScriptElement[]).forEach((script) => {
       if (script.src && script.src.includes('/assets/')) {
         fetch(script.src, { method: 'HEAD' })
           .then(response => {
@@ -243,7 +243,7 @@ export function logBundleInfo() {
 export function optimizeImageLoading() {
   // Add loading="lazy" to images that don't have it
   const images = document.querySelectorAll('img:not([loading])');
-  images.forEach((img: HTMLImageElement) => {
+  (images as unknown as HTMLImageElement[]).forEach((img) => {
     // Don't lazy load images that are likely above the fold
     const rect = img.getBoundingClientRect();
     if (rect.top > window.innerHeight) {

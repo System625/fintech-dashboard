@@ -17,9 +17,12 @@ interface PricingCardProps {
   description: string;
   price: number;
   originalPrice?: number;
+  currencySymbol?: string;
+  priceLabel?: string;
   features: PricingFeature[];
   buttonText?: string;
   onButtonClick?: () => void;
+  buttonDisabled?: boolean;
 }
 
 export function PricingCard({
@@ -27,9 +30,12 @@ export function PricingCard({
   description,
   price,
   originalPrice,
+  currencySymbol = '$',
+  priceLabel = 'one-time payment',
   features,
   buttonText = "Get Started",
   onButtonClick,
+  buttonDisabled = false,
 }: PricingCardProps) {
   const containerRef = useRef(null);
   const isInView = useInView(containerRef, { once: true, amount: 0.2 });
@@ -103,20 +109,20 @@ export function PricingCard({
               </CardHeader>
               <motion.div className="mt-6 space-y-4" variants={itemVariants}>
                 <div className="flex items-baseline">
-                  <span className="text-5xl font-extrabold">${price}</span>
+                  <span className="text-5xl font-extrabold">{currencySymbol}{price.toLocaleString()}</span>
                   {originalPrice && (
                     <span className="ml-2 text-xl text-muted-foreground line-through">
-                      ${originalPrice}
+                      {currencySymbol}{originalPrice.toLocaleString()}
                     </span>
                   )}
                 </div>
                 <span className="block text-sm text-muted-foreground">
-                  one-time payment
+                  {priceLabel}
                 </span>
               </motion.div>
             </div>
             <motion.div className="mt-8" variants={itemVariants}>
-              <Button className="w-full" size="lg" onClick={onButtonClick}>
+              <Button className="w-full" size="lg" onClick={onButtonClick} disabled={buttonDisabled}>
                 {buttonText}
               </Button>
             </motion.div>

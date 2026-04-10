@@ -17,9 +17,10 @@ export const CyberCard: React.FC<CyberCardProps> = ({
   scanLines = false,
   animatedBorder = false,
   dataStream = false,
-  intensity = 'medium',
+  intensity,
   ...props
 }) => {
+  void intensity; // destructured to prevent leaking to DOM props
   const glowClasses = {
     blue: 'cyber-glow-blue',
     green: 'cyber-glow-green',

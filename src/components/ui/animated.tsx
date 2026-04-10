@@ -31,14 +31,14 @@ const AnimatePresence = lazy(() =>
 )
 
 // Fallback component that provides the same API without animation
-const StaticFallback = ({ 
-  children, 
-  className, 
-  ...props 
-}: { 
+const StaticFallback = ({
+  children,
+  className,
+  ...props
+}: {
   children: React.ReactNode
-  className?: string 
-  [key: string]: any
+  className?: string
+  [key: string]: unknown
 }) => (
   <div className={cn(className)} {...props}>
     {children}
@@ -49,7 +49,7 @@ const StaticFallback = ({
 interface AnimatedProps {
   children: React.ReactNode
   className?: string
-  [key: string]: any
+  [key: string]: unknown
 }
 
 export function AnimatedDiv({ children, className, ...motionProps }: AnimatedProps) {
@@ -112,7 +112,7 @@ export function AnimatedMain({ children, className, ...motionProps }: AnimatedPr
   )
 }
 
-export function AnimatedPresence({ children, ...props }: { children: React.ReactNode; [key: string]: any }) {
+export function AnimatedPresence({ children, ...props }: { children: React.ReactNode; [key: string]: unknown }) {
   return (
     <Suspense fallback={<>{children}</>}>
       <AnimatePresence {...props}>
@@ -123,4 +123,5 @@ export function AnimatedPresence({ children, ...props }: { children: React.React
 }
 
 // Hook to dynamically import motion when needed (optional utility)
+// eslint-disable-next-line react-refresh/only-export-components
 export const importMotion = () => import('motion/react')

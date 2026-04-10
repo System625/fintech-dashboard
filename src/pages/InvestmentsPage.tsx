@@ -7,6 +7,7 @@ import { DataCard } from '@/components/DataCard';
 import { GlitchText } from '@/components/ui/GlitchText';
 import { DollarSign, TrendingUp, BarChart3 } from 'lucide-react';
 import ContentAreaLoader from '@/components/ui/ContentAreaLoader';
+import { ProFeature } from '@/components/subscription/ProFeature';
 
 interface Investment {
   id: string;
@@ -32,41 +33,8 @@ export default function InvestmentsPage() {
       }
       const data = await response.json();
       setInvestments(data);
-    } catch (error) {
-      console.error('Error fetching investments:', error);
-      // Sample data in case of error
-      setInvestments([
-        { 
-          id: '1', 
-          name: 'Apple Inc.', 
-          ticker: 'AAPL', 
-          shares: 10, 
-          buyPrice: 150.75, 
-          currentPrice: 175.50, 
-          category: 'Technology', 
-          lastUpdated: new Date().toISOString() 
-        },
-        { 
-          id: '2', 
-          name: 'Microsoft Corporation', 
-          ticker: 'MSFT', 
-          shares: 5, 
-          buyPrice: 290.20, 
-          currentPrice: 315.75, 
-          category: 'Technology', 
-          lastUpdated: new Date().toISOString() 
-        },
-        { 
-          id: '3', 
-          name: 'Amazon.com Inc.', 
-          ticker: 'AMZN', 
-          shares: 3, 
-          buyPrice: 135.50, 
-          currentPrice: 142.80, 
-          category: 'Consumer Cyclical', 
-          lastUpdated: new Date().toISOString() 
-        }
-      ]);
+    } catch {
+      setInvestments([]);
     } finally {
       setIsLoading(false);
     }
@@ -129,8 +97,12 @@ export default function InvestmentsPage() {
       </div>
 
       <div className="grid gap-6 md:grid-cols-2">
-        <PortfolioPerformanceChart />
-        <AssetAllocationChart />
+        <ProFeature feature="advancedCharts" label="Portfolio Performance" overlay>
+          <PortfolioPerformanceChart />
+        </ProFeature>
+        <ProFeature feature="advancedCharts" label="Asset Allocation" overlay>
+          <AssetAllocationChart />
+        </ProFeature>
       </div>
 
       <div className="rounded-lg border bg-card">

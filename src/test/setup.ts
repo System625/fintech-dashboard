@@ -40,7 +40,7 @@ const localStorageMock = {
       }
     }
   },
-} as any;
+} as unknown as Storage;
 
 Object.defineProperty(window, 'localStorage', {
   value: localStorageMock
@@ -52,7 +52,7 @@ global.IntersectionObserver = class IntersectionObserver {
   disconnect() {}
   observe() {}
   unobserve() {}
-} as any;
+} as unknown as typeof IntersectionObserver;
 
 // Mock ResizeObserver
 global.ResizeObserver = class ResizeObserver {

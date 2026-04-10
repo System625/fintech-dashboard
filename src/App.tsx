@@ -6,6 +6,7 @@ import { useLoadingStore } from '@/stores/useLoadingStore';
 import LoadingOverlay from '@/components/ui/LoadingOverlay';
 import { useThemeStore } from '@/stores/useThemeStore';
 import { useEffect } from 'react';
+import { useSubscription } from '@/hooks/useSubscription';
 
 // Layouts
 import DashboardLayout from '@/components/layout/DashboardLayout';
@@ -20,6 +21,7 @@ import SavingsPage from '@/pages/SavingsPage';
 import InvestmentsPage from '@/pages/InvestmentsPage';
 import TransactionsPage from '@/pages/TransactionsPage';
 import ProfilePage from '@/pages/ProfilePage';
+import BillsPage from '@/pages/BillsPage';
 import LandingPage from '@/pages/LandingPage';
 import MswTest from '@/components/test/MswTest';
 
@@ -55,11 +57,17 @@ const LoadingManager = () => {
 // Auth initializer component
 const AuthInitializer = () => {
   const initializeAuth = useAuthStore(state => state.initializeAuth);
-  
+
   useEffect(() => {
     initializeAuth();
   }, [initializeAuth]);
-  
+
+  return null;
+};
+
+// Starts the Firestore subscription listener once for the authenticated session
+const SubscriptionInitializer = () => {
+  useSubscription();
   return null;
 };
 
@@ -168,6 +176,7 @@ function App() {
       <Router>
         <ThemeInitializer />
         <AuthInitializer />
+        <SubscriptionInitializer />
         
         {/* Show initialization loading screen while auth is loading */}
         {isAuthLoading ? (
@@ -196,6 +205,7 @@ function App() {
                       <Route path="/savings" element={<SavingsPage />} />
                       <Route path="/investments" element={<InvestmentsPage />} />
                       <Route path="/transactions" element={<TransactionsPage />} />
+                      <Route path="/bills" element={<BillsPage />} />
                       <Route path="/profile" element={<ProfilePage />} />
                     </Route>
                   </Route>

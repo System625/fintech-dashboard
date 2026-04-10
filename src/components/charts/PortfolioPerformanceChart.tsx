@@ -21,7 +21,17 @@ interface PerformanceEntry {
 type TimeRange = '1D' | '1W' | '1M' | '3M' | '1Y' | 'ALL';
 
 // Custom tooltip component
-const CustomTooltip = ({ active, payload, label }: any) => {
+interface TooltipPayloadItem {
+  value: number;
+}
+
+interface CustomTooltipProps {
+  active?: boolean;
+  payload?: TooltipPayloadItem[];
+  label?: string;
+}
+
+const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
   if (active && payload && payload.length) {
     return (
       <div className="rounded-lg border bg-background p-2 shadow-sm">
@@ -62,12 +72,14 @@ export function PortfolioPerformanceChart() {
 
   useEffect(() => {
     fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     if (allData.length > 0) {
       filterDataByTimeRange(timeRange);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timeRange, allData]);
 
   const fetchData = async () => {
@@ -79,8 +91,7 @@ export function PortfolioPerformanceChart() {
       const fetchedData = await response.json();
       setAllData(fetchedData);
       filterDataByTimeRange(timeRange);
-    } catch (error) {
-      console.error('Error fetching portfolio performance data:', error);
+    } catch {
       // Fallback data
       const fallbackData = generateFallbackData();
       setAllData(fallbackData);

@@ -10,27 +10,22 @@ import { FinancialInsights } from '@/components/dashboard/FinancialInsights';
 import { UpcomingBills } from '@/components/dashboard/UpcomingBills';
 import { QuickActions } from '@/components/dashboard/QuickActions';
 import { Toaster } from 'sonner';
-import { useAccounts, useRefreshAccounts } from '@/hooks/useApi';
+import { useAccounts, useRefreshAccounts, useDashboardOverview } from '@/hooks/useApi';
 import ContentAreaLoader from '@/components/ui/ContentAreaLoader';
 
 export default function DashboardPage() {
   const { data: accounts = [], isLoading, error } = useAccounts();
+  const { data: overview } = useDashboardOverview();
   const refreshAccounts = useRefreshAccounts();
-  
-  const metrics = {
-    monthlySpend: 1250.88,
-    savingsRate: 18.2,
-    upcomingBills: 345.00,
-    changeInSpend: -12,
-    changeInSavings: 2.5
-  };
 
   const handleTransactionComplete = () => {
-    // Refresh accounts data when a transaction is completed
     refreshAccounts();
   };
 
-  const totalBalance = accounts.reduce((sum, account) => sum + account.balance, 0);
+  const totalBalance = overview?.totalBalance ?? accounts.reduce((sum, a) => sum + a.balance, 0);
+  const monthlySpend = overview?.monthlySpend ?? 0;
+  const savingsRate = overview?.savingsRate ?? 0;
+  const upcomingBillsTotal = overview?.upcomingBillsTotal ?? 0;
 
   return (
     <>
@@ -81,18 +76,18 @@ export default function DashboardPage() {
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <CyberData 
+                    <CyberData
                       value={isLoading ? '...' : totalBalance.toFixed(2)}
                       prefix="$"
                       size="lg"
                       pulse={isLoading}
                     />
                     <p className="text-xs text-muted-foreground mt-2">
-                      +20.1% from last month
+                      Across all accounts
                     </p>
                   </CardContent>
                 </CyberCard>
-                
+
                 <CyberCard glow="green" dataStream>
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium cyberpunk-title">
@@ -100,17 +95,17 @@ export default function DashboardPage() {
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <CyberData 
-                      value={metrics.monthlySpend.toFixed(2)}
+                    <CyberData
+                      value={monthlySpend.toFixed(2)}
                       prefix="$"
                       size="lg"
                     />
                     <p className="text-xs text-muted-foreground mt-2">
-                      {metrics.changeInSpend}% from last month
+                      Expenses this month
                     </p>
                   </CardContent>
                 </CyberCard>
-                
+
                 <CyberCard glow="pink" animatedBorder>
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium cyberpunk-title">
@@ -118,17 +113,17 @@ export default function DashboardPage() {
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <CyberData 
-                      value={metrics.savingsRate}
+                    <CyberData
+                      value={savingsRate}
                       suffix="%"
                       size="lg"
                     />
                     <p className="text-xs text-muted-foreground mt-2">
-                      +{metrics.changeInSavings}% from last month
+                      (Income − Expenses) / Income
                     </p>
                   </CardContent>
                 </CyberCard>
-                
+
                 <CyberCard glow="blue" scanLines dataStream>
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium cyberpunk-title">
@@ -136,14 +131,14 @@ export default function DashboardPage() {
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <CyberData 
-                      value={metrics.upcomingBills.toFixed(2)}
+                    <CyberData
+                      value={upcomingBillsTotal.toFixed(2)}
                       prefix="$"
                       size="lg"
                       terminalCursor
                     />
                     <p className="text-xs text-muted-foreground mt-2">
-                      Due in the next 7 days
+                      Due this month
                     </p>
                   </CardContent>
                 </CyberCard>

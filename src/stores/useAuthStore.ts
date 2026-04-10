@@ -10,6 +10,7 @@ import {
   browserLocalPersistence
 } from 'firebase/auth';
 import { auth } from '@/services/firebase';
+import { userService, accountsService } from '@/services/firestore';
 import { toast } from 'sonner';
 
 // Map Firebase error codes to user-friendly messages
@@ -61,18 +62,33 @@ export const useAuthStore = create<AuthStore>((set) => ({
   signUp: async (email: string, password: string) => {
     try {
       const result = await createUserWithEmailAndPassword(auth, email, password);
+      const { uid } = result.user;
+
+      // Seed Firestore: create user profile + default checking account
+      await userService.create(uid, {
+        email,
+        displayName: email.split('@')[0],
+      });
+      await accountsService.create(uid, {
+        name: 'Main Checking',
+        type: 'checking',
+        balance: 0,
+        currency: 'USD',
+      });
+
       toast.success('Account created successfully!', {
         description: `Welcome to Budgetpunk, ${result.user.email}!`,
         duration: 5000
       });
-    } catch (error: any) {
-      const errorCode = error.code || '';
+    } catch (error: unknown) {
+      const firebaseError = error as { code?: string };
+      const errorCode = firebaseError.code || '';
       const message = getErrorMessage(errorCode);
       toast.error('Sign up failed', { description: message });
       throw error;
     }
   },
-  
+
   signIn: async (email: string, password: string) => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
@@ -80,26 +96,28 @@ export const useAuthStore = create<AuthStore>((set) => ({
         description: 'Welcome back to Budgetpunk!',
         duration: 3000
       });
-    } catch (error: any) {
-      const errorCode = error.code || '';
+    } catch (error: unknown) {
+      const firebaseError = error as { code?: string };
+      const errorCode = firebaseError.code || '';
       const message = getErrorMessage(errorCode);
       toast.error('Sign in failed', { description: message });
       throw error;
     }
   },
-  
+
   logOut: async () => {
     try {
       await signOut(auth);
       toast.success('Signed out successfully');
-    } catch (error: any) {
-      const errorCode = error.code || '';
+    } catch (error: unknown) {
+      const firebaseError = error as { code?: string };
+      const errorCode = firebaseError.code || '';
       const message = getErrorMessage(errorCode);
       toast.error('Sign out failed', { description: message });
       throw error;
     }
   },
-  
+
   resetPassword: async (email: string) => {
     try {
       await sendPasswordResetEmail(auth, email);
@@ -107,8 +125,9 @@ export const useAuthStore = create<AuthStore>((set) => ({
         description: 'Please check your email for instructions to reset your password.',
         duration: 5000
       });
-    } catch (error: any) {
-      const errorCode = error.code || '';
+    } catch (error: unknown) {
+      const firebaseError = error as { code?: string };
+      const errorCode = firebaseError.code || '';
       const message = getErrorMessage(errorCode);
       toast.error('Password reset failed', { description: message });
       throw error;

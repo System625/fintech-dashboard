@@ -30,7 +30,16 @@ const fallbackCategoryData: CategoryExpense[] = [
 ];
 
 // Custom tooltip component
-const CustomTooltip = ({ active, payload }: any) => {
+interface TooltipPayloadItem {
+  payload: CategoryExpense;
+}
+
+interface CustomTooltipProps {
+  active?: boolean;
+  payload?: TooltipPayloadItem[];
+}
+
+const CustomTooltip = ({ active, payload }: CustomTooltipProps) => {
   if (active && payload && payload.length) {
     const data = payload[0].payload;
     return (
@@ -55,14 +64,12 @@ export function ExpenseCategoriesChart() {
         const response = await fetch('/api/transactions/categories');
         
         if (!response.ok) {
-          console.log("Using fallback data for category expenses chart");
           return; // Will use fallback data
         }
         
         const data = await response.json();
         setCategoryData(data);
-      } catch (err) {
-        console.warn('Using fallback data for category expenses', err);
+      } catch {
         // Already using fallback data, so no need to update state
       } finally {
         setIsLoading(false);

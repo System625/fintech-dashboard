@@ -23,7 +23,7 @@ export function detectOKLCHSupport(): boolean {
   try {
     // Test if browser supports OKLCH by checking if CSS.supports works with OKLCH values
     return CSS.supports('color', 'oklch(0.7 0.15 200)');
-  } catch (error) {
+  } catch {
     return false;
   }
 }
@@ -38,7 +38,7 @@ export function detectP3Support(): boolean {
 
   try {
     return CSS.supports('color', 'color(display-p3 1 0 0)');
-  } catch (error) {
+  } catch {
     return false;
   }
 }

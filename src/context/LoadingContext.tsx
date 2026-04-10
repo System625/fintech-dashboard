@@ -9,6 +9,7 @@ interface LoadingContextValue {
 
 const LoadingContext = createContext<LoadingContextValue | null>(null);
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useLoading(): LoadingContextValue {
   const ctx = useContext(LoadingContext);
   if (!ctx) throw new Error('useLoading must be used within LoadingProvider');

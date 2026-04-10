@@ -17,7 +17,18 @@ interface AssetAllocation {
 }
 
 // Custom tooltip component
-const CustomTooltip = ({ active, payload }: any) => {
+interface TooltipPayloadItem {
+  name: string;
+  value: number;
+  payload: { percentage: string };
+}
+
+interface CustomTooltipProps {
+  active?: boolean;
+  payload?: TooltipPayloadItem[];
+}
+
+const CustomTooltip = ({ active, payload }: CustomTooltipProps) => {
   if (active && payload && payload.length) {
     return (
       <div className="rounded-lg border bg-background p-2 shadow-sm">
@@ -65,8 +76,7 @@ export function AssetAllocationChart() {
         }));
         
         setData(dataWithPercentage);
-      } catch (error) {
-        console.error('Error fetching asset allocation:', error);
+      } catch {
         // Fallback data
         const fallbackData = [
           { name: 'Technology', value: 4500, percentage: '45.0' },

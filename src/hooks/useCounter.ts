@@ -8,7 +8,7 @@ export const useCounter = (end: number, duration: number = 2000, delay: number =
     if (!isVisible) return;
     
     const timer = setTimeout(() => {
-      let startTime = Date.now();
+      const startTime = Date.now();
       const animate = () => {
         const now = Date.now();
         const progress = Math.min((now - startTime) / duration, 1);

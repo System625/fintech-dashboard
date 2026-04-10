@@ -1,120 +1,125 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useState } from 'react';
-import { 
-  LayoutDashboard, 
-  PiggyBank, 
-  LineChart, 
-  ListOrdered, 
-  User, 
-  LogOut, 
-  Menu
+import {
+  LayoutDashboard,
+  PiggyBank,
+  LineChart,
+  ListOrdered,
+  User,
+  LogOut,
+  Receipt,
+  ChevronsLeft,
+  ChevronsRight,
+  Settings,
+  HelpCircle,
+  Crown,
+  Zap,
 } from 'lucide-react';
 import { BudgetpunkLogo } from '@/components/logo/BudgetpunkLogo';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { 
-  Sheet, 
-  SheetContent, 
-  SheetTrigger,
-  SheetHeader,
-  SheetTitle
-} from '@/components/ui/sheet';
 import { useAuthStore } from '@/stores/useAuthStore';
-import { GlitchText } from '@/components/ui/GlitchText';
+import { useSubscription } from '@/hooks/useSubscription';
+import { UpgradeModal } from '@/components/subscription/UpgradeModal';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 interface NavItemProps {
   icon: React.ReactNode;
   label: string;
   href: string;
   isActive: boolean;
+  collapsed: boolean;
   badge?: string | number;
   badgeVariant?: 'default' | 'success' | 'warning' | 'secondary';
 }
 
-const NavItem = ({ icon, label, href, isActive, badge, badgeVariant = 'default' }: NavItemProps) => (
-  <Link to={href}>
-    <Button
-      variant={isActive ? "default" : "ghost"}
+const NavItem = ({ icon, label, href, isActive, collapsed, badge, badgeVariant = 'default' }: NavItemProps) => (
+  <Link to={href} className="block relative group">
+    {/* Neon accent bar — glows on active */}
+    <div
       className={cn(
-        "w-full justify-between h-11 px-3 rounded-lg gap-3 transition-all duration-[var(--motion-duration-micro)] ease-[var(--motion-ease-out)]",
-        isActive 
-          ? "bg-brand text-white shadow-sm hover:shadow-md" 
-          : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground hover:translate-x-1"
+        "absolute left-0 top-1/2 -translate-y-1/2 w-[3px] rounded-r-full transition-all duration-300 ease-[var(--motion-ease-spring)]",
+        isActive
+          ? "h-6 bg-brand opacity-100 shadow-[0_0_8px_hsl(var(--brand)/0.6),0_0_20px_hsl(var(--brand)/0.3)]"
+          : "h-0 bg-brand opacity-0 group-hover:h-4 group-hover:opacity-50"
+      )}
+    />
+    <div
+      className={cn(
+        "flex items-center gap-3 rounded-lg px-3 h-11 transition-all duration-200 ease-[var(--motion-ease-out)] relative overflow-hidden",
+        collapsed && "justify-center px-0",
+        isActive
+          ? "bg-brand/10 text-brand dark:bg-brand/15 dark:text-blue-300"
+          : "text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent/80"
       )}
     >
-      <div className="flex items-center gap-3">
+      {/* Subtle scan-line shimmer on active */}
+      {isActive && (
+        <div className="absolute inset-0 opacity-[0.03] pointer-events-none"
+          style={{
+            background: 'repeating-linear-gradient(0deg, transparent, transparent 2px, currentColor 2px, currentColor 3px)',
+          }}
+        />
+      )}
+      <span className={cn(
+        "shrink-0 transition-transform duration-200",
+        isActive && "drop-shadow-[0_0_4px_hsl(var(--brand)/0.5)]"
+      )}>
         {icon}
-        <span className="font-medium">
-          <GlitchText intensity="low" trigger="hover">{label}</GlitchText>
-        </span>
-      </div>
-      {badge && (
+      </span>
+      {!collapsed && (
+        <span className="font-medium text-sm truncate">{label}</span>
+      )}
+      {!collapsed && badge && (
         <span className={cn(
-          "px-2 py-0.5 rounded-full text-xs font-semibold tabular-nums",
-          badgeVariant === 'success' && "bg-success/20 text-success",
-          badgeVariant === 'warning' && "bg-warning/20 text-warning",
+          "ml-auto px-2 py-0.5 rounded-full text-[10px] font-bold tabular-nums leading-none",
+          badgeVariant === 'success' && "bg-success/15 text-success",
+          badgeVariant === 'warning' && "bg-warning/15 text-warning",
           badgeVariant === 'secondary' && "bg-secondary text-secondary-foreground",
-          badgeVariant === 'default' && (
-            isActive 
-              ? "bg-white/20 text-brand-foreground" 
-              : "bg-sidebar-accent text-sidebar-accent-foreground"
-          )
+          badgeVariant === 'default' && "bg-brand/15 text-brand"
         )}>
           {badge}
         </span>
       )}
-    </Button>
+    </div>
+    {/* Tooltip for collapsed mode */}
+    {collapsed && (
+      <div className="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-2.5 py-1.5 rounded-md bg-popover text-popover-foreground text-xs font-medium shadow-lg border border-border/50 opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-150 whitespace-nowrap z-50">
+        {label}
+        {badge && <span className="ml-1.5 text-brand font-bold">({badge})</span>}
+      </div>
+    )}
   </Link>
 );
 
 export const Sidebar = () => {
   const location = useLocation();
-  const { logOut } = useAuthStore();
+  const { logOut, currentUser } = useAuthStore();
+  const { isProUser } = useSubscription();
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
-  
+  const [showUpgrade, setShowUpgrade] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
+
   const navItems = [
-    {
-      icon: <LayoutDashboard size={20} />,
-      label: "Dashboard",
-      href: "/dashboard",
-      badge: "$24.8K",
-      badgeVariant: "success" as const
-    },
-    {
-      icon: <PiggyBank size={20} />,
-      label: "Savings",
-      href: "/savings",
-      badge: "$12.5K",
-      badgeVariant: "success" as const
-    },
-    {
-      icon: <LineChart size={20} />,
-      label: "Investments",
-      href: "/investments",
-      badge: "+8.4%",
-      badgeVariant: "success" as const
-    },
-    {
-      icon: <ListOrdered size={20} />,
-      label: "Transactions",
-      href: "/transactions",
-      badge: "12",
-      badgeVariant: "secondary" as const
-    },
-    {
-      icon: <User size={20} />,
-      label: "Profile",
-      href: "/profile"
-    }
+    { icon: <LayoutDashboard size={20} />, label: "Dashboard", href: "/dashboard" },
+    { icon: <PiggyBank size={20} />, label: "Savings", href: "/savings" },
+    { icon: <LineChart size={20} />, label: "Investments", href: "/investments" },
+    { icon: <ListOrdered size={20} />, label: "Transactions", href: "/transactions" },
+    { icon: <Receipt size={20} />, label: "Bills", href: "/bills" },
+    { icon: <User size={20} />, label: "Profile", href: "/profile" },
   ];
 
   const handleLogout = async () => {
     try {
       await logOut();
-      // Success toast is shown in AuthContext
     } catch (error) {
-      // Error is already handled in the AuthContext with toast
       console.error("Logout error:", error);
     }
   };
@@ -126,93 +131,131 @@ export const Sidebar = () => {
   };
   const cancelLogout = () => setIsConfirmOpen(false);
 
-  // Desktop sidebar
-  const DesktopSidebar = (
-    <div className="hidden lg:flex h-screen w-72 flex-col bg-sidebar border-r border-sidebar-border/50 shadow-sm">
-      <div className="p-4 flex items-center">
-        <BudgetpunkLogo size={58} />
-        <h4 className="text-xl font-bold text-sidebar-foreground">Budgetpunk</h4>                  
-      </div>
-      <div className="flex-1 px-4 py-2 space-y-1">
-        {navItems.map((item) => (
-          <NavItem
-            key={item.href}
-            icon={item.icon}
-            label={item.label}
-            href={item.href}
-            badge={item.badge}
-            badgeVariant={item.badgeVariant}
-            isActive={location.pathname === item.href}
-          />
-        ))}
-      </div>
-      <div className="p-4 border-t border-sidebar-border/50">
-        <Button 
-          variant="ghost" 
-          className="w-full justify-start gap-3 h-11 px-3 rounded-lg text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground hover:translate-x-1 transition-all duration-[var(--motion-duration-micro)] ease-[var(--motion-ease-out)]"
-          onClick={requestLogout}
-        >
-          <LogOut size={20} />
-          <span className="font-medium">
-            <GlitchText intensity="low" trigger="hover">Logout</GlitchText>
-          </span>
-        </Button>
-      </div>
-    </div>
-  );
+  const userInitial = currentUser?.email?.charAt(0).toUpperCase() || 'U';
+  const userName = currentUser?.email?.split('@')[0] || 'User';
 
-  // Mobile drawer menu
-  const MobileSidebar = (
-    <Sheet>
-      <SheetTrigger asChild>
-        <Button variant="ghost" size="icon" className="lg:hidden fixed top-[14px] left-4 z-50 rounded-lg">
-          <Menu />
-          <span className="sr-only">Menu</span>
-        </Button>
-      </SheetTrigger>
-      <SheetContent side="left" className="bg-sidebar p-0 w-[280px]">
-        <SheetHeader className="p-6 border-b border-sidebar-border/50">
-          <SheetTitle className="flex items-center gap-3 text-sidebar-foreground">
-            <BudgetpunkLogo size={24} />
-            <div className="text-left">
-              <div className="text-sm font-bold">Budgetpunk</div>
-              <div className="text-xs text-muted-foreground">Financial Dashboard</div>
-            </div>
-          </SheetTitle>
-        </SheetHeader>
-        <div className="px-4 py-2 space-y-1">
+  return (
+    <>
+      {/* Desktop sidebar — hidden below lg */}
+      <aside
+        className={cn(
+          "hidden lg:flex h-screen flex-col bg-sidebar border-r border-sidebar-border/40 transition-[width] duration-300 ease-[var(--motion-ease-out)] relative",
+          collapsed ? "w-[68px]" : "w-64"
+        )}
+      >
+        {/* Header */}
+        <div className={cn(
+          "flex items-center h-16 border-b border-sidebar-border/30 shrink-0",
+          collapsed ? "justify-center px-2" : "px-4 gap-3"
+        )}>
+          <BudgetpunkLogo size={collapsed ? 28 : 32} />
+          {!collapsed && (
+            <span className="text-lg font-bold tracking-tight text-sidebar-foreground cyberpunk-title">
+              Budgetpunk
+            </span>
+          )}
+        </div>
+
+        {/* Navigation */}
+        <nav className="flex-1 px-2 py-4 space-y-1 overflow-y-auto overflow-x-hidden">
           {navItems.map((item) => (
             <NavItem
               key={item.href}
               icon={item.icon}
               label={item.label}
               href={item.href}
-              badge={item.badge}
-              badgeVariant={item.badgeVariant}
-              isActive={location.pathname === item.href}
+              collapsed={collapsed}
+              isActive={location.pathname === item.href || location.pathname.startsWith(item.href + '/')}
             />
           ))}
-        </div>
-        <div className="p-4 border-t border-sidebar-border/50">
-          <Button 
-            variant="ghost" 
-            className="w-full justify-start gap-3 h-11 px-3 rounded-lg text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground hover:translate-x-1 transition-all duration-[var(--motion-duration-micro)] ease-[var(--motion-ease-out)]"
-            onClick={requestLogout}
-          >
-            <LogOut size={20} />
-            <span className="font-medium">
-              <GlitchText intensity="low" trigger="hover">Logout</GlitchText>
-            </span>
-          </Button>
-        </div>
-      </SheetContent>
-    </Sheet>
-  );
+        </nav>
 
-  return (
-    <>
-      {DesktopSidebar}
-      {MobileSidebar}
+        {/* Collapse toggle */}
+        <div className="px-2 py-1 border-t border-sidebar-border/30">
+          <button
+            onClick={() => setCollapsed(!collapsed)}
+            className={cn(
+              "flex items-center gap-3 w-full h-9 rounded-lg px-3 text-sidebar-foreground/50 hover:text-sidebar-foreground hover:bg-sidebar-accent/60 transition-all duration-200",
+              collapsed && "justify-center px-0"
+            )}
+          >
+            {collapsed ? <ChevronsRight size={16} /> : <ChevronsLeft size={16} />}
+            {!collapsed && <span className="text-xs font-medium">Collapse</span>}
+          </button>
+        </div>
+
+        {/* User section at bottom */}
+        <div className="px-2 py-3 border-t border-sidebar-border/30">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button
+                className={cn(
+                  "flex items-center gap-3 w-full rounded-lg px-2 py-2 hover:bg-sidebar-accent/60 transition-colors duration-150 outline-none",
+                  collapsed && "justify-center px-0"
+                )}
+              >
+                {/* Avatar with brand glow ring */}
+                <div className="relative shrink-0">
+                  <div className="w-8 h-8 rounded-full bg-brand/15 border border-brand/30 flex items-center justify-center text-brand text-sm font-bold shadow-[0_0_10px_hsl(var(--brand)/0.15)]">
+                    {userInitial}
+                  </div>
+                  {/* Online indicator */}
+                  <div className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-green-500 border-2 border-sidebar" />
+                </div>
+                {!collapsed && (
+                  <div className="flex-1 text-left min-w-0">
+                    <div className="text-sm font-semibold text-sidebar-foreground truncate">{userName}</div>
+                    <div className="text-[10px] text-sidebar-foreground/40 flex items-center gap-1">
+                      {isProUser ? (
+                        <><Crown className="h-3 w-3 text-yellow-500" /> Punk Pro</>
+                      ) : (
+                        'Free plan'
+                      )}
+                    </div>
+                  </div>
+                )}
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              side={collapsed ? "right" : "top"}
+              align={collapsed ? "start" : "center"}
+              className="w-56"
+            >
+              <div className="px-3 py-2">
+                <p className="text-sm font-semibold">{userName}</p>
+                <p className="text-xs text-muted-foreground truncate">{currentUser?.email}</p>
+              </div>
+              <DropdownMenuSeparator />
+              {!isProUser && (
+                <DropdownMenuItem onClick={() => setShowUpgrade(true)} className="text-brand focus:text-brand">
+                  <Zap size={14} className="mr-2" />
+                  Upgrade to Pro
+                </DropdownMenuItem>
+              )}
+              <DropdownMenuItem asChild>
+                <Link to="/profile" className="cursor-pointer">
+                  <Settings size={14} className="mr-2" />
+                  Settings
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <HelpCircle size={14} className="mr-2" />
+                Help & Support
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={requestLogout} className="text-destructive focus:text-destructive">
+                <LogOut size={14} className="mr-2" />
+                Log out
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      </aside>
+
+      {/* Upgrade modal */}
+      <UpgradeModal open={showUpgrade} onOpenChange={setShowUpgrade} />
+
+      {/* Logout confirmation dialog */}
       <Dialog open={isConfirmOpen} onOpenChange={setIsConfirmOpen}>
         <DialogContent>
           <DialogHeader>
@@ -231,4 +274,4 @@ export const Sidebar = () => {
   );
 };
 
-export default Sidebar; 
+export default Sidebar;

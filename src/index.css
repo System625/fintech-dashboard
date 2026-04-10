@@ -85,82 +85,80 @@ body {
 
 :root {
   --radius: 0.625rem;
-  
-  /* Surfaces */
-  --background: hsl(210, 40%, 97%); /* HSL fallback - slate-50 equivalent */
-  --background: oklch(0.97 0.005 240);
-  --foreground: hsl(0, 0%, 17%); /* HSL fallback */
-  --foreground: oklch(0.17 0 0);
-  --card: hsl(0, 0%, 99%); /* HSL fallback */
-  --card: oklch(0.99 0 0);
-  --card-foreground: hsl(0, 0%, 20%); /* HSL fallback */
-  --card-foreground: oklch(0.2 0 0);
-  --popover: hsl(0, 0%, 99%); /* HSL fallback */
-  --popover: oklch(0.99 0 0);
-  --popover-foreground: hsl(0, 0%, 20%); /* HSL fallback */
-  --popover-foreground: oklch(0.2 0 0);
-  --border: hsl(0, 0%, 92%); /* HSL fallback */
-  --border: oklch(0.92 0 0);
-  --input: hsl(0, 0%, 92%); /* HSL fallback */
-  --input: oklch(0.92 0 0);
-  
-  /* Brand colors for light mode - blue */
-  --brand: 220 85% 58%;
-  --brand-foreground: 220 80% 50%;
-  --brand-glow: 220 80% 50%; /* For shadow effects - Blue */
-  --brand-foreground-glow: 220 85% 60%; /* For glow effects - Lighter Blue */
-  --primary: hsl(220, 90%, 55%); /* Professional Blue */
-  --primary: oklch(0.65 0.2 230);
-  --primary-foreground: hsl(0, 0%, 100%); /* HSL fallback */
+
+  /* Surfaces — cool slate tint, not plain white */
+  --background: hsl(220, 20%, 95%);
+  --background: oklch(0.955 0.008 250);
+  --foreground: hsl(220, 30%, 12%);
+  --foreground: oklch(0.15 0.02 250);
+  --card: hsl(220, 20%, 99%);
+  --card: oklch(0.99 0.003 250);
+  --card-foreground: hsl(220, 30%, 15%);
+  --card-foreground: oklch(0.18 0.02 250);
+  --popover: hsl(220, 20%, 99%);
+  --popover: oklch(0.99 0.003 250);
+  --popover-foreground: hsl(220, 30%, 15%);
+  --popover-foreground: oklch(0.18 0.02 250);
+  --border: hsl(220, 15%, 88%);
+  --border: oklch(0.895 0.008 250);
+  --input: hsl(220, 15%, 88%);
+  --input: oklch(0.895 0.008 250);
+
+  /* Brand colors for light mode - punchy blue */
+  --brand: 220 85% 52%;
+  --brand-foreground: 220 80% 45%;
+  --brand-glow: 220 80% 50%;
+  --brand-foreground-glow: 220 85% 60%;
+  --primary: hsl(220, 90%, 50%);
+  --primary: oklch(0.60 0.22 250);
+  --primary-foreground: hsl(0, 0%, 100%);
   --primary-foreground: oklch(1 0 0);
-  
-  /* Secondary/Accent */
-  --secondary: hsl(0, 0%, 97%); /* HSL fallback */
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: hsl(0, 0%, 21%); /* HSL fallback */
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: hsl(0, 0%, 97%); /* HSL fallback */
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: hsl(0, 0%, 56%); /* HSL fallback */
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: hsl(0, 0%, 97%); /* HSL fallback */
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: hsl(0, 0%, 21%); /* HSL fallback */
-  --accent-foreground: oklch(0.205 0 0);
-  
-  /* States */
-  --success: hsl(142, 76%, 36%); /* HSL fallback */
-  --success: oklch(0.74 0.09 180);
-  --warning: hsl(43, 96%, 56%); /* HSL fallback */
-  --warning: oklch(0.86 0.11 70);
-  --destructive: hsl(0, 84%, 30%); /* HSL fallback */
-  --destructive: oklch(0.6 0.2 27);
-  
+
+  /* Secondary/Accent — blue-tinted, not grey */
+  --secondary: hsl(220, 18%, 94%);
+  --secondary: oklch(0.945 0.008 250);
+  --secondary-foreground: hsl(220, 20%, 18%);
+  --secondary-foreground: oklch(0.22 0.02 250);
+  --muted: hsl(220, 15%, 93%);
+  --muted: oklch(0.935 0.007 250);
+  --muted-foreground: hsl(220, 10%, 45%);
+  --muted-foreground: oklch(0.50 0.015 250);
+  --accent: hsl(220, 18%, 94%);
+  --accent: oklch(0.945 0.008 250);
+  --accent-foreground: hsl(220, 20%, 18%);
+  --accent-foreground: oklch(0.22 0.02 250);
+
+  /* States — more saturated in light mode */
+  --success: hsl(152, 76%, 32%);
+  --success: oklch(0.68 0.12 165);
+  --warning: hsl(38, 96%, 48%);
+  --warning: oklch(0.80 0.14 65);
+  --destructive: hsl(0, 78%, 42%);
+  --destructive: oklch(0.55 0.2 25);
+
   /* Focus and interaction */
-  --focus-ring: hsla(220, 89%, 51%, 0.35); /* HSL fallback */
+  --focus-ring: hsla(220, 89%, 51%, 0.35);
   --focus-ring: oklch(0.70 0.19 255 / 0.35);
-  --ring: hsl(220, 89%, 51%); /* HSL fallback */
+  --ring: hsl(220, 89%, 51%);
   --ring: oklch(0.70 0.19 255);
-  
-  /* Chart tokens */
-  --chart-1: hsl(220, 89%, 51%); /* HSL fallback - Brand blue */
-  --chart-1: oklch(0.70 0.19 255);  /* Brand blue */
-  --chart-2: hsl(200, 85%, 55%); /* HSL fallback - Blue variant */
-  --chart-2: oklch(0.65 0.16 220);  /* Blue variant */
-  --chart-3: hsl(210, 85%, 50%); /* HSL fallback - Darker blue */
-  --chart-3: oklch(0.60 0.18 240);   /* Darker blue */
-  --chart-4: hsl(190, 85%, 65%); /* HSL fallback - Cyan blue */
-  --chart-4: oklch(0.70 0.13 200);    /* Cyan blue */
-  --chart-5: hsl(240, 85%, 55%); /* HSL fallback - Purple blue */
-  --chart-5: oklch(0.65 0.21 270);  /* Purple blue */
-  
-  /* Shadows/elevation */
-  --shadow-1: 0 1px 1px hsla(0, 0%, 17%, 0.05); /* HSL fallback */
-  --shadow-1: 0 1px 1px oklch(0.17 0 0 / 0.05);
-  --shadow-2: 0 6px 20px hsla(0, 0%, 17%, 0.06); /* HSL fallback */
-  --shadow-2: 0 6px 20px oklch(0.17 0 0 / 0.06);
+
+  /* Chart tokens — vibrant in light */
+  --chart-1: hsl(220, 85%, 50%);
+  --chart-1: oklch(0.62 0.20 250);
+  --chart-2: hsl(195, 85%, 45%);
+  --chart-2: oklch(0.60 0.14 220);
+  --chart-3: hsl(250, 70%, 55%);
+  --chart-3: oklch(0.55 0.20 280);
+  --chart-4: hsl(175, 70%, 40%);
+  --chart-4: oklch(0.62 0.10 190);
+  --chart-5: hsl(280, 65%, 55%);
+  --chart-5: oklch(0.58 0.18 300);
+
+  /* Shadows — stronger with blue tint for depth */
+  --shadow-1: 0 1px 2px hsla(220, 40%, 20%, 0.06), 0 1px 1px hsla(220, 40%, 20%, 0.04);
+  --shadow-2: 0 8px 24px hsla(220, 40%, 20%, 0.08), 0 2px 8px hsla(220, 40%, 20%, 0.04);
   --shadow-glow: 0 -16px 128px 0 hsla(var(--brand-foreground) / 0.5) inset, 0 -16px 32px 0 hsla(var(--brand) / 0.5) inset;
-  
+
   /* Motion tokens */
   --motion-duration-micro: 150ms;
   --motion-duration-container: 220ms;
@@ -168,24 +166,24 @@ body {
   --motion-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --motion-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
   --motion-ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  
-  /* Sidebar */
-  --sidebar: hsl(0, 0%, 98%); /* HSL fallback */
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: hsl(0, 0%, 15%); /* HSL fallback */
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: hsl(220, 89%, 51%); /* HSL fallback */
-  --sidebar-primary: oklch(0.70 0.19 255);
-  --sidebar-primary-foreground: hsl(0, 0%, 16%); /* HSL fallback */
-  --sidebar-primary-foreground: oklch(0.16 0 0);
-  --sidebar-accent: hsl(0, 0%, 97%); /* HSL fallback */
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: hsl(0, 0%, 21%); /* HSL fallback */
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: hsl(0, 0%, 92%); /* HSL fallback */
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: hsl(220, 89%, 51%); /* HSL fallback */
-  --sidebar-ring: oklch(0.70 0.19 255);
+
+  /* Sidebar — light with subtle blue tint */
+  --sidebar: hsl(220, 20%, 97%);
+  --sidebar: oklch(0.975 0.006 250);
+  --sidebar-foreground: hsl(220, 25%, 15%);
+  --sidebar-foreground: oklch(0.18 0.02 250);
+  --sidebar-primary: hsl(220, 85%, 52%);
+  --sidebar-primary: oklch(0.65 0.20 250);
+  --sidebar-primary-foreground: hsl(220, 25%, 15%);
+  --sidebar-primary-foreground: oklch(0.18 0.02 250);
+  --sidebar-accent: hsl(220, 18%, 93%);
+  --sidebar-accent: oklch(0.94 0.008 250);
+  --sidebar-accent-foreground: hsl(220, 20%, 18%);
+  --sidebar-accent-foreground: oklch(0.22 0.02 250);
+  --sidebar-border: hsl(220, 15%, 90%);
+  --sidebar-border: oklch(0.91 0.007 250);
+  --sidebar-ring: hsl(220, 85%, 52%);
+  --sidebar-ring: oklch(0.65 0.20 250);
 }
 
 .dark {
@@ -617,10 +615,29 @@ body {
   }
   body {
     @apply bg-background text-foreground;
-    background-image: radial-gradient(ellipse 80% 50% at 50% -20%, oklch(0.99 0 0), transparent);
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% -20%, oklch(0.92 0.02 250 / 0.5), transparent),
+      radial-gradient(ellipse 60% 40% at 80% 100%, oklch(0.90 0.03 280 / 0.15), transparent);
   }
   .dark body {
-    background-image: radial-gradient(ellipse 80% 50% at 50% -20%, oklch(0.2 0.01 240), transparent);
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% -20%, oklch(0.2 0.02 250), transparent),
+      radial-gradient(ellipse 50% 30% at 80% 100%, oklch(0.15 0.03 280 / 0.3), transparent);
+  }
+
+  /* Mobile touch-friendly: ensure tappable targets */
+  @media (max-width: 1023px) {
+    button, a, [role="button"], input, select, textarea {
+      min-height: 44px;
+    }
+    input, select, textarea {
+      font-size: 16px; /* Prevents iOS zoom on focus */
+    }
+  }
+
+  /* Safe area for bottom nav on notched devices */
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
   }
 }
 

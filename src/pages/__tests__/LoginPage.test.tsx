@@ -12,7 +12,7 @@ vi.mock('@/stores/useAuthStore')
 // Mock framer-motion to avoid animation issues in tests
 vi.mock('framer-motion', () => ({
   motion: {
-    div: ({ children, ...props }: any) => <div {...props}>{children}</div>,
+    div: ({ children, ...props }: { children: unknown; [key: string]: unknown }) => <div {...(props as Record<string, unknown>)}>{children}</div>,
   },
 }))
 
@@ -36,7 +36,7 @@ vi.mock('react-router-dom', async () => {
   }
 })
 
-const MockedUseAuthStore = useAuthStore as any
+const MockedUseAuthStore = useAuthStore as ReturnType<typeof vi.fn>
 
 describe('LoginPage', () => {
   const mockSignIn = vi.fn()
@@ -205,7 +205,7 @@ describe('LoginPage', () => {
       mockSignIn.mockResolvedValue({})
       
       // Mock location with state
-      ;(mockLocation as any).state = { from: { pathname: '/investments' } }
+      ;(mockLocation as { state: unknown; pathname: string }).state = { from: { pathname: '/investments' } }
       
       renderLoginPage()
 

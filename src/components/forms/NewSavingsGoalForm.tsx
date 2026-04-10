@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { CalendarIcon } from 'lucide-react';
 import { format } from 'date-fns';
 import { toast } from 'sonner';
+import { useCreateSavingsGoal } from '@/hooks/useApi';
 
 import { Button } from '@/components/ui/button';
 import { GlitchText } from '@/components/ui/GlitchText';
@@ -57,96 +58,62 @@ type FormValues = z.infer<typeof formSchema>;
 
 interface NewSavingsGoalFormProps {
   onSuccess?: () => void;
+  trigger?: React.ReactNode;
 }
 
-export function NewSavingsGoalForm({ onSuccess }: NewSavingsGoalFormProps) {
+export function NewSavingsGoalForm({ onSuccess, trigger }: NewSavingsGoalFormProps) {
   const [open, setOpen] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const createSavingsGoal = useCreateSavingsGoal();
+
+  const defaultValues = {
+    title: "",
+    description: "",
+    targetAmount: 0,
+    initialAmount: 0,
+    targetDate: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
+  };
 
   // Initialize the form
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      title: "",
-      description: "",
-      targetAmount: 0,
-      initialAmount: 0,
-      targetDate: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000), // 90 days from now
-    },
+    defaultValues,
   });
 
   // Form submission handler
   const onSubmit = async (data: FormValues) => {
-    setIsSubmitting(true);
-    
     try {
-      // Call API to create a new savings goal
-      const response = await fetch('/api/savings', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: data.title,
-          description: data.description,
-          targetAmount: data.targetAmount,
-          currentAmount: data.initialAmount,
-          targetDate: data.targetDate.toISOString(),
-        }),
+      await createSavingsGoal.mutateAsync({
+        name: data.title,
+        targetAmount: data.targetAmount,
+        currentAmount: data.initialAmount,
+        deadline: data.targetDate.toISOString(),
       });
 
-      if (!response.ok) {
-        throw new Error('Failed to create savings goal');
-      }      
-      
-      // Show success toast using Sonner
       toast.success('Savings Goal Created', {
         description: `Your ${data.title} goal has been successfully created.`,
       });
-      
-      // Reset form and close dialog
-      form.reset({
-        title: "",
-        description: "",
-        targetAmount: 0,
-        initialAmount: 0,
-        targetDate: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000), // 90 days from now
-      });
+
+      form.reset(defaultValues);
       setOpen(false);
-      
-      // Call onSuccess callback if provided
-      if (onSuccess) {
-        onSuccess();
-      }
-      
-    } catch (error) {
-      console.error('Error creating savings goal:', error);
+      onSuccess?.();
+    } catch {
       toast.error('Error', {
         description: "Failed to create savings goal. Please try again.",
       });
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
   return (
     <Dialog open={open} onOpenChange={(newOpen) => {
       setOpen(newOpen);
-      if (!newOpen) {
-        // Reset form when dialog closes
-        form.reset({
-          title: "",
-          description: "",
-          targetAmount: 0,
-          initialAmount: 0,
-          targetDate: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000), // 90 days from now
-        });
-      }
+      if (!newOpen) form.reset(defaultValues);
     }}>
       <DialogTrigger asChild>
-        <Button className="cyber-glow-blue cyber-border text-foreground">
-          <GlitchText intensity="low" trigger="hover">New Savings Goal</GlitchText>
-        </Button>
+        {trigger ?? (
+          <Button className="cyber-glow-blue cyber-border text-foreground">
+            <GlitchText intensity="low" trigger="hover">New Savings Goal</GlitchText>
+          </Button>
+        )}
       </DialogTrigger>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
@@ -266,9 +233,9 @@ export function NewSavingsGoalForm({ onSuccess }: NewSavingsGoalFormProps) {
               <Button type="button" variant="outline" onClick={() => setOpen(false)}>
                 Cancel
               </Button>
-              <Button type="submit" disabled={isSubmitting} className="cyber-glow-blue">
+              <Button type="submit" disabled={createSavingsGoal.isPending} className="cyber-glow-blue">
                 <GlitchText intensity="low" trigger="hover">
-                  {isSubmitting ? "Creating..." : "Create Goal"}
+                  {createSavingsGoal.isPending ? "Creating..." : "Create Goal"}
                 </GlitchText>
               </Button>
             </DialogFooter>

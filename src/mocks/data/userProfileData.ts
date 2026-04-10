@@ -27,7 +27,7 @@ export const userProfile: UserProfile = {
   firstName: "John",
   lastName: "Doe",
   phoneNumber: "+1 (555) 123-4567",
-  createdAt: "2023-01-01T00:00:00Z",
+  createdAt: new Date(Date.now() - 15 * 30 * 24 * 60 * 60 * 1000).toISOString(),
   preferences: {
     currency: "USD",
     language: "English",

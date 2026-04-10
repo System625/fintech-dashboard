@@ -269,7 +269,7 @@ describe('useThemeStore', () => {
     it('should handle missing matchMedia gracefully', () => {
       // Mock matchMedia to return undefined to simulate missing support
       const originalMatchMedia = window.matchMedia
-      window.matchMedia = undefined as any
+      window.matchMedia = undefined as unknown as typeof window.matchMedia
       
       const { result } = renderHook(() => useThemeStore())
       

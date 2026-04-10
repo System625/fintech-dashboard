@@ -80,9 +80,9 @@ export class PerformanceMonitor {
       let clsScore = 0;
       
       const observer = new PerformanceObserver((list) => {
-        list.getEntries().forEach((entry: any) => {
+        list.getEntries().forEach((entry: PerformanceEntry & { hadRecentInput?: boolean; value?: number }) => {
           if (!entry.hadRecentInput) {
-            clsScore += entry.value;
+            clsScore += entry.value ?? 0;
             this.metrics.set('CLS', clsScore);
             this.checkThreshold('CLS', clsScore, PERFORMANCE_THRESHOLDS.CLS);
           }
@@ -149,7 +149,7 @@ export class PerformanceMonitor {
     console.log('═'.repeat(50));
     
     this.metrics.forEach((value, key) => {
-      const threshold = (PERFORMANCE_THRESHOLDS as any)[key];
+      const threshold = (PERFORMANCE_THRESHOLDS as Record<string, number>)[key];
       if (threshold) {
         const status = value <= threshold ? '✅' : '⚠️';
         console.log(`${status} ${key}: ${value.toFixed(2)}ms`);
@@ -195,7 +195,7 @@ export class PerformanceMonitor {
 export const performanceMonitor = PerformanceMonitor.getInstance();
 
 // Helper function for measuring component render time
-export function withPerformanceTracking<P extends Record<string, any>>(
+export function withPerformanceTracking<P extends Record<string, unknown>>(
   Component: React.ComponentType<P>,
   displayName?: string
 ) {
@@ -218,7 +218,7 @@ export function logBundleInfo() {
     let totalSize = 0;
     
     console.group('📦 Bundle Analysis');
-    scripts.forEach((script: any) => {
+    scripts.forEach((script: HTMLScriptElement) => {
       if (script.src && script.src.includes('/assets/')) {
         fetch(script.src, { method: 'HEAD' })
           .then(response => {
@@ -243,7 +243,7 @@ export function logBundleInfo() {
 export function optimizeImageLoading() {
   // Add loading="lazy" to images that don't have it
   const images = document.querySelectorAll('img:not([loading])');
-  images.forEach((img: any) => {
+  images.forEach((img: HTMLImageElement) => {
     // Don't lazy load images that are likely above the fold
     const rect = img.getBoundingClientRect();
     if (rect.top > window.innerHeight) {
@@ -254,8 +254,8 @@ export function optimizeImageLoading() {
 
 // Initialize performance monitoring
 if (typeof window !== 'undefined') {
-  // Start performance monitoring
-  performanceMonitor;
+  // Start performance monitoring (access instance to trigger initialization)
+  void performanceMonitor;
   
   // Optimize images when DOM is ready
   if (document.readyState === 'loading') {

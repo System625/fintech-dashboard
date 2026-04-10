@@ -1,3 +1,11 @@
+const now = new Date();
+
+const daysAgo = (n: number, time: string): string => {
+  const d = new Date(now);
+  d.setDate(d.getDate() - n);
+  return d.toISOString().slice(0, 10) + time;
+};
+
 export interface Transaction {
   id: string;
   date: string;
@@ -11,7 +19,7 @@ export interface Transaction {
 export const transactions: Transaction[] = [
   {
     id: "tx-001",
-    date: "2023-10-15T10:23:00Z",
+    date: daysAgo(0, 'T10:23:00Z'),
     description: "Salary deposit",
     amount: 3500,
     type: "income",
@@ -20,7 +28,7 @@ export const transactions: Transaction[] = [
   },
   {
     id: "tx-002",
-    date: "2023-10-14T15:45:00Z",
+    date: daysAgo(1, 'T15:45:00Z'),
     description: "Grocery shopping",
     amount: 125.75,
     type: "expense",
@@ -29,7 +37,7 @@ export const transactions: Transaction[] = [
   },
   {
     id: "tx-003",
-    date: "2023-10-13T09:30:00Z",
+    date: daysAgo(2, 'T09:30:00Z'),
     description: "Coffee shop",
     amount: 8.50,
     type: "expense",
@@ -38,7 +46,7 @@ export const transactions: Transaction[] = [
   },
   {
     id: "tx-004",
-    date: "2023-10-12T14:22:00Z",
+    date: daysAgo(3, 'T14:22:00Z'),
     description: "Electricity bill",
     amount: 95.20,
     type: "expense",
@@ -47,7 +55,7 @@ export const transactions: Transaction[] = [
   },
   {
     id: "tx-005",
-    date: "2023-10-10T09:00:00Z",
+    date: daysAgo(5, 'T09:00:00Z'),
     description: "Rent payment",
     amount: 1200,
     type: "expense",
@@ -56,7 +64,7 @@ export const transactions: Transaction[] = [
   },
   {
     id: "tx-006",
-    date: "2023-10-08T13:15:00Z",
+    date: daysAgo(7, 'T13:15:00Z'),
     description: "Investment withdrawal",
     amount: 500,
     type: "income",
@@ -65,7 +73,7 @@ export const transactions: Transaction[] = [
   },
   {
     id: "tx-007",
-    date: "2023-10-05T20:30:00Z",
+    date: daysAgo(10, 'T20:30:00Z'),
     description: "Online purchase",
     amount: 65.99,
     type: "expense",
@@ -74,7 +82,7 @@ export const transactions: Transaction[] = [
   },
   {
     id: "tx-008",
-    date: "2023-10-01T10:00:00Z",
+    date: daysAgo(14, 'T10:00:00Z'),
     description: "Transfer to savings",
     amount: 500,
     type: "expense",
@@ -83,7 +91,7 @@ export const transactions: Transaction[] = [
   },
   {
     id: "tx-009",
-    date: "2023-09-28T16:45:00Z",
+    date: daysAgo(17, 'T16:45:00Z'),
     description: "Freelance payment",
     amount: 750,
     type: "income",
@@ -92,7 +100,7 @@ export const transactions: Transaction[] = [
   },
   {
     id: "tx-010",
-    date: "2023-09-25T12:30:00Z",
+    date: daysAgo(20, 'T12:30:00Z'),
     description: "Phone bill",
     amount: 45.99,
     type: "expense",
@@ -101,7 +109,7 @@ export const transactions: Transaction[] = [
   },
   {
     id: "tx-011",
-    date: "2023-09-22T19:15:00Z",
+    date: daysAgo(23, 'T19:15:00Z'),
     description: "Restaurant dinner",
     amount: 82.40,
     type: "expense",
@@ -110,7 +118,7 @@ export const transactions: Transaction[] = [
   },
   {
     id: "tx-012",
-    date: "2023-09-20T14:00:00Z",
+    date: daysAgo(25, 'T14:00:00Z'),
     description: "Gas station",
     amount: 45.50,
     type: "expense",
@@ -119,7 +127,7 @@ export const transactions: Transaction[] = [
   },
   {
     id: "tx-013",
-    date: "2023-09-15T09:30:00Z",
+    date: daysAgo(30, 'T09:30:00Z'),
     description: "Salary deposit",
     amount: 3500,
     type: "income",
@@ -128,7 +136,7 @@ export const transactions: Transaction[] = [
   },
   {
     id: "tx-014",
-    date: "2023-09-14T11:20:00Z",
+    date: daysAgo(31, 'T11:20:00Z'),
     description: "Gym membership",
     amount: 55.00,
     type: "expense",
@@ -137,7 +145,7 @@ export const transactions: Transaction[] = [
   },
   {
     id: "tx-015",
-    date: "2023-09-10T16:40:00Z",
+    date: daysAgo(35, 'T16:40:00Z'),
     description: "Internet bill",
     amount: 75.00,
     type: "expense",
@@ -183,4 +191,4 @@ export const monthlyExpenses: MonthlyExpense[] = [
   { month: 'Aug', amount: 3100 },
   { month: 'Sep', amount: 3000 },
   { month: 'Oct', amount: 2800 }
-]; 
+];

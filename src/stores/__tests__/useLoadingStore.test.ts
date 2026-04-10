@@ -168,12 +168,12 @@ describe('useLoadingStore', () => {
     it('should default to "Loading" when null/undefined provided', () => {
       const { setGlobalMessage } = useLoadingStore.getState()
       
-      setGlobalMessage(null as any)
-      
+      setGlobalMessage(null as unknown as string)
+
       let state = useLoadingStore.getState()
       expect(state.global.message).toBe('Loading')
-      
-      setGlobalMessage(undefined as any)
+
+      setGlobalMessage(undefined as unknown as string)
       
       state = useLoadingStore.getState()
       expect(state.global.message).toBe('Loading')

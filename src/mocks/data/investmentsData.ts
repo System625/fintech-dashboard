@@ -1,3 +1,25 @@
+const now = new Date();
+
+const daysAgo = (n: number): string => {
+  const d = new Date(now);
+  d.setDate(d.getDate() - n);
+  return d.toISOString().slice(0, 10);
+};
+
+const hoursAgoToday = (h: number): string => {
+  const d = new Date(now);
+  d.setHours(d.getHours() - h, 0, 0, 0);
+  return d.toISOString();
+};
+
+const monthsAgoLabel = (n: number): string => {
+  const d = new Date(now);
+  d.setMonth(d.getMonth() - n);
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+};
+
+const nowIso = now.toISOString();
+
 export interface Investment {
   id: string;
   name: string;
@@ -18,7 +40,7 @@ export const investments: Investment[] = [
     buyPrice: 150.25,
     currentPrice: 172.5,
     category: "Stocks",
-    lastUpdated: "2023-10-02T12:30:00Z"
+    lastUpdated: nowIso
   },
   {
     id: "inv-2",
@@ -28,7 +50,7 @@ export const investments: Investment[] = [
     buyPrice: 280.45,
     currentPrice: 312.8,
     category: "Stocks",
-    lastUpdated: "2023-10-02T12:30:00Z"
+    lastUpdated: nowIso
   },
   {
     id: "inv-3",
@@ -38,7 +60,7 @@ export const investments: Investment[] = [
     buyPrice: 153.10,
     currentPrice: 145.2,
     category: "Stocks",
-    lastUpdated: "2023-10-02T12:30:00Z"
+    lastUpdated: nowIso
   },
   {
     id: "inv-4",
@@ -48,7 +70,7 @@ export const investments: Investment[] = [
     buyPrice: 207.42,
     currentPrice: 425.6,
     category: "Stocks",
-    lastUpdated: "2023-10-02T12:30:00Z"
+    lastUpdated: nowIso
   },
   {
     id: "inv-5",
@@ -58,7 +80,7 @@ export const investments: Investment[] = [
     buyPrice: 131.40,
     currentPrice: 142.3,
     category: "Stocks",
-    lastUpdated: "2023-10-02T12:30:00Z"
+    lastUpdated: nowIso
   }
 ];
 
@@ -70,55 +92,55 @@ export interface InvestmentHistoryEntry {
 
 export const investmentHistory: Record<string, InvestmentHistoryEntry[]> = {
   "1D": [
-    { date: "2023-10-02T09:30:00Z", value: 5700 },
-    { date: "2023-10-02T10:30:00Z", value: 5690 },
-    { date: "2023-10-02T11:30:00Z", value: 5720 },
-    { date: "2023-10-02T12:30:00Z", value: 5740 },
-    { date: "2023-10-02T13:30:00Z", value: 5760 },
-    { date: "2023-10-02T14:30:00Z", value: 5750 },
-    { date: "2023-10-02T15:30:00Z", value: 5790 },
-    { date: "2023-10-02T16:00:00Z", value: 5820 }
+    { date: hoursAgoToday(7), value: 5700 },
+    { date: hoursAgoToday(6), value: 5690 },
+    { date: hoursAgoToday(5), value: 5720 },
+    { date: hoursAgoToday(4), value: 5740 },
+    { date: hoursAgoToday(3), value: 5760 },
+    { date: hoursAgoToday(2), value: 5750 },
+    { date: hoursAgoToday(1), value: 5790 },
+    { date: nowIso,           value: 5820 }
   ],
   "1W": [
-    { date: "2023-09-25", value: 5600 },
-    { date: "2023-09-26", value: 5650 },
-    { date: "2023-09-27", value: 5630 },
-    { date: "2023-09-28", value: 5660 },
-    { date: "2023-09-29", value: 5700 },
-    { date: "2023-10-02", value: 5820 }
+    { date: daysAgo(6), value: 5600 },
+    { date: daysAgo(5), value: 5650 },
+    { date: daysAgo(4), value: 5630 },
+    { date: daysAgo(3), value: 5660 },
+    { date: daysAgo(2), value: 5700 },
+    { date: daysAgo(0), value: 5820 }
   ],
   "1M": [
-    { date: "2023-09-04", value: 5400 },
-    { date: "2023-09-11", value: 5450 },
-    { date: "2023-09-18", value: 5520 },
-    { date: "2023-09-25", value: 5600 },
-    { date: "2023-10-02", value: 5820 }
+    { date: daysAgo(28), value: 5400 },
+    { date: daysAgo(21), value: 5450 },
+    { date: daysAgo(14), value: 5520 },
+    { date: daysAgo(7),  value: 5600 },
+    { date: daysAgo(0),  value: 5820 }
   ],
   "1Y": [
-    { date: "2022-10", value: 4800 },
-    { date: "2022-11", value: 4900 },
-    { date: "2022-12", value: 4850 },
-    { date: "2023-01", value: 5000 },
-    { date: "2023-02", value: 5100 },
-    { date: "2023-03", value: 5050 },
-    { date: "2023-04", value: 5200 },
-    { date: "2023-05", value: 5300 },
-    { date: "2023-06", value: 5350 },
-    { date: "2023-07", value: 5450 },
-    { date: "2023-08", value: 5550 },
-    { date: "2023-09", value: 5700 },
-    { date: "2023-10", value: 5820 }
+    { date: monthsAgoLabel(12), value: 4800 },
+    { date: monthsAgoLabel(11), value: 4900 },
+    { date: monthsAgoLabel(10), value: 4850 },
+    { date: monthsAgoLabel(9),  value: 5000 },
+    { date: monthsAgoLabel(8),  value: 5100 },
+    { date: monthsAgoLabel(7),  value: 5050 },
+    { date: monthsAgoLabel(6),  value: 5200 },
+    { date: monthsAgoLabel(5),  value: 5300 },
+    { date: monthsAgoLabel(4),  value: 5350 },
+    { date: monthsAgoLabel(3),  value: 5450 },
+    { date: monthsAgoLabel(2),  value: 5550 },
+    { date: monthsAgoLabel(1),  value: 5700 },
+    { date: monthsAgoLabel(0),  value: 5820 }
   ],
   "All": [
-    { date: "2021-10", value: 3200 },
-    { date: "2022-01", value: 3500 },
-    { date: "2022-04", value: 3800 },
-    { date: "2022-07", value: 4200 },
-    { date: "2022-10", value: 4800 },
-    { date: "2023-01", value: 5000 },
-    { date: "2023-04", value: 5200 },
-    { date: "2023-07", value: 5450 },
-    { date: "2023-10", value: 5820 }
+    { date: monthsAgoLabel(30), value: 3200 },
+    { date: monthsAgoLabel(27), value: 3500 },
+    { date: monthsAgoLabel(24), value: 3800 },
+    { date: monthsAgoLabel(21), value: 4200 },
+    { date: monthsAgoLabel(18), value: 4800 },
+    { date: monthsAgoLabel(15), value: 5000 },
+    { date: monthsAgoLabel(12), value: 5200 },
+    { date: monthsAgoLabel(9),  value: 5450 },
+    { date: monthsAgoLabel(0),  value: 5820 }
   ]
 };
 
@@ -169,4 +191,4 @@ export const recommendedInvestments: RecommendedInvestment[] = [
     risk: "Low",
     potentialReturn: "5-8%"
   }
-]; 
+];

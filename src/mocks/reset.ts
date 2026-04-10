@@ -10,5 +10,5 @@ export const resetMswWorker = async () => {
     onUnhandledRequest: 'bypass',
   });
   
-  console.log('[MSW] Worker has been reset');
+
 }; 

@@ -51,7 +51,7 @@ export const accountsHandlers = [
       accounts.push(newAccount);
       
       return HttpResponse.json(newAccount, { status: 201 });
-    } catch (error) {
+    } catch {
       return new HttpResponse(
         JSON.stringify({ error: 'Invalid account data' }),
         { status: 400 }
@@ -81,7 +81,7 @@ export const accountsHandlers = [
       account.balance = data.amount;
       
       return HttpResponse.json(account, { status: 200 });
-    } catch (error) {
+    } catch {
       return new HttpResponse(
         JSON.stringify({ error: 'Invalid balance update data' }),
         { status: 400 }

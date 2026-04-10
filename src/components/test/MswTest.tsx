@@ -5,7 +5,7 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 interface TestResult {
   success: boolean;
   endpoint: string;
-  data: any;
+  data: unknown;
   error?: string;
 }
 

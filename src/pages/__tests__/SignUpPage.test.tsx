@@ -21,7 +21,7 @@ vi.mock('sonner', () => ({
 // Mock framer-motion to avoid animation issues in tests
 vi.mock('framer-motion', () => ({
   motion: {
-    div: ({ children, ...props }: any) => <div {...props}>{children}</div>,
+    div: ({ children, ...props }: { children: unknown; [key: string]: unknown }) => <div {...(props as Record<string, unknown>)}>{children}</div>,
   },
 }))
 
@@ -43,8 +43,8 @@ vi.mock('react-router-dom', async () => {
   }
 })
 
-const MockedUseAuthStore = useAuthStore as any
-const mockToast = toast as { error: any; success: any }
+const MockedUseAuthStore = useAuthStore as ReturnType<typeof vi.fn>
+const mockToast = toast as { error: ReturnType<typeof vi.fn>; success: ReturnType<typeof vi.fn> }
 
 describe('SignUpPage', () => {
   const mockSignUp = vi.fn()

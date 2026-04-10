@@ -5,7 +5,7 @@ import { UseQueryResult } from '@tanstack/react-query';
 
 interface ContentLoadingWrapperProps {
   children: ReactNode;
-  queries?: UseQueryResult<any> | UseQueryResult<any>[];
+  queries?: UseQueryResult<unknown> | UseQueryResult<unknown>[];
   isLoading?: boolean;
   message?: string;
   enabled?: boolean;
@@ -27,10 +27,8 @@ export function ContentLoadingWrapper({
   // Get manual loading controls
   const { show, hide } = useContentLoadingStore();
 
-  // If queries are provided, use the hook to manage loading from React Query
-  if (queries && enabled) {
-    useContentLoading(queries, { message, enabled });
-  }
+  // Always call hook unconditionally; it handles the enabled/queries check internally
+  useContentLoading(queries ?? [], { message, enabled: !!(queries && enabled) });
   
   // If manual loading is provided and enabled, use the manual loading state
   useEffect(() => {

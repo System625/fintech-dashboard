@@ -19,6 +19,7 @@ const SocialProofBand: React.FC = () => {
       transactionsCount.setIsVisible(true);
       uptimeCount.setIsVisible(true);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [socialProofInView]);
 
   return (

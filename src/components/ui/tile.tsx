@@ -163,6 +163,7 @@ function TileMetric({
   )
 }
 
+/* eslint-disable react-refresh/only-export-components */
 export {
   Tile,
   TileHeader,
@@ -173,3 +174,4 @@ export {
   TileMetric,
   tileVariants,
 }
+/* eslint-enable react-refresh/only-export-components */

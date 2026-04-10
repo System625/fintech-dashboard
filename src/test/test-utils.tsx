@@ -33,8 +33,9 @@ interface CustomRenderOptions extends Omit<RenderOptions, 'wrapper'> {
   queryClient?: QueryClient
 }
 
-const AllTheProviders = ({ 
-  children, 
+// eslint-disable-next-line react-refresh/only-export-components
+const AllTheProviders = ({
+  children,
   queryClient = createTestQueryClient()
 }: {
   children: React.ReactNode
@@ -87,12 +88,13 @@ export const mockUser = {
   tenantId: null,
   delete: async () => {},
   getIdToken: async () => 'mock-id-token',
-  getIdTokenResult: async () => ({ token: 'mock-token' } as any),
+  getIdTokenResult: async () => ({ token: 'mock-token' } as unknown as import('firebase/auth').IdTokenResult),
   reload: async () => {},
   toJSON: () => ({}),
 }
 
 // Export everything
+// eslint-disable-next-line react-refresh/only-export-components
 export * from '@testing-library/react'
 export { customRender as render }
 export { createTestQueryClient }

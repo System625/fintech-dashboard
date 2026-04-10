@@ -16,7 +16,17 @@ interface MonthlyExpense {
 }
 
 // Custom tooltip component
-const CustomTooltip = ({ active, payload, label }: any) => {
+interface TooltipPayloadItem {
+  value: number;
+}
+
+interface CustomTooltipProps {
+  active?: boolean;
+  payload?: TooltipPayloadItem[];
+  label?: string;
+}
+
+const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
   if (active && payload && payload.length) {
     return (
       <div className="bg-background p-3 border rounded-md shadow-sm">
@@ -55,14 +65,12 @@ export function MonthlyExpenseChart() {
         
         if (!response.ok) {
           // If the API fails, we'll just use our fallback data
-          console.log("Using fallback data for monthly expenses chart");
           return;
         }
         
         const data = await response.json();
         setMonthlyData(data);
-      } catch (err) {
-        console.warn('Using fallback data for monthly expenses', err);
+      } catch {
         // We're already using fallback data by default, so no need to set it again
       } finally {
         setIsLoading(false);

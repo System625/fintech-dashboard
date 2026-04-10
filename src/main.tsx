@@ -2,8 +2,6 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
 import './index.css'
-import { initMocks } from './mocks'
-import { resetMswWorker } from './mocks/reset'
 
 // Initialize performance monitoring (Phase 7)
 import './lib/performance'
@@ -14,13 +12,13 @@ import './lib/colorSupport'
 // Initialize WCAG 2.2 AA compliance auditing (Phase 7)
 import './lib/wcagAudit'
 
-// Initialize MSW before rendering the app
 async function startApp() {
-  // Start MSW in all environments
-  await initMocks();
-  
-  // Reset the worker to ensure all routes are registered
-  await resetMswWorker();
+  if (import.meta.env.VITE_USE_MOCKS === 'true') {
+    const { initMocks } = await import('./mocks');
+    const { resetMswWorker } = await import('./mocks/reset');
+    await initMocks();
+    await resetMswWorker();
+  }
 
   ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>

@@ -230,7 +230,7 @@ export const successHandlers = [
   }),
 
   http.post('/api/savings', async ({ request }) => {
-    const body = await request.json() as any
+    const body = await request.json() as Record<string, unknown>
     const newGoal = {
       id: Date.now().toString(),
       ...body
@@ -252,7 +252,7 @@ export const successHandlers = [
   }),
 
   http.post('/api/investments/buy', async ({ request }) => {
-    const body = await request.json() as any
+    const body = await request.json() as { symbol: string; shares: number }
     const newInvestment = {
       id: Date.now().toString(),
       symbol: body.symbol,

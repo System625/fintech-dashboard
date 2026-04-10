@@ -85,7 +85,7 @@ export const billsHandlers = [
       upcomingBills.push(newBill);
       
       return HttpResponse.json(newBill, { status: 201 });
-    } catch (error) {
+    } catch {
       return new HttpResponse(
         JSON.stringify({ error: 'Invalid bill data' }),
         { status: 400 }
@@ -119,7 +119,7 @@ export const billsHandlers = [
       upcomingBills[billIndex] = updatedBill;
       
       return HttpResponse.json(updatedBill, { status: 200 });
-    } catch (error) {
+    } catch {
       return new HttpResponse(
         JSON.stringify({ error: 'Invalid bill data' }),
         { status: 400 }

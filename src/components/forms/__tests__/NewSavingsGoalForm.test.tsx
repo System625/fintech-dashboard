@@ -14,7 +14,7 @@ vi.mock('sonner', () => ({
   }
 }))
 
-const mockToast = toast as { error: any; success: any }
+const mockToast = toast as { error: ReturnType<typeof vi.fn>; success: ReturnType<typeof vi.fn> }
 
 // MSW Server for API mocking
 const server = setupServer()
@@ -311,7 +311,7 @@ describe('NewSavingsGoalForm', () => {
     it('should submit correct data to API', async () => {
       const user = userEvent.setup()
       
-      let requestBody: any
+      let requestBody: unknown
       server.use(
         http.post('/api/savings', async ({ request }) => {
           requestBody = await request.json()

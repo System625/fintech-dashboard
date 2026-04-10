@@ -16,7 +16,17 @@ interface SavingsHistoryEntry {
 }
 
 // Custom tooltip component
-const CustomTooltip = ({ active, payload, label }: any) => {
+interface TooltipPayloadItem {
+  value: number;
+}
+
+interface CustomTooltipProps {
+  active?: boolean;
+  payload?: TooltipPayloadItem[];
+  label?: string;
+}
+
+const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
   if (active && payload && payload.length) {
     return (
       <div className="bg-background p-3 border rounded-md shadow-sm">
@@ -54,14 +64,12 @@ export function SavingsGrowthChart() {
         
         if (!response.ok) {
           // If the API fails, we'll just use our fallback data
-          console.log("Using fallback data for savings history chart");
           return;
         }
         
         const data = await response.json();
         setSavingsHistory(data);
-      } catch (err) {
-        console.warn('Using fallback data for savings history', err);
+      } catch {
         // We're already using fallback data by default, so no need to set it again
       } finally {
         setIsLoading(false);

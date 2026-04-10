@@ -270,7 +270,7 @@ describe('useAuthStore', () => {
       const { result } = renderHook(() => useAuthStore())
       
       // Mock the onAuthStateChanged callback
-      let authCallback: (user: any) => void
+      let authCallback: (user: unknown) => void
       mockOnAuthStateChanged.mockImplementation((_auth, callback) => {
         authCallback = callback
         return () => {}
@@ -317,7 +317,7 @@ describe('useAuthStore', () => {
         await act(async () => {
           try {
             await result.current.signIn('test@example.com', 'password')
-          } catch (error) {
+          } catch {
             // Expected to throw
           }
         })

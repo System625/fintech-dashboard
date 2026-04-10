@@ -1,3 +1,18 @@
+const now = new Date();
+
+const monthsAgo = (n: number): string => {
+  const d = new Date(now);
+  d.setMonth(d.getMonth() - n);
+  d.setDate(1);
+  return d.toISOString().slice(0, 10) + 'T00:00:00Z';
+};
+
+const daysAgo = (n: number): string => {
+  const d = new Date(now);
+  d.setDate(d.getDate() - n);
+  return d.toISOString().slice(0, 10) + 'T00:00:00Z';
+};
+
 export interface SavingsAccount {
   id: string;
   name: string;
@@ -15,8 +30,8 @@ export const savingsAccounts: SavingsAccount[] = [
     currentAmount: 5000,
     targetAmount: 10000,
     interestRate: 2.5,
-    createdAt: "2023-01-15T00:00:00Z",
-    lastUpdated: "2023-10-01T00:00:00Z"
+    createdAt: monthsAgo(15),
+    lastUpdated: daysAgo(1)
   },
   {
     id: "sav-2",
@@ -24,8 +39,8 @@ export const savingsAccounts: SavingsAccount[] = [
     currentAmount: 2500,
     targetAmount: 4000,
     interestRate: 1.8,
-    createdAt: "2023-03-10T00:00:00Z",
-    lastUpdated: "2023-09-15T00:00:00Z"
+    createdAt: monthsAgo(13),
+    lastUpdated: daysAgo(14)
   },
   {
     id: "sav-3",
@@ -33,8 +48,8 @@ export const savingsAccounts: SavingsAccount[] = [
     currentAmount: 3500,
     targetAmount: 8000,
     interestRate: 2.1,
-    createdAt: "2022-11-20T00:00:00Z",
-    lastUpdated: "2023-09-28T00:00:00Z"
+    createdAt: monthsAgo(17),
+    lastUpdated: daysAgo(5)
   }
 ];
 
@@ -46,31 +61,31 @@ export interface SavingsHistoryEntry {
 
 export const savingsHistory: Record<string, SavingsHistoryEntry[]> = {
   "sav-1": [
-    { date: "2023-04-01", amount: 2000 },
-    { date: "2023-05-01", amount: 2500 },
-    { date: "2023-06-01", amount: 3000 },
-    { date: "2023-07-01", amount: 3500 },
-    { date: "2023-08-01", amount: 4000 },
-    { date: "2023-09-01", amount: 4500 },
-    { date: "2023-10-01", amount: 5000 }
+    { date: monthsAgo(6), amount: 2000 },
+    { date: monthsAgo(5), amount: 2500 },
+    { date: monthsAgo(4), amount: 3000 },
+    { date: monthsAgo(3), amount: 3500 },
+    { date: monthsAgo(2), amount: 4000 },
+    { date: monthsAgo(1), amount: 4500 },
+    { date: daysAgo(1),   amount: 5000 }
   ],
   "sav-2": [
-    { date: "2023-04-01", amount: 1000 },
-    { date: "2023-05-01", amount: 1400 },
-    { date: "2023-06-01", amount: 1600 },
-    { date: "2023-07-01", amount: 1900 },
-    { date: "2023-08-01", amount: 2200 },
-    { date: "2023-09-01", amount: 2500 }
+    { date: monthsAgo(5), amount: 1000 },
+    { date: monthsAgo(4), amount: 1400 },
+    { date: monthsAgo(3), amount: 1600 },
+    { date: monthsAgo(2), amount: 1900 },
+    { date: monthsAgo(1), amount: 2200 },
+    { date: daysAgo(1),   amount: 2500 }
   ],
   "sav-3": [
-    { date: "2023-01-01", amount: 500 },
-    { date: "2023-02-01", amount: 1000 },
-    { date: "2023-03-01", amount: 1500 },
-    { date: "2023-04-01", amount: 2000 },
-    { date: "2023-05-01", amount: 2300 },
-    { date: "2023-06-01", amount: 2600 },
-    { date: "2023-07-01", amount: 2900 },
-    { date: "2023-08-01", amount: 3200 },
-    { date: "2023-09-01", amount: 3500 }
+    { date: monthsAgo(8), amount: 500 },
+    { date: monthsAgo(7), amount: 1000 },
+    { date: monthsAgo(6), amount: 1500 },
+    { date: monthsAgo(5), amount: 2000 },
+    { date: monthsAgo(4), amount: 2300 },
+    { date: monthsAgo(3), amount: 2600 },
+    { date: monthsAgo(2), amount: 2900 },
+    { date: monthsAgo(1), amount: 3200 },
+    { date: daysAgo(1),   amount: 3500 }
   ]
-}; 
+};

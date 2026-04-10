@@ -117,7 +117,7 @@ export class WCAGAuditor {
     const headingLevels = Array.from(headings).map(h => parseInt(h.tagName.slice(1)));
     
     let structureValid = true;
-    let issues: string[] = [];
+    const issues: string[] = [];
 
     if (headingLevels.length > 0 && headingLevels[0] !== 1) {
       structureValid = false;
@@ -445,7 +445,8 @@ export class WCAGAuditor {
     return report;
   }
 
-  private generateSummary(score: number, failed: number, _warnings: number): string {
+  private generateSummary(score: number, failed: number, warnings: number): string {
+    void warnings;
     if (score >= 95 && failed === 0) {
       return '✅ Excellent WCAG 2.2 AA compliance';
     } else if (score >= 85 && failed <= 2) {

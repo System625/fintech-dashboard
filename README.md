@@ -2,8 +2,8 @@
 
 A modern fintech dashboard application built with React, TypeScript, and Tailwind CSS. This application provides users with a comprehensive view of their savings, investments, and financial transactions.
 
-![Fintech Dashboard Screenshot](![image](https://github.com/user-attachments/assets/08b3b97d-864b-4f29-8aaa-43476b141745)
-)
+<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/cdbc5bf9-8249-4c5c-9c68-c6b539108dfb" />
+
 
 ## Features
 
